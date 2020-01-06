@@ -1,0 +1,9 @@
+﻿fibs = [1, 1]
+
+say("a", fibs)
+say(fibs[-1])
+while fibs[-1] < 300
+	fibs.add(fibs[-1] + fibs[-2])
+end
+
+say(fibs)
