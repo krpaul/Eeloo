@@ -24,8 +24,9 @@ namespace Eeloo.Objects
                     { "multiplier", multiplier ? 1 : -1 },
                     { "maxCount", (ulong) 0}
                 },
-                methods = new Dictionary<string, Func<eeObject, eeObject, eeObject>>()
+                methods = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
                 {
+                            /*
                     { "increment", (self, args) => 
                         {
                             var incAmount = args.AsList()[0].AsNumber();
@@ -33,6 +34,7 @@ namespace Eeloo.Objects
                             return None;
                         }
                     }
+                            */
                 }
             };
         }

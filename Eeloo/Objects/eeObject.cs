@@ -32,8 +32,8 @@ namespace Eeloo.Objects
          * Second param is an eeListObject of all the params passed to the method
          * Third param is the method's return type
          */
-        public Dictionary<string, Func<eeObject, eeObject, eeObject>> methods
-            = new Dictionary<string, Func<eeObject, eeObject, eeObject>>();
+        public Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> methods
+            = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>();
 
         /* Some static values */
 
@@ -182,14 +182,20 @@ namespace Eeloo.Objects
         public bool IsLessThanOrEqualTo(eeObject obj)
         { return !IsGreaterThan(obj); }
 
+        // Methods in Eeloo will be passed as an internal_EXPRLIST ICollection object to the method handler.
         public eeObject CallMethod(string name, eeObject parameters)
         {
+            // Extract the expressions
+            ICollection<eeObject> expressions = parameters.AsEXPRLIST();
+
+            /*
             if (parameters.AsEnumerable() == null) // If not a list of params
                 this.methods[name](this,
                     eeObject.newListObject(new List<eeObject>() { parameters })
                 );
+            */
 
-            return this.methods[name](this, parameters);
+            return this.methods[name](this, expressions);
         }
     }
 }

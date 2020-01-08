@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Eeloo.Evaluator.Exceptions;
+using System.Linq;
 using Eeloo.Objects;
 
 namespace Eeloo.Functions
@@ -18,12 +19,10 @@ namespace Eeloo.Functions
 
         public static eeObject say(ICollection<eeObject> exprlist)
         {
-            foreach (var node in exprlist)
-            {
-                Console.WriteLine(
-                    node.ToPrintableString()
-                );
-            }
+            var lineToPrint =
+                string.Join(", ", (from node in exprlist select node.ToPrintableString()));
+
+            Console.WriteLine(lineToPrint);
 
             return eeObject.None;
         }
