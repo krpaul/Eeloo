@@ -7,26 +7,20 @@ namespace Eeloo.Objects
 {
     partial class eeObject
     {
-        private static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> listDefaultMethods 
-            = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
+        private static Dictionary<string, Func<eeObject, eeObject, eeObject>> listDefaultMethods 
+            = new Dictionary<string, Func<eeObject, eeObject, eeObject>>()
             {
                 {
                     "add", // appends new values to the end of the list
-                    (eeObject self, ICollection<eeObject> newVals) => 
+                    (eeObject self, eeObject newVals) => 
                     {
-                        foreach (eeObject obj in newVals)
-                        {
-                            ((List<eeObject>) self.value).Add(obj);
-                        }
-
-                        /*
                         if (self.value == null)
                             self.value = newVals.AsList();
                         else
                         {
-                            foreach (eeObject obj in newVals.AsEXPRLIST())
+                            foreach (eeObject obj in newVals.AsList())
                                 ((List<eeObject>) self.value).Add(obj);
-                        }*/
+                        }
 
                         return eeObject.None;
                     }
@@ -79,34 +73,30 @@ namespace Eeloo.Objects
         }
         */
 
-        // Constructor passed an internal_EXPRLIST eeObject
-        public static eeObject newListObject(eeObject exprlist)
-         {
-            // Extract the expressions
-            ICollection<eeObject> expressions = exprlist.AsEXPRLIST();
-
+        // Constructor for when passed an internal_EXPRLIST eeObject
+        public static eeObject newListObject(ICollection<eeObject> objects)
+        {
             // Encapsulate the List object into an eeObject
-            var newObj = new eeObject(expressions.ToList())
+            var newObj = new eeObject(objects)
             {
                 type = eeObjectType.LIST,
                 methods = listDefaultMethods,
             };
 
             newObj.attributes.Add(
-                "length", expressions.Count
+                "length", objects.Count
             );
 
             return newObj;
         }
 
         // When passed eeObjects directly
-        /*
         public static eeObject newListObject(params eeObject[] objects)
         {
             // Send to primary constructor 
             return newListObject(objects.ToList());
         }
-        */
+
         /*
         public static eeObject newListObject() // for empty lists
         {

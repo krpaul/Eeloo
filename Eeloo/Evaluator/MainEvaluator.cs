@@ -4,9 +4,9 @@ using Eeloo.Objects;
 using System;
 using System.Collections.Generic;
 
-namespace Eeloo.Evaluator
+namespace Eeloo
 {
-    public partial class EvalVisitor : EelooBaseVisitor<eeObject>
+    partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
         public Scope scope;
 
@@ -65,6 +65,18 @@ namespace Eeloo.Evaluator
                     ctx.lines()
                 )
             );
+            return null;
+        }
+
+        public override eeObject VisitAssignment([NotNull] EelooParser.AssignmentContext ctx)
+        {
+            // Get value of right hand side
+            eeObject assignVal = Visit(ctx.exp());
+            
+            // Assign it to the current scope
+            scope.assignVar(ctx.IDENTIFIER().GetText(), assignVal);
+            
+            // TO DO: Maybe this statement should return the value of the variable?
             return null;
         }
 
@@ -189,16 +201,11 @@ namespace Eeloo.Evaluator
 
             // Get the value
             var variableVal = scope.resolveVar(iden);
-            
-            // Make sure it exists
-            if (variableVal == null)
-            {
-                throw new Exception($"{iden} is not a variable.");
-            }
+
             // Make sure it's an array or string variable
-            else if (variableVal.type != eeObjectType.LIST && variableVal.type != eeObjectType.STRING)
+            if (variableVal.type != eeObjectType.LIST && variableVal.type != eeObjectType.STRING)
             {
-                throw new Exception($"{iden} is not a string or array.");
+                throw new Exception("TO DO: Variable is not array");
             }
 
             // Bring it into a C# List<eeObject> type
@@ -293,7 +300,21 @@ namespace Eeloo.Evaluator
             return elsestmt != null ? Visit(elsestmt) : null ;
         }
 
-        
+        public override eeObject VisitRangeExp([NotNull] EelooParser.RangeExpContext ctx)
+        {
+            eeObject exp1 = Visit(ctx.exp(0)),
+                     exp2 = Visit(ctx.exp(1));
+
+            if (exp1.AsNumber() == null || exp2.AsNumber() == null)
+                throw new Exception("TO DO");
+
+            var listObj = new List<eeObject>();
+            for (long i = exp1.AsNumber(); i <= exp2.AsNumber(); i++)
+                listObj.Add(eeObject.newNumberObject(i));
+
+            return eeObject.newListObject(listObj);
+        }
+
         public override eeObject VisitInExp([NotNull] EelooParser.InExpContext ctx)
         {
             eeObject exp1 = Visit(ctx.exp(0)),

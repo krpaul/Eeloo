@@ -5,7 +5,7 @@ using System.Text;
 using Eeloo.Objects;
 using Antlr4.Runtime.Misc;
 
-namespace Eeloo.Evaluator
+namespace Eeloo
 {
     class FunctionEvaluator : EelooBaseVisitor<eeObject>
     {

@@ -4,7 +4,7 @@ using Eeloo.Objects;
 using System;
 using System.Collections.Generic;
 
-namespace Eeloo.Evaluator
+namespace Eeloo
 {
     partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
