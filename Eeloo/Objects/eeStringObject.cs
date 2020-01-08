@@ -7,12 +7,12 @@ namespace Eeloo.Objects
 {
     partial class eeObject
     {
-        private static Dictionary<string, Func<eeObject, eeObject, eeObject>> stringDefaultMethods
-            = new Dictionary<string, Func<eeObject, eeObject, eeObject>>()
+        private static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> stringDefaultMethods
+            = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
             {
                 {
                     "concatenate",
-                    (eeObject self, eeObject strings) =>
+                    (eeObject self, ICollection<eeObject> strings) =>
                     {
                         //// Alter value
                         //foreach (eeObject obj in strings.AsList())

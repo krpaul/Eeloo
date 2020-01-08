@@ -42,7 +42,8 @@ exp:  NUMBER						     #numExp
 			   LESS     | GRT     ) exp  #comparisonExp
 	| exp IS NOT? exp					 #equalityExp
     | MINUS exp				             #negationExp
-	| exp RANGE exp						 #rangeExp
+	| exp RANGE_1 exp         		     #rangeExp
+	| exp RANGE_1 exp BY exp			 #rangeExtendedExp 
 	| exp IN exp						 #inExp
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
@@ -50,9 +51,13 @@ exp:  NUMBER						     #numExp
 
 exps: exp (COMMA exp)* COMMA? ;
 
+/* Loops */
+
 while_stmt: WHILE exp NL lines END ;
 
 for_stmt: FOR_EACH var IN exp NL lines END ;
+
+/* from_stmt: FROM NUMBER RANGE NUMBER */
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
@@ -122,14 +127,19 @@ IDENTIFIER :   (LOWERCASE_LTR | UPPERCASE_LTR | '_') (LOWERCASE_LTR | UPPERCASE_
 STR		   : ["].*?["]	;
 NUMBER     : DIGIT+     ;
 
+TO		   :   'to'		;
+BY		   :   ' by '     ;
+
 EQL        :   '='      ;
 PLUS       :   '+'      ;
 MINUS      :   '-'      ;
 DIVIDE     :   '/'      ;
 MULTIPLY   :   '*'      ;
 POWER      :   '^'      ;
-MOD		   :   '%'		;
-RANGE	   :   '...'	;
+MOD		   :   '%' | 'mod' ;
+
+RANGE_1	   :   '...' | TO  ;
+RANGE_2	   :   BY  ;
 
 LBRACK     :   '('      ;
 RBRACK     :   ')'      ;
@@ -138,7 +148,7 @@ RL         : (DBL_EQL | GRT_EQL | LESS_EQL | NOT_EQL | LESS | GRT) ;
 
 NL		   : [\r]?[\n]  ;
 
-COMMENT	   : 'start comment' .*? 'end comment' -> skip ;
+WS		   :   ([ \t])+ -> skip ;
 
-WHITESPACE :   ([\t])+  -> skip ;
+COMMENT	   : NL* 'start comment' .*? 'end comment' NL* -> skip ;
 
