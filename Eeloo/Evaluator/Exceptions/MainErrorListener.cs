@@ -19,6 +19,9 @@ namespace Eeloo.Evaluator.Exceptions
 
             string tokenMsg = offendingSymbol.InputStream.GetText(interval);
 
+            // Make message more friendly
+            //msg = msg.Replace("\r\n", "Newline");
+
             throw new Exception($"Line {line} Column {charPositionInLine}: {msg}");
        }
     }

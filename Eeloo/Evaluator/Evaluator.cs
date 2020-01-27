@@ -68,35 +68,6 @@ namespace Eeloo.Evaluator
             return null;
         }
 
-        public override eeObject VisitWhile_stmt([NotNull] EelooParser.While_stmtContext ctx)
-        {
-            while (Visit(ctx.exp()).AsBool())
-            {
-                var codeblock = Visit(ctx.lines());
-                if (codeblock != null) return codeblock;
-            }
-
-            return null;
-        }
-
-        public override eeObject VisitFor_stmt([NotNull] EelooParser.For_stmtContext ctx)
-        {
-            var iterVar = ctx.var().GetText();
-            var enumExp = Visit(ctx.exp()).AsEnumerable();
-
-            if (enumExp == null)
-                throw new Exception("TO DO");
-
-            foreach (var iteration in enumExp)
-            {
-                scope.assignVar(iterVar, iteration);
-                var codeblock = Visit(ctx.lines());
-                if (codeblock != null) return codeblock;
-            }
-
-            return null;
-        }
-
         public override eeObject VisitReturn_stmt([NotNull] EelooParser.Return_stmtContext ctx)
         {
             return Visit(ctx.exps());

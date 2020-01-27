@@ -1,3 +1,5 @@
-﻿for               each      i in  1		   to 22
-	say								(i)
-	end
+﻿x=50
+while x<1
+	say(x)
+	x = x - 1
+end
