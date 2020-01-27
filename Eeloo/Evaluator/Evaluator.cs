@@ -46,7 +46,6 @@ namespace Eeloo.Evaluator
         }
 
         /* Statments */
-
         public override eeObject VisitFn_def([NotNull] EelooParser.Fn_defContext ctx)
         {
             scope.assignVar(
@@ -218,56 +217,6 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitBool_stmt([NotNull] EelooParser.Bool_stmtContext ctx)
         { return eeObject.newBoolObject(ctx.TRUE() != null ? true : false); }
-        
-
-        public override eeObject VisitIf_partial([NotNull] EelooParser.If_partialContext ctx)
-        {
-            if (Visit(ctx.exp()).AsBool())
-            {
-                return Visit(ctx.lines()) ?? eeObject.None;
-            }
-
-            return null;
-        }
-
-        public override eeObject VisitElse_if_partial([NotNull] EelooParser.Else_if_partialContext ctx)
-        {
-            if (Visit(ctx.exp()).AsBool())
-            {
-                return Visit(ctx.lines()) ?? eeObject.None;
-            }
-
-            return null;
-        }
-
-        public override eeObject VisitElse_partial([NotNull] EelooParser.Else_partialContext ctx)
-        {
-            return Visit(ctx.lines()) ?? eeObject.None;
-        }
-
-        public override eeObject VisitIf_stmt([NotNull] EelooParser.If_stmtContext ctx)
-        {
-            // Execute first if statment
-            var ifstmt = Visit(ctx.if_partial());
-
-            // Return if nescessary
-            if (ifstmt != null)
-                return ifstmt;
-
-            // Array of else if blocks
-            var elseifstmts = ctx.else_if_partial();
-            foreach (var block in elseifstmts) // Execute each block
-            {
-                var retval = Visit(block);
-                if (retval != null) // Return if necessary
-                    return retval;
-            }
-
-            // Otherwise, execute and return the else statment or null if there isn't one;
-            var elsestmt = ctx.else_partial();
-            return elsestmt != null ? Visit(elsestmt) : null ;
-        }
-
         
         public override eeObject VisitInExp([NotNull] EelooParser.InExpContext ctx)
         {
