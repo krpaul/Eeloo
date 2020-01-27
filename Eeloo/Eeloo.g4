@@ -96,7 +96,7 @@ DOT		   :	'.'			;
 
 EXIT       :    'exit'      ;
 WHILE      :    'while'     ;
-FOR_EACH   :    'for each'	;
+FOR_EACH   :    'for' WS 'each'	;
 IF         :    'if'        ;
 THEN       :    'then'      ;
 ELSE       :    'else'      ;
