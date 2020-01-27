@@ -178,6 +178,10 @@ namespace Eeloo.Evaluator
             // Get the value
             var val = scope.resolveVar(iden);
 
+            // If the value does not exist
+            if (val == null)
+                throw new Exception($"Variable with name {iden} does not exist");
+
             // return the value
             return val;
         }

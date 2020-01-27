@@ -1,8 +1,9 @@
 ﻿sum = 0
-for each num in 1...999
-	if num mod 5 is 0 or num mod 3 is 0 then
+
+for each num in 1 to 999
+	if three mod 5 is 0 or num mod 3 is 0 then
 		sum = sum + num
 	end
 end
 
-say(sum)
+say(sum, sum2)
