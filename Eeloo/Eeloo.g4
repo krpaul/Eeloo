@@ -138,7 +138,7 @@ MULTIPLY   :   '*'      ;
 POWER      :   '^'      ;
 MOD		   :   '%' | 'mod' ;
 
-RANGE_1	   :   '...' | TO  ;
+RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   BY  ;
 
 LBRACK     :   '('      ;
