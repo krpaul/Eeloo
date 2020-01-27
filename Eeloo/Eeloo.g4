@@ -136,7 +136,7 @@ MINUS      :   '-'      ;
 DIVIDE     :   '/'      ;
 MULTIPLY   :   '*'      ;
 POWER      :   '^'      ;
-MOD		   :   '%' | 'mod' ;
+MOD		   :   '%' | ' mod ' ;
 
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   BY  ;
