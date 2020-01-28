@@ -65,16 +65,6 @@ namespace Eeloo.Evaluator
             }
         }
 
-        public override eeObject VisitEqualityExp([NotNull] EelooParser.EqualityExpContext ctx)
-        {
-            eeObject obj1 = Visit(ctx.exp(0)),
-                     obj2 = Visit(ctx.exp(1));
-
-            return ctx.NOT() == null ?
-                eeObject.newBoolObject(obj1.IsEqualTo(obj2)) :
-                eeObject.newBoolObject(obj1.IsNotEqualTo(obj2));
-        }
-
         public override eeObject VisitPwrExp([NotNull] EelooParser.PwrExpContext ctx)
         {
             eeObject exp1 = Visit(ctx.exp(0)),

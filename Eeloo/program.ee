@@ -1,5 +1,4 @@
-﻿x=50
-while x<1
-	say(x)
-	x = x - 1
+﻿x = 5
+if x == 5 then
+	say("yes")
 end

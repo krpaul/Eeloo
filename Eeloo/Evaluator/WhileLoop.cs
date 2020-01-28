@@ -7,9 +7,7 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitWhile_stmt([NotNull] EelooParser.While_stmtContext ctx)
         {
-            var a = Visit(ctx.exp());
-            var b = a.AsBool();
-            while (b)
+            while (Visit(ctx.exp()).AsBool())
             {
                 var codeblock = Visit(ctx.lines());
 
