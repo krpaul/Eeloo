@@ -40,8 +40,8 @@ exp:  NUMBER						     #numExp
 	| exp opr=(PLUS | MINUS) exp		 #additiveOprExp
 	| exp opr=(LESS_EQL | GRT_EQL | 
 			   LESS     | GRT     ) exp  #comparisonExp
-	| exp opr=(IS NOT | ISNT) exp		 #inequalityExp
-	| exp opr=(IS | DBL_EQL) exp		 #equalityExp
+	| exp (IS NOT | ISNT) exp			 #inequalityExp
+	| exp (IS | DBL_EQL) exp			 #equalityExp
     | MINUS exp				             #negationExp
 	| exp RANGE_1 exp         		     #rangeExp
 	| exp RANGE_1 exp BY exp			 #rangeExtendedExp 
@@ -84,11 +84,11 @@ fragment UPPERCASE_LTR  : [A-Z] ;
 fragment DIGIT          : [0-9] ;
 
 DBL_EQL    :   '==' ;
-GRT_EQL    :   '>=' | 'greater' WS 'than' WS 'or' WS 'equal' WS TO;
-LESS_EQL   :   '<=' | 'less' WS 'than' WS 'or' WS 'equal' WS TO;
+GRT_EQL    :   '>=' | (IS WS)? 'greater' WS 'than' WS 'or' WS 'equal' WS TO;
+LESS_EQL   :   '<=' | (IS WS)? 'less' WS 'than' WS 'or' WS 'equal' WS TO;
 NOT_EQL    :   '!=' ;
-LESS       :   '<' | 'less' WS 'than';
-GRT        :   '>' | 'greater' WS 'than';
+LESS       :   '<' | (IS WS)? 'less' WS 'than';
+GRT        :   '>' | (IS WS)? 'greater' WS 'than';
 
 L_SQ_BRACK :    '['         ;
 R_SQ_BRACK :    ']'         ;

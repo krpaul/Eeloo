@@ -17,22 +17,27 @@ namespace Eeloo.Functions
                 { "say",  new Func<ICollection<eeObject>, eeObject>(BuiltInFunctions.say)},
             };
 
+        /* Prints all given arguments to command line */
         public static eeObject say(ICollection<eeObject> exprlist)
         {
             var lineToPrint =
-                string.Join(", ", (from node in exprlist select node.ToPrintableString()));
+                string.Join(", ", 
+                    (from node in exprlist select node.ToPrintableString())
+                );
 
             Console.WriteLine(lineToPrint);
 
             return eeObject.None;
         }
 
+        /* Prints given string to command line and accepts one line of input */
         public static eeObject ask(eeObject input)
         {
             //if (input.AsString() == null)
             //    throw new ArgumentError("Argument for function \"ask\" must be of type string or similar");
 
             Console.WriteLine(input.ToPrintableString());
+
             return eeObject.newStringObject(Console.ReadLine());
         }
     }

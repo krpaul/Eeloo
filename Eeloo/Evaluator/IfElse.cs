@@ -13,7 +13,7 @@ namespace Eeloo.Evaluator
                 return Visit(ctx.lines()) ?? eeObject.None;
             }
 
-            return null;
+            return eeObject.None;
         }
 
         public override eeObject VisitElse_if_partial([NotNull] EelooParser.Else_if_partialContext ctx)
@@ -23,7 +23,7 @@ namespace Eeloo.Evaluator
                 return Visit(ctx.lines()) ?? eeObject.None;
             }
 
-            return null;
+            return eeObject.None;
         }
 
         public override eeObject VisitElse_partial([NotNull] EelooParser.Else_partialContext ctx)
@@ -51,7 +51,7 @@ namespace Eeloo.Evaluator
 
             // Otherwise, execute and return the else statment or null if there isn't one;
             var elsestmt = ctx.else_partial();
-            return elsestmt != null ? Visit(elsestmt) : null;
+            return elsestmt != null ? Visit(elsestmt) : eeObject.None;
         }
     }
 }

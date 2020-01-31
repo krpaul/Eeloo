@@ -22,7 +22,7 @@ namespace Eeloo.Evaluator
                     return codeblock;
             }
 
-            return null;
+            return eeObject.None;
         }
     }
 }

@@ -16,8 +16,8 @@ namespace Eeloo.Evaluator
             // Assign it to the current scope
             scope.assignVar(ctx.IDENTIFIER().GetText(), assignVal);
 
-            // TO DO: Maybe this statement should return the value of the variable?
-            return null;
+            // Maybe this statement returns a none value
+            return eeObject.None;
         }
     }
 }

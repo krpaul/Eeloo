@@ -8,7 +8,8 @@ namespace Eeloo.Objects
 {
     public enum eeObjectType
     {
-        internal_FN_ARG_LIST = -2,
+        internal_FN_ARG_LIST = -3,
+        internal_RETURN_VALUE = -2,
         internal_EXPRLIST = -1,  // Internal types (used only in the language implementation) are negative 
         NUMBER = 1,  // Avoiding 0 as first value since type's default value will take 0 and we'll know if we forgot to assign it somwhere in the case of a 0
         DECIMAL,
@@ -78,7 +79,6 @@ namespace Eeloo.Objects
 
         public bool AsBool()
         {
-
             // If object is a type of primitive
             switch (this.type)
             {
