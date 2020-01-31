@@ -54,7 +54,7 @@ exps: exp (COMMA exp)* COMMA? ;
 
 /* Loops */
 
-while_stmt: WHILE exp NL lines END ;
+while_stmt: ( WHILE | UNTIL ) exp NL lines END ;
 
 for_stmt: FOR_EACH var IN exp NL lines END ;
 
@@ -97,6 +97,7 @@ DOT		   :	'.'			;
 
 EXIT       :    'exit'      ;
 WHILE      :    'while'     ;
+UNTIL	   :    'until'		;
 FOR_EACH   :    'for' WS 'each'	;
 IF         :    'if'        ;
 THEN       :    'then'      ;

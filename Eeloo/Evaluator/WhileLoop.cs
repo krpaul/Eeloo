@@ -7,7 +7,13 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitWhile_stmt([NotNull] EelooParser.While_stmtContext ctx)
         {
-            while (Visit(ctx.exp()).AsBool())
+            bool until = ctx.UNTIL() != null;
+
+            while (
+                until == false ? // If this is a while loop
+                Visit(ctx.exp()).AsBool() // While condition true
+                : !Visit(ctx.exp()).AsBool() // If until loop, until condition false
+            )
             {
                 var codeblock = Visit(ctx.lines());
 

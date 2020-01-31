@@ -1,5 +1,6 @@
 ﻿x=3
-while x is less than or equal to 69
+
+until x is 70
+	x = x + 1
 	say (x)
-	x=x+1
 end
