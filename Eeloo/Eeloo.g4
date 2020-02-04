@@ -44,10 +44,11 @@ exp:  NUMBER						     #numExp
 	| exp (IS | DBL_EQL) exp			 #equalityExp
     | MINUS exp				             #negationExp
 	| exp RANGE_1 exp         		     #rangeExp
-	| exp RANGE_1 exp BY exp			 #rangeExtendedExp 
+	| exp RANGE_1 exp RANGE_2 exp		 #rangeExtendedExp 
 	| exp IN exp						 #inExp
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
+	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 
 exps: exp (COMMA exp)* COMMA? ;
@@ -58,7 +59,7 @@ while_stmt: ( WHILE | UNTIL ) exp NL lines END ;
 
 for_stmt: FOR_EACH var IN exp NL lines END ;
 
-/* from_stmt: FROM NUMBER RANGE NUMBER */
+/* from_stmt: FROM exp RANGE_1 exp */
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
