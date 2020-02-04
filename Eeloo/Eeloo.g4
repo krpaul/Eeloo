@@ -59,7 +59,7 @@ while_stmt: ( WHILE | UNTIL ) exp NL lines END ;
 
 for_stmt: FOR_EACH var IN exp NL lines END ;
 
-/* from_stmt: FROM exp RANGE_1 exp */
+from_stmt: FROM exp RANGE_1 exp USE IDENTIFIER NL line END
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
@@ -112,6 +112,7 @@ OR		   :    'or'		;
 FUNCTION   :	'function'	;
 RETURN	   :	'return'    ;
 END        :    'end'       ;
+USE		   :	'use'		; 
 
 // Types
 /*
@@ -155,4 +156,3 @@ NL		   : [\r]?[\n]  ;
 WS		   :   ([ \t])+ -> skip ;
 
 COMMENT	   : NL* 'start comment' .*? 'end comment' NL* -> skip ;
-
