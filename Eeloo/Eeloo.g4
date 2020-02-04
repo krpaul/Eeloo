@@ -63,9 +63,9 @@ for_stmt: FOR_EACH var IN exp NL lines END ;
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
-if_partial: IF exp THEN NL lines ;
-else_if_partial: ELSE IF exp THEN NL lines ;
-else_partial: ELSE NL lines;
+if_partial: IF exp THEN? NL lines ;
+else_if_partial: ELSE IF exp THEN? NL lines ;
+else_partial: ELSE THEN? NL lines;
 
 fn_call: IDENTIFIER LBRACK exps RBRACK ;
 
