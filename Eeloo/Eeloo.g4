@@ -10,6 +10,7 @@ stmt: assignment
     | while_stmt
     | if_stmt
 	| for_stmt
+	| from_loop
 	| fn_call
 	| method_call
 	| fn_def
@@ -27,6 +28,7 @@ string: STR ;
 var: IDENTIFIER								#variable
    | IDENTIFIER L_SQ_BRACK exp R_SQ_BRACK	#arrayIndex
    ;
+
 
 exp:  NUMBER						     #numExp
 	| var						         #varExp
@@ -59,7 +61,7 @@ while_stmt: ( WHILE | UNTIL ) exp NL lines END ;
 
 for_stmt: FOR_EACH var IN exp NL lines END ;
 
-from_stmt: FROM exp RANGE_1 exp USE IDENTIFIER NL line END
+from_loop: FROM exp RANGE_1 exp (RANGE_2 exp)? USE IDENTIFIER NL lines END ;
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
@@ -88,8 +90,8 @@ DBL_EQL    :   '==' ;
 GRT_EQL    :   '>=' | (IS WS)? 'greater' WS 'than' WS 'or' WS 'equal' WS TO;
 LESS_EQL   :   '<=' | (IS WS)? 'less' WS 'than' WS 'or' WS 'equal' WS TO;
 NOT_EQL    :   '!=' ;
-LESS       :   '<' | (IS WS)? 'less' WS 'than';
-GRT        :   '>' | (IS WS)? 'greater' WS 'than';
+LESS       :   '<'  | (IS WS)? 'less' WS 'than';
+GRT        :   '>'  | (IS WS)? 'greater' WS 'than';
 
 L_SQ_BRACK :    '['         ;
 R_SQ_BRACK :    ']'         ;
@@ -100,6 +102,7 @@ EXIT       :    'exit'      ;
 WHILE      :    'while'     ;
 UNTIL	   :    'until'		;
 FOR_EACH   :    'for' WS 'each'	;
+FROM	   :	'from'		;
 IF         :    'if'        ;
 THEN       :    'then'      ;
 ELSE       :    'else'      ;
@@ -133,7 +136,7 @@ STR		   : ["].*?["]	;
 NUMBER     : DIGIT+     ;
 
 TO		   :   'to'		;
-BY		   :   ' by '     ;
+BY		   :   'by'     ;
 
 EQL        :   '='      ;
 PLUS       :   '+'      ;
@@ -144,7 +147,7 @@ POWER      :   '^'      ;
 MOD		   :   '%' | ' mod ' ;
 
 RANGE_1	   :   '...' | WS TO WS  ;
-RANGE_2	   :   BY  ;
+RANGE_2	   :   WS BY WS ;
 
 LBRACK     :   '('      ;
 RBRACK     :   ')'      ;
@@ -153,6 +156,6 @@ RL         : (DBL_EQL | GRT_EQL | LESS_EQL | NOT_EQL | LESS | GRT) ;
 
 NL		   : [\r]?[\n]  ;
 
-WS		   :   ([ \t])+ -> skip ;
+WS		   :   (' '|'\t')+ -> skip ;
 
 COMMENT	   : NL* 'start comment' .*? 'end comment' NL* -> skip ;
