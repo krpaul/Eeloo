@@ -10,6 +10,7 @@ stmt: assignment
     | while_stmt
     | if_stmt
 	| for_stmt
+	| from_loop
 	| fn_call
 	| method_call
 	| fn_def
@@ -28,6 +29,7 @@ var: IDENTIFIER								#variable
    | IDENTIFIER L_SQ_BRACK exp R_SQ_BRACK	#arrayIndex
    ;
 
+
 exp:  NUMBER						     #numExp
 	| var						         #varExp
     | string							 #strExp
@@ -44,27 +46,28 @@ exp:  NUMBER						     #numExp
 	| exp (IS | DBL_EQL) exp			 #equalityExp
     | MINUS exp				             #negationExp
 	| exp RANGE_1 exp         		     #rangeExp
-	| exp RANGE_1 exp BY exp			 #rangeExtendedExp 
+	| exp RANGE_1 exp RANGE_2 exp		 #rangeExtendedExp 
 	| exp IN exp						 #inExp
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
+	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 
 exps: exp (COMMA exp)* COMMA? ;
 
 /* Loops */
 
-while_stmt: WHILE exp NL lines END ;
+while_stmt: ( WHILE | UNTIL ) exp NL lines END ;
 
 for_stmt: FOR_EACH var IN exp NL lines END ;
 
-/* from_stmt: FROM NUMBER RANGE NUMBER */
+from_loop: FROM exp RANGE_1 exp (RANGE_2 exp)? USE IDENTIFIER NL lines END ;
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
-if_partial: IF exp THEN NL lines ;
-else_if_partial: ELSE IF exp THEN NL lines ;
-else_partial: ELSE NL lines;
+if_partial: IF exp THEN? NL lines ;
+else_if_partial: ELSE IF exp THEN? NL lines ;
+else_partial: ELSE THEN? NL lines;
 
 fn_call: IDENTIFIER LBRACK exps RBRACK ;
 
@@ -87,8 +90,8 @@ DBL_EQL    :   '==' ;
 GRT_EQL    :   '>=' | (IS WS)? 'greater' WS 'than' WS 'or' WS 'equal' WS TO;
 LESS_EQL   :   '<=' | (IS WS)? 'less' WS 'than' WS 'or' WS 'equal' WS TO;
 NOT_EQL    :   '!=' ;
-LESS       :   '<' | (IS WS)? 'less' WS 'than';
-GRT        :   '>' | (IS WS)? 'greater' WS 'than';
+LESS       :   '<'  | (IS WS)? 'less' WS 'than';
+GRT        :   '>'  | (IS WS)? 'greater' WS 'than';
 
 L_SQ_BRACK :    '['         ;
 R_SQ_BRACK :    ']'         ;
@@ -97,7 +100,9 @@ DOT		   :	'.'			;
 
 EXIT       :    'exit'      ;
 WHILE      :    'while'     ;
+UNTIL	   :    'until'		;
 FOR_EACH   :    'for' WS 'each'	;
+FROM	   :	'from'		;
 IF         :    'if'        ;
 THEN       :    'then'      ;
 ELSE       :    'else'      ;
@@ -110,6 +115,7 @@ OR		   :    'or'		;
 FUNCTION   :	'function'	;
 RETURN	   :	'return'    ;
 END        :    'end'       ;
+USE		   :	'use'		; 
 
 // Types
 /*
@@ -130,7 +136,7 @@ STR		   : ["].*?["]	;
 NUMBER     : DIGIT+     ;
 
 TO		   :   'to'		;
-BY		   :   ' by '     ;
+BY		   :   'by'     ;
 
 EQL        :   '='      ;
 PLUS       :   '+'      ;
@@ -141,7 +147,7 @@ POWER      :   '^'      ;
 MOD		   :   '%' | ' mod ' ;
 
 RANGE_1	   :   '...' | WS TO WS  ;
-RANGE_2	   :   BY  ;
+RANGE_2	   :   WS BY WS ;
 
 LBRACK     :   '('      ;
 RBRACK     :   ')'      ;
@@ -150,7 +156,6 @@ RL         : (DBL_EQL | GRT_EQL | LESS_EQL | NOT_EQL | LESS | GRT) ;
 
 NL		   : [\r]?[\n]  ;
 
-WS		   :   ([ \t])+ -> skip ;
+WS		   :   (' '|'\t')+ -> skip ;
 
 COMMENT	   : NL* 'start comment' .*? 'end comment' NL* -> skip ;
-

@@ -132,11 +132,6 @@ namespace Eeloo.Evaluator
             return Visit(ctx.@string());
         }
 
-        public override eeObject VisitBoolExp([NotNull] EelooParser.BoolExpContext ctx)
-        {
-            return Visit(ctx.bool_stmt());
-        }
-
         public override eeObject VisitListExp([NotNull] EelooParser.ListExpContext ctx)
         {
             return Visit(ctx.list());
