@@ -6,22 +6,14 @@ namespace Eeloo.Objects
 {
     partial class eeObject
     {
-        public static eeObject newNumberObject(long value)
-        {
-            return new eeObject(value)
-            {
-                type = eeObjectType.NUMBER
-            };
-        }
-
-        public static eeObject newNumberObject(long value, bool multiplier)
+        public static eeObject newNumberObject(long value, string modifier=null)
         {
             return new eeObject(value)
             {
                 type = eeObjectType.NUMBER,
+                modifier = modifier,
                 attributes = new Dictionary<string, dynamic>()
                 {
-                    { "multiplier", multiplier ? 1 : -1 },
                     { "maxCount", (ulong) 0}
                 },
                 methods = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
@@ -39,11 +31,12 @@ namespace Eeloo.Objects
             };
         }
 
-        public static eeObject newNumberObject(double value)
+        public static eeObject newNumberObject(double value, string modifier = null)
         { 
             return new eeObject(value)
             {
-                type = eeObjectType.DECIMAL
+                type = eeObjectType.DECIMAL,
+                modifier = modifier,
             }; 
         }
     }

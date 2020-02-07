@@ -21,8 +21,18 @@ namespace Eeloo.Objects
 
     public partial class eeObject
     {
+        //public readonly List<string> NUMBER_MODS = new List<string>() { "negative", "even",  "odd"};
+        //public readonly List<string> LIST_MODS = new List<string>() { "unique" };
+
         public eeObjectType type;
-        public object value;
+
+        private object _value;
+
+        public object value
+        {
+            get { return _value;  }
+            set { _value = value; this.Verify(); }
+        }
 
         // Values in this dictionary will be regular object values
         public Dictionary<string, dynamic> attributes
@@ -36,6 +46,8 @@ namespace Eeloo.Objects
         public Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> methods
             = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>();
 
+        public string modifier = null;
+
         /* Some static values */
 
         // For none values
@@ -44,11 +56,11 @@ namespace Eeloo.Objects
         // For empty strings and iterables (equivalent to eeObject.NONE essentially, but is more precise)
         public static eeObject EMPTY = new eeObject();
 
-        public eeObject(object value)
-        { this.value = value; }
+        public eeObject(object val)
+        { this._value = val; }
 
         public eeObject()
-        { value = null; }
+        { this._value = null; }
 
         public string AsString()
         { return value as string; }
@@ -188,14 +200,70 @@ namespace Eeloo.Objects
             // Extract the expressions
             ICollection<eeObject> expressions = parameters.AsEXPRLIST();
 
-            /*
-            if (parameters.AsEnumerable() == null) // If not a list of params
-                this.methods[name](this,
-                    eeObject.newListObject(new List<eeObject>() { parameters })
-                );
-            */
+            // Run the method
+            var returnVal = this.methods[name](this, expressions);
 
-            return this.methods[name](this, expressions);
+            // Verify this object
+            Verify();
+
+            // Return method's return value
+            return returnVal;
+        }
+
+        // Reads the value of this eeObject, cross references the type and the modifier, and returns true if all checks out properly
+        public bool Verify()
+        {
+            if (modifier == null)
+                return true;
+
+            bool valid = true;
+            switch (this.type)
+            {
+                case eeObjectType.NUMBER:
+                    var num = AsNumber();
+                    switch (modifier)
+                    {
+                        case "negative":
+                            if (num > 0)
+                                valid = false;
+                            break;
+                        case "positive":
+                            if (num < 0)
+                                valid = false;
+                            break;
+                        case "even":
+                            if (num % 2 != 0)
+                                valid = false;
+                            break;
+                        case "odd":
+                            if (num % 2 != 1)
+                                valid = false;
+                            break;
+                        default:
+                            throw new Exception("Unknown modifier: " + modifier);
+                    }
+                    break;
+                case eeObjectType.LIST:
+                    var list = this.AsList();
+                    switch (modifier)
+                    {
+                        case "unique":
+                            var disct = list.Select(s => s.value).Distinct();
+                            if (disct.Count() != list.Count())
+                                valid = false;
+                            break;
+
+                        default:
+                            throw new Exception("Unknown modifier: " + modifier);
+                    }
+                    break;
+            }
+
+            if (valid)
+                return valid;
+            else
+                throw new Exception($"Constraint '{modifier}' violated with value of {this.ToPrintableString()}");
         }
     }
 }
+

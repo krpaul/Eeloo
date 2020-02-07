@@ -80,16 +80,22 @@ namespace Eeloo.Objects
         */
 
         // Constructor passed an internal_EXPRLIST eeObject
-        public static eeObject newListObject(eeObject exprlist)
+        public static eeObject newListObject(eeObject exprlist, string modifier=null)
          {
-            // Extract the expressions
-            ICollection<eeObject> expressions = exprlist.AsEXPRLIST();
+            ICollection<eeObject> expressions;
+
+            if (exprlist == null)
+                expressions = new List<eeObject>();
+            else
+                // Extract the expressions
+                expressions = exprlist.AsEXPRLIST();
 
             // Encapsulate the List object into an eeObject
             var newObj = new eeObject(expressions.ToList())
             {
                 type = eeObjectType.LIST,
                 methods = listDefaultMethods,
+                modifier = modifier,
             };
 
             newObj.attributes.Add(

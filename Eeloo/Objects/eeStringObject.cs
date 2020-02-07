@@ -27,16 +27,14 @@ namespace Eeloo.Objects
 
         public static eeObject newStringObject(string str)
         {
-            var newObj = new eeObject(str);
-
-            newObj.type = eeObjectType.STRING;
-
-            newObj.attributes.Add(
-                "length",
-                 str.Length
-            );
-
-            newObj.methods = stringDefaultMethods;
+            var newObj = new eeObject(str) {
+                type = eeObjectType.STRING,
+                attributes = new Dictionary<string, dynamic>()
+                {
+                    {"length", str.Length}
+                },
+                methods = stringDefaultMethods
+            };
 
             return newObj;
         }

@@ -19,6 +19,11 @@ stmt: assignment
 
 assignment: IDENTIFIER EQL exp ;
 
+creator: LIST_MODIFIER? LIST_TOK       #listCreator
+		| NUMBER_MODIFIER? NUMBER_TOK  #numberCreator
+		| STRING_TOK                   #stringCreator 
+		;
+
 bool_stmt: TRUE | FALSE ;
 
 list: L_SQ_BRACK exps? R_SQ_BRACK ;
@@ -28,7 +33,6 @@ string: STR ;
 var: IDENTIFIER								#variable
    | IDENTIFIER L_SQ_BRACK exp R_SQ_BRACK	#arrayIndex
    ;
-
 
 exp:  NUMBER						     #numExp
 	| var						         #varExp
@@ -50,6 +54,7 @@ exp:  NUMBER						     #numExp
 	| exp IN exp						 #inExp
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
+	| creator							 #creatorExpression
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 
@@ -118,14 +123,13 @@ END        :    'end'       ;
 USE		   :	'use'		; 
 
 // Types
-/*
-LIST_MODIFIER: "unique"		;
-NUMBER_MODIFIER: "negative" | "decimal" | "integer" ;
+			   // Empty isn't a real modifier, just treated as one and instantiates an empty list 
+LIST_MODIFIER: 'empty' | 'unique' ;
+NUMBER_MODIFIER: 'positive' | 'negative' | 'even' | 'odd' ;
 
 STRING_TOK :	'string'	;
 LIST_TOK   :	'list'		;
 NUMBER_TOK :    'number'	;
-*/
 
 TRUE  :    'true'      ;
 FALSE :    'false'     ;
