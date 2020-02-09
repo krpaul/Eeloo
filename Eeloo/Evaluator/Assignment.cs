@@ -8,7 +8,7 @@ namespace Eeloo.Evaluator
 {
     public partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
-        public override eeObject VisitAssignment([NotNull] EelooParser.AssignmentContext ctx)
+        public override eeObject VisitVarAssign([NotNull] EelooParser.VarAssignContext ctx)
         {
             // Get value of right hand side
             eeObject assignVal = Visit(ctx.exp());
@@ -34,54 +34,37 @@ namespace Eeloo.Evaluator
             return eeObject.None;
         }
 
-
-        /*
-        public override eeObject VisitExpAssign([NotNull] EelooParser.ExpAssignContext ctx)
+        public override eeObject VisitIdxAssign([NotNull] EelooParser.ArrAssignContext ctx)
         {
             // Get value of right hand side
-            eeObject assignVal = Visit(ctx.exp());
+            eeObject assignVal = Visit(ctx.exp(1));
 
-            // Assign it to the current scope
-            scope.assignVar(ctx.IDENTIFIER().GetText(), assignVal);
+            // get the list var name
+            string iden = ctx.IDENTIFIER().GetText();
 
-            // Maybe this statement returns a none value
-            return eeObject.None;
+            // Get the value
+            var variableVal = scope.resolveVar(iden);
+
+            // Make sure it exists
+            if (variableVal == null)
+                throw new Exception($"{iden} is not a variable.");
+            // Make sure it's an array or string variable
+            else if (variableVal.type != eeObjectType.LIST && variableVal.type != eeObjectType.STRING)
+                throw new Exception($"{iden} is not a string or array.");
+
+            // Bring it into a C# List<eeObject> type
+            List<eeObject> array = variableVal.AsList();
+
+            // get the array index
+            var idxExp = Visit(ctx.exp(0));
+
+            // First, Make sure the requested index is a number
+            if (idxExp.type != eeObjectType.NUMBER)
+                throw new Exception("TO DO: Index is not a number");
+
+            int idx = (int) idxExp.AsInteger();
+
+            
         }
-
-        public override eeObject VisitCreatorAssign([NotNull] EelooParser.CreatorAssignContext ctx)
-        {
-            string[] creator = ctx.CREATOR().GetText().Split(" ");
-
-            string type, modifier = null;
-
-            type = creator[0];
-            if (creator.Length == 2)
-            {
-                modifier = creator[0];
-                type = creator[1];
-            }
-
-            eeObject obj;
-
-            switch (type)
-            {
-                case "list":
-                    obj = eeObject.newListObject(null, modifier);
-                    break;
-                case "string":
-                    obj = eeObject.newStringObject(""); // Strings don't have modifiers
-                    break;
-                case "number":
-                    obj = eeObject.newNumberObject(0, modifier);
-                    break;
-                default:
-                    throw new Exception("No such type " + type);
-            }
-
-            scope.assignVar(ctx.IDENTIFIER().GetText(), obj);
-
-            return null;
-        }
-        */
     }
 }
