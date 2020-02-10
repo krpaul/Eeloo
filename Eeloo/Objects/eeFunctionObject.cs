@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Eeloo.Objects.ParserObjects;
 using System.Collections.Generic;
-using System.Text;
-
-using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Objects
 {

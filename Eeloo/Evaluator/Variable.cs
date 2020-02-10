@@ -15,10 +15,6 @@ namespace Eeloo.Evaluator
             // Get the value
             var val = scope.resolveVar(iden);
 
-            // If the value does not exist
-            if (val == null)
-                throw new Exception($"Variable with name {iden} does not exist");
-
             // return the value
             return val;
         }
@@ -31,10 +27,10 @@ namespace Eeloo.Evaluator
             // Get the value
             var variableVal = scope.resolveVar(iden);
 
-            // Make sure it exists
+            // if it doesnt exist
             if (variableVal == null)
             {
-                throw new Exception($"{iden} is not a variable.");
+                return null;
             }
             // Make sure it's an array or string variable
             else if (variableVal.type != eeObjectType.LIST && variableVal.type != eeObjectType.STRING)

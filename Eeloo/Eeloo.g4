@@ -17,10 +17,7 @@ stmt: assignment
 	| return_stmt
     ;
 
-assignment: IDENTIFIER EQL exp				         #varAssign
-		  | (IDENTIFIER L_SQ_BRACK exp R_SQ_BRACK) 
-			EQL exp									 #idxAssign
-		  ;
+assignment: var EQL exp	;
 
 creator: LIST_MODIFIER? LIST_TOK       #listCreator
 		| NUMBER_MODIFIER? NUMBER_TOK  #numberCreator
