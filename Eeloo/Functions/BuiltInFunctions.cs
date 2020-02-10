@@ -20,6 +20,7 @@ namespace Eeloo.Functions
         /* Prints all given arguments to command line */
         public static eeObject say(ICollection<eeObject> exprlist)
         {
+            var a = exprlist;
             var lineToPrint =
                 string.Join(", ", 
                     (from node in exprlist select node.ToPrintableString())

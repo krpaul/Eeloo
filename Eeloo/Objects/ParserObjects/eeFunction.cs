@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Eeloo.Objects.ParserObjects
 {
+    // This class will be the value field in the eeFunctionObject
     public class eeFunction
     {
         public string name;

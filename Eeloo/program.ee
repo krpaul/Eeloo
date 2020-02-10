@@ -1,4 +1,5 @@
-﻿a = [1, 2, 3, 4]
+﻿function myFunc(a, b)
+	return a + b
+end
 
-a[1 + 1] = "abvavrew"
-say (a)
+say(myFunc(1, 3))
