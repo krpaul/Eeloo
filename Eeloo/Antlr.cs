@@ -54,11 +54,17 @@ namespace Eeloo
                     select fn.Name
                 ).Distinct();
 
+                // Create function visitor
+                FunctionEvaluator func = new FunctionEvaluator(globalScope);
+
                 // Create visitor object
                 EvalVisitor evalVisitor = new EvalVisitor(globalScope, builtIns);
 
                 // Give public access to the visitor and the global scope
                 Antlr.visitor = evalVisitor;
+
+                // Find all functions
+                func.Visit(tree);
 
                 // Visit tree
                 evalVisitor.Visit(tree);

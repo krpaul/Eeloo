@@ -31,7 +31,7 @@ namespace Eeloo.Evaluator
             // if this var already exists
             else
             {
-               oldVar.OverrideSelf(assignVal);
+                oldVar.OverrideSelf(assignVal);
                 return null;
             }
         }
