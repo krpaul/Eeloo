@@ -136,20 +136,5 @@ namespace Eeloo.Evaluator
         {
             return Visit(ctx.list());
         }
-
-        public override eeObject VisitExps([NotNull] EelooParser.ExpsContext ctx)
-        {
-            ICollection<eeObject> rawListObj = new List<eeObject>();
-
-            foreach (var exp in ctx.exp())
-                rawListObj.Add(Visit(exp));
-
-            eeObject newListObj = new eeObject(rawListObj)
-            {
-                type = eeObjectType.internal_EXPRLIST,
-            };
-
-            return newListObj;
-        }
     }
 }
