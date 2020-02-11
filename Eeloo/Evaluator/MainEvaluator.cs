@@ -23,34 +23,22 @@ namespace Eeloo.Evaluator
 
             foreach (var stmt in stmtArr)
             {
-                var returnVal = Visit(stmt);
-                if (stmt.return_stmt() != null)
+                var val = Visit(stmt);
+
+                if (val == null)
+                    continue;
+
+                // If it's a return value
+                if (val.type == eeObjectType.internal_RETURN_VALUE)
                 {
-                    // If there is only one return value, return the generic eeObject
-                    var asList = returnVal.AsList();
-                    if (asList.Count == 1)
-                    {
-                        return asList[0];
-                    }
-
-                    // Otherwise, if there is more than one return value, return it as a list
-                    /* A return val is an eeList diguised as internal_EXPRLIST. So, we translate it to a list at this phase (keeping it as an internal object while it's making its way through the tree is better for debugging and general clarity) */
-                    returnVal.type = eeObjectType.LIST;
-
-                    // And return
-                    return returnVal;
+                    // return it
+                    return (eeObject) val.value;
                 }
             }
             return null;
         }
 
         /* Statments */
-
-        public override eeObject VisitReturn_stmt([NotNull] EelooParser.Return_stmtContext ctx)
-        {
-            return Visit(ctx.exps());
-        }
-
 
         public override eeObject VisitString([NotNull] EelooParser.StringContext ctx)
         {

@@ -9,9 +9,11 @@ namespace Eeloo.Objects
 {
     public enum eeObjectType
     {
+        // Internal types (used only in the language's parser implementation) are negative-valued
+        internal_RETURN_VAL = -4,
         internal_FN_ARG_LIST = -3,
         internal_RETURN_VALUE = -2,
-        internal_EXPRLIST = -1,  // Internal types (used only in the language implementation) are negative 
+        internal_EXPRLIST = -1, 
         NUMBER = 1,  // Avoiding 0 as first value since type's default value will take 0 and we'll know if we forgot to assign it somwhere in the case of a 0
         DECIMAL,
         STRING,

@@ -58,7 +58,9 @@ exp:  NUMBER						     #numExp
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 
-exps: exp (COMMA exp)* COMMA? ;
+exps: exp (COMMA exp)* COMMA? #plainExps
+	| LBRACK exps RBRACK	  #brackExps
+	;
 
 /* Loops */
 
@@ -74,7 +76,7 @@ if_partial: IF exp THEN? NL lines ;
 else_if_partial: ELSE IF exp THEN? NL lines ;
 else_partial: ELSE THEN? NL lines;
 
-fn_call: IDENTIFIER LBRACK exps RBRACK ;
+fn_call: IDENTIFIER NL* LBRACK NL* exps NL* RBRACK ;
 
 fn_def: FUNCTION IDENTIFIER LBRACK fn_args? RBRACK NL lines END ;
 
@@ -83,7 +85,9 @@ fn_arg: IDENTIFIER (EQL exp)? ;
 
 method_call: exp DOT fn_call ;
 
-return_stmt: RETURN exps ;
+return_stmt: RETURN exp   #expReturn
+		   | RETURN exps  #multiExpReturn
+		   ;
 
 /* Lexer */
 
@@ -158,8 +162,8 @@ RBRACK     :   ')'      ;
 
 RL         : (DBL_EQL | GRT_EQL | LESS_EQL | NOT_EQL | LESS | GRT) ;
 
-NL		   : [\r]?[\n]  ;
+NL		   : [\r]?[\n] ;
 
-WS		   :   (' '|'\t')+ -> skip ;
+WS		   :   (' ' | '\t' )+ -> skip ;
 
 COMMENT	   : NL* 'start comment' .*? 'end comment' NL* -> skip ;

@@ -60,5 +60,8 @@ namespace Eeloo.Evaluator
                 type = eeObjectType.internal_FN_ARG_LIST
             };
         }
+
+        public override eeObject VisitFn_def([NotNull] EelooParser.Fn_defContext context)
+        { return null; } // Do nothing as this visitor is defined in FunctionEvaluator
     }
 }

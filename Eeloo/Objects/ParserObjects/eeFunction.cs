@@ -48,7 +48,7 @@ namespace Eeloo.Objects.ParserObjects
             Antlr.visitor.scope = this.scope;
 
             // Execute the function and remember the return value
-            var returnVal = Antlr.visitor.Visit(this.codeblock);//.AsList()[0];
+            var returnVal = Antlr.visitor.Visit(this.codeblock);
                                     
             // Exit the scope
             Antlr.visitor.scope = Antlr.visitor.scope.parent;
