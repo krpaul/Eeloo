@@ -1,3 +1,7 @@
-﻿a = (1, 4, 5)
+﻿function myFun(a, f)
+	return a * f
+end
 
-say(a)
+say(
+	myFun("penis ", 5)
+)

@@ -133,7 +133,7 @@ namespace Eeloo.Objects
                 return AsDecimal();
             else if (value is long)
                 return AsInteger();
-            else throw new Exception();
+            else throw new Exception($"Value of '{value}' cannot be converted to number");
         }
 
         public List<eeObject> AsList()

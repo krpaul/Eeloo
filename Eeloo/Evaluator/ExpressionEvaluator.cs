@@ -16,15 +16,27 @@ namespace Eeloo.Evaluator
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
 
-            switch (ctx.opr.Type)
-            {
-                case EelooLexer.PLUS:
-                    return eeObject.newNumberObject(exp1.AsNumber() + exp2.AsNumber());
-                case EelooLexer.MINUS:
-                    return eeObject.newNumberObject(exp1.AsNumber() - exp2.AsNumber());
-                default:
-                    throw new Exception($"Invalid operation: {ctx.opr.Text}");
-            }
+            // If adding strings
+            if (exp1.type == eeObjectType.STRING && exp2.type == eeObjectType.STRING)
+                switch (ctx.opr.Type)
+                {
+                    case EelooLexer.PLUS:
+                        return eeObject.newStringObject(exp1.AsString() + exp2.AsString());
+                    case EelooLexer.MINUS:
+                    default:
+                        throw new Exception($"Invalid operation: {ctx.opr.Text} on string");
+                }
+            // other types
+            else
+                switch (ctx.opr.Type)
+                {
+                    case EelooLexer.PLUS:
+                        return eeObject.newNumberObject(exp1.AsNumber() + exp2.AsNumber());
+                    case EelooLexer.MINUS:
+                        return eeObject.newNumberObject(exp1.AsNumber() - exp2.AsNumber());
+                    default:
+                        throw new Exception($"Invalid operation: {ctx.opr.Text}");
+                }
         }
 
         public override eeObject VisitMultiplicativeOprExp([NotNull] EelooParser.MultiplicativeOprExpContext ctx)
@@ -32,17 +44,42 @@ namespace Eeloo.Evaluator
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
 
-            switch (ctx.opr.Type)
+            // Multiplying strings
+            if (exp1.type == eeObjectType.STRING ^ exp2.type == eeObjectType.STRING)
             {
-                case EelooLexer.MULTIPLY:
-                    return eeObject.newNumberObject(exp1.AsNumber() * exp2.AsNumber());
-                case EelooLexer.DIVIDE:
-                    return eeObject.newNumberObject(exp1.AsNumber() / exp2.AsNumber());
-                case EelooLexer.MOD:
-                    return eeObject.newNumberObject(exp1.AsNumber() % exp2.AsNumber());
-                default:
-                    throw new Exception($"Invalid operation: {ctx.opr.Text}");
+                switch (ctx.opr.Type)
+                {
+                    case EelooLexer.MULTIPLY:
+                        if (!(exp1.type == eeObjectType.NUMBER ^ exp2.type == eeObjectType.NUMBER))
+                            throw new Exception("Cannot multiply a string by a non-number");
+
+                        string str = exp1.type == eeObjectType.STRING ? exp1.AsString() : exp2.AsString();
+                        var num = exp1.type == eeObjectType.NUMBER ? exp1.AsNumber() : exp2.AsNumber();
+
+                        var newStr = "";
+
+                        for (long i = 0; i < num; i++)
+                            newStr += str;
+
+                        return eeObject.newStringObject(newStr);
+                    case EelooLexer.DIVIDE:
+                    case EelooLexer.MOD:
+                    default:
+                        throw new Exception($"Invalid operation: {ctx.opr.Text} on string");
+                }
             }
+            else
+                switch (ctx.opr.Type)
+                {
+                    case EelooLexer.MULTIPLY:
+                        return eeObject.newNumberObject(exp1.AsNumber() * exp2.AsNumber());
+                    case EelooLexer.DIVIDE:
+                        return eeObject.newNumberObject(exp1.AsNumber() / exp2.AsNumber());
+                    case EelooLexer.MOD:
+                        return eeObject.newNumberObject(exp1.AsNumber() % exp2.AsNumber());
+                    default:
+                        throw new Exception($"Invalid operation: {ctx.opr.Text}");
+                }
         }
 
         public override eeObject VisitComparisonExp([NotNull] EelooParser.ComparisonExpContext ctx)
