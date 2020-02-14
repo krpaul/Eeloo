@@ -11,6 +11,7 @@ stmt: assignment
     | if_stmt
 	| fn_call
 	| method_call
+	| return_stmt
 	| fn_def
     ;
 
@@ -84,7 +85,9 @@ else_partial: ELSE THEN? NL lines;
 
 fn_call: IDENTIFIER NL* LBRACK NL* exps NL* RBRACK ;
 
-fn_def: FUNCTION IDENTIFIER LBRACK fn_args? RBRACK NL lines END ;
+fn_def: FUNCTION IDENTIFIER (LBRACK fn_args RBRACK)? NL lines END 
+	  | FUNCTION IDENTIFIER ((LESS | GRT) fn_args)? NL lines END
+	  ;
 
 fn_args: fn_arg (COMMA fn_arg)* COMMA? ;
 fn_arg: IDENTIFIER (EQL exp)? ;
