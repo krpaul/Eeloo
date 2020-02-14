@@ -1,5 +1,5 @@
-﻿function myFunction
+﻿function myFunction < a, b
     return 7
 end
 
-say(myFunction())
+say(myFunction(4,))

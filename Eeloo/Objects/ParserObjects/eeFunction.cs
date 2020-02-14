@@ -40,10 +40,22 @@ namespace Eeloo.Objects.ParserObjects
 
         public eeObject invoke(ICollection<eeObject> args)
         {
+
             // Assign each positional argument
             if (args != null)
+            {
+                // Make sure args line up
+                long argCount = args.Count(),
+                     thisCount = this.argNames.Count();
+
+                if (argCount != thisCount)
+                {
+                    throw new Exception($"This function takes {thisCount} argument(s) but was given {argCount} argument(s)");
+                }
+
                 for (int i = 0; i < args.Count(); i++)
-                    scope.assignVar(argNames[i], args.ElementAt(i));
+                    scope.assignVar(this.argNames[i], args.ElementAt(i));
+            }
 
             // Reassign the scope while the function is running
             Antlr.visitor.scope = this.scope;
