@@ -29,12 +29,12 @@ namespace Eeloo.Evaluator
             var fn = scope.resolveVar(iden);
             if (fn != null && fn.type == eeObjectType.FUNCTION)
             {
-                IEnumerable<eeObject> args = Visit(ctx.exps()).AsEnumerable();
+                ICollection<eeObject> args = Visit(ctx.exps()).AsEXPRLIST();
                 return fn.AsFunction().invoke(args);
             }
             else
             {
-                throw new NotImplementedException("TO DO");
+                throw new NotImplementedException($"Function with name '{iden}' does not exist");
             }
         }
 

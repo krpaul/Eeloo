@@ -83,7 +83,7 @@ if_partial: IF exp THEN? NL lines ;
 else_if_partial: ELSE IF exp THEN? NL lines ;
 else_partial: ELSE THEN? NL lines;
 
-fn_call: IDENTIFIER NL* LBRACK NL* exps NL* RBRACK ;
+fn_call: IDENTIFIER NL* LBRACK NL* exps? NL* RBRACK ;
 
 fn_def: FUNCTION IDENTIFIER (LBRACK fn_args RBRACK)? NL lines END 
 	  | FUNCTION IDENTIFIER ((LESS | GRT) fn_args)? NL lines END

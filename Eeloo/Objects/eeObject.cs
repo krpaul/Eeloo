@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
 using Eeloo.Objects.ParserObjects;
-using System.Runtime.InteropServices;
 
 namespace Eeloo.Objects
 {
@@ -22,7 +20,6 @@ namespace Eeloo.Objects
         FUNCTION
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public partial class eeObject
     {
         //public readonly List<string> NUMBER_MODS = new List<string>() { "negative", "even",  "odd"};
@@ -50,7 +47,6 @@ namespace Eeloo.Objects
         public Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> methods
             = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>();
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public string modifier = null;
 
         /* Some static values */
