@@ -7,15 +7,18 @@ program      : lines NL* EOF ;
 lines        : (stmt NL+)+ ;
 
 stmt: assignment
-    | while_stmt
+    | loop
     | if_stmt
-	| for_stmt
-	| from_loop
 	| fn_call
 	| method_call
 	| fn_def
-	| return_stmt
     ;
+
+loop: while_stmt
+	| for_stmt
+	| from_loop
+	| repeat_loop
+	;
 
 assignment: var EQL exp	;
 
@@ -58,8 +61,8 @@ exp:  NUMBER						     #numExp
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 
-exps: exp (COMMA exp)* COMMA? #plainExps
-	| LBRACK exps RBRACK	  #brackExps
+exps: exp (COMMA exp)* COMMA?     #plainExps
+	| LBRACK exps RBRACK	      #brackExps
 	;
 
 /* Loops */
@@ -69,6 +72,9 @@ while_stmt: ( WHILE | UNTIL ) exp NL lines END ;
 for_stmt: FOR_EACH var IN exp NL lines END ;
 
 from_loop: FROM exp RANGE_1 exp (RANGE_2 exp)? USE IDENTIFIER NL lines END ;
+
+repeat_loop: REPEAT exp TIMES NL lines END 
+			| exp TIMES (DO)? NL lines END;
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
@@ -112,6 +118,9 @@ WHILE      :    'while'     ;
 UNTIL	   :    'until'		;
 FOR_EACH   :    'for' WS 'each'	;
 FROM	   :	'from'		;
+REPEAT	   :    'repeat'    ;
+TIMES	   :    'times'     ;
+DO		   :	'do'		;
 IF         :    'if'        ;
 THEN       :    'then'      ;
 ELSE       :    'else'      ;
