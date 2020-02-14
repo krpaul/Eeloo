@@ -1,5 +1,5 @@
-﻿function myFunction < param1, param2
-    return param1 + (param2 ^ 2)
+﻿function myFunction
+    return 7
 end
 
-say(myFunction(3, 5))
+say(myFunction())

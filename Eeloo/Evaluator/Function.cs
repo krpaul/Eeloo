@@ -29,7 +29,7 @@ namespace Eeloo.Evaluator
             var fn = scope.resolveVar(iden);
             if (fn != null && fn.type == eeObjectType.FUNCTION)
             {
-                ICollection<eeObject> args = Visit(ctx.exps()).AsEXPRLIST();
+                ICollection<eeObject> args = ctx.exps() != null ? Visit(ctx.exps()).AsEXPRLIST() : null;
                 return fn.AsFunction().invoke(args);
             }
             else
@@ -47,12 +47,15 @@ namespace Eeloo.Evaluator
 
             var args = ctx.fn_arg();
 
-            foreach (var arg in args)
+            if (args != null)
             {
-                if (arg.exp() == null)
-                    arguments.Add(arg.IDENTIFIER().GetText(), null);
-                else
-                    arguments.Add(arg.IDENTIFIER().GetText(), Visit(arg.exp()));
+                foreach (var arg in args)
+                {
+                    if (arg.exp() == null)
+                        arguments.Add(arg.IDENTIFIER().GetText(), null);
+                    else
+                        arguments.Add(arg.IDENTIFIER().GetText(), Visit(arg.exp()));
+                }
             }
 
             return new eeObject(arguments)

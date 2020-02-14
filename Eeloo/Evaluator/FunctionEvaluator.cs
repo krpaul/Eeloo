@@ -5,8 +5,11 @@ using System.Text;
 using Eeloo.Objects;
 using Antlr4.Runtime.Misc;
 
+
 namespace Eeloo.Evaluator
 {
+    using ArgList = Dictionary<string, eeObject>;
+
     /* This evaluator goes down the parse tree before the main evaluator in 
      * order to find all function definitions and store them into eeFunction
      * objects, that way allowing functions to be called anywhere in the code
@@ -21,14 +24,20 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitFn_def([NotNull] EelooParser.Fn_defContext ctx)
         {
+            ArgList args = ctx.fn_args() != null ?
+                (ArgList)Antlr.visitor.Visit(ctx.fn_args()).value : 
+                new ArgList()
+                ;
+
             scope.assignVar(
                 ctx.IDENTIFIER().GetText(),
                 eeObject.newFunctionObject(
                     ctx.IDENTIFIER().GetText(),
-                    (Dictionary<string, eeObject>)Antlr.visitor.Visit(ctx.fn_args()).value,
+                    args,
                     ctx.lines()
                 )
             );
+
             return null;
         }
     }

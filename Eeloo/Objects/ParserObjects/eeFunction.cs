@@ -25,7 +25,7 @@ namespace Eeloo.Objects.ParserObjects
             
             // Create scope
             this.scope = new Scope(Antlr.visitor.scope);
-            
+
             // Assign each argument to a variable in the scope
             foreach (var arg in defaultArgs)
             {
@@ -38,11 +38,12 @@ namespace Eeloo.Objects.ParserObjects
             }
         }
 
-        public eeObject invoke(IEnumerable<eeObject> args)
+        public eeObject invoke(ICollection<eeObject> args)
         {
             // Assign each positional argument
-            for (int i = 0; i < args.Count(); i++)
-                scope.assignVar(argNames[i], args.ElementAt(i));
+            if (args != null)
+                for (int i = 0; i < args.Count(); i++)
+                    scope.assignVar(argNames[i], args.ElementAt(i));
 
             // Reassign the scope while the function is running
             Antlr.visitor.scope = this.scope;
