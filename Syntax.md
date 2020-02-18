@@ -115,16 +115,7 @@ or (alternate syntax)
         say("x is something else")
     end
         
-# Function Definition
-    function addFunc(a, b)
-        return a + b
-    end
-    say(1, 5) // -> 6
-    
-    function returnVals(a, b)
-        return a, b
-    end
-    say(returnVals(5, "a")) // -> [5, "a"]
+
 
    
 
