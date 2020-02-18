@@ -8,12 +8,23 @@
         return param1 ^ (param2 / 2)
     end
 
-or
+or (alternate syntax)
     
     function myFunction < param1, param2
         return 
+    end
+    
+    function addFunc(a, b)
+        return a + b
+    end
+    say(1, 5) // -> 6
+    
+    function returnVals < a, b
+        return a, b
+    end
+    say(returnVals(5, "a")) // -> [5, "a"]
 
-# Object Definition
+# Object Definition (not implemented)
     object MyObject
         var = 3
         unassigned = nothing
@@ -23,11 +34,11 @@ or
         end
     end
 
-# Package Importing
+# Package Importing (not implemented)
     use package Calculus
     use package Time
 
-# Package Creation
+# Package Creation (not implemented)
     create package NewPackage
 
     function packageFunction
@@ -37,10 +48,16 @@ or
     // Entire file contents become the package
 
 # Creators
-    plainList = list
-    setList = unique list
-    dictList = lookup list
-
+    plainList = new list
+    set = unique list
+    
+    // All throw errors if assigned a 
+    n_num = negative number
+    p_num = positive number
+    e_num = even number
+    o_num = odd number
+    
+    
 # Comments
 ## Single Line
     // Comment
@@ -88,8 +105,26 @@ or
     end 
 -----
     
+# If Statments
+    x = 4
+    if x isn't 5
+        say("x isn't 5")
+    else if x is 6
+        say("x is 6")
+    else
+        say("x is something else")
+    end
+        
+# Function Definition
+    function addFunc(a, b)
+        return a + b
+    end
+    say(1, 5) // -> 6
     
-    
+    function returnVals(a, b)
+        return a, b
+    end
+    say(returnVals(5, "a")) // -> [5, "a"]
 
    
 
