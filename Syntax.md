@@ -50,13 +50,14 @@ or (alternate syntax)
 # Creators
     plainList = new list
     set = unique list
+    s = string
     
     // All throw errors if assigned a 
     n_num = negative number
     p_num = positive number
     e_num = even number
     o_num = odd number
-    
+     
     
 # Comments
 ## Single Line
@@ -114,11 +115,41 @@ or (alternate syntax)
     else
         say("x is something else")
     end
-        
+    
+# Ranges
+    r1 = 1...5 // -> [1, 2, 3, 4, 5]
+    r2 = 1...5 by 2 // -> [1, 3, 5]
+    r3 = 1 to 10 by 3 // -> [1, 4, 7, 10]
 
+# Aliasing
+These are alternate phrases for lexer keywords and defined functions
 
-   
+Groups of equivalent phrases include:
 
-
+    say("something")
+    print("something") 
+    output("somthing")
+    
+    function aFunc(a, b) ...
+    procedure bFunc(a, b) ...
+    
+    4 / 5
+    4 divided by 5
+    
+    4 * 5
+    4 multiplied by 5 
+    
+    for each x in 1...5
+    iterate x 1...5
+    for x in 1...5
+    
+    stop()
+    exit()
+    
+    return 1
+    give 1
+    yield 1
+    
+etc.
     
 
