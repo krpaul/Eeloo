@@ -18,7 +18,7 @@ namespace Eeloo
     {
         public static EvalVisitor visitor;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             try
             {

@@ -2,7 +2,8 @@
   "profiles": {
     "Eeloo": {
       "commandName": "Project",
-      "commandLineArgs": "../../../program.ee"
+      "commandLineArgs": "../../../program.ee",
+      "nativeDebugging": false
     }
   }
 }

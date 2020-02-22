@@ -14,8 +14,6 @@ namespace BuildAliases
             string grammar = File.ReadAllText(FOLDERPREFIX + "LexerAliases.gram");
             string aliases = File.ReadAllText(FOLDERPREFIX + "Aliases.yml");
 
-            Console.WriteLine(aliases);
-
             var deserializer = new YamlDotNet.Serialization.Deserializer();
 
             var aliasDict = deserializer.Deserialize<Dictionary<string, List<string>>>(aliases);
@@ -23,9 +21,6 @@ namespace BuildAliases
             Regex rx = new Regex(@"\<\<\w+\>\>");
 
             MatchCollection matches = rx.Matches(grammar);
-
-            Console.WriteLine("{0} matches found",
-                          matches.Count);
 
             // Replace each
             foreach (Match match in matches)

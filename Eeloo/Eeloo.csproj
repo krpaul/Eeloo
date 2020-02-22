@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>7.3</LangVersion>
+    <StartupObject>Eeloo.Antlr</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,11 +22,11 @@
   
   <ItemGroup>
     <ProjectReference Include="..\AliasCompiler\AliasCompiler.csproj">
-      <Private>false</Private>
+      <Private>true</Private>
     </ProjectReference>
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet $(SolutionDir)AliasCompiler\$(OutDir)AliasCompiler.dll" />
+    <Exec Command="start dotnet $(SolutionDir)AliasCompiler\$(OutDir)AliasCompiler.dll" />
   </Target>
 </Project>
