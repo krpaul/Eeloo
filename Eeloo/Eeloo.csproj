@@ -16,5 +16,16 @@
   <ItemGroup>
 	<PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
 	<PackageReference Include="Antlr4.CodeGenerator" Version="4.6.6" PrivateAssets="all" />
+	<PackageReference Include="YamlDotNet" Version="8.1.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\AliasCompiler\AliasCompiler.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+  </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet $(SolutionDir)AliasCompiler\$(OutDir)AliasCompiler.dll" />
+  </Target>
 </Project>
