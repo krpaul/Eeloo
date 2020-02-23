@@ -1,5 +1,5 @@
 grammar Eeloo;
-import LexerAliases;
+import GeneratedLexer;
 
 /* Parser */
 

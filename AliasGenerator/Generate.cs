@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace BuildAliases
+namespace AliasGenerator
 {
     class ConstructLexer
     {
         public const string FOLDERPREFIX = "./";
         static void Main(string[] args)
         {
-            string grammar = File.ReadAllText(FOLDERPREFIX + "LexerAliases.gram");
+            string grammar = File.ReadAllText(FOLDERPREFIX + "LexerAliasesGrammar");
             string aliases = File.ReadAllText(FOLDERPREFIX + "Aliases.yml");
 
             var deserializer = new YamlDotNet.Serialization.Deserializer();
@@ -30,15 +30,17 @@ namespace BuildAliases
 
                 string expanded = string.Join(" | ",
                     from syn in aliasDict[aliasID]
-                    select string.Join(" WS ",
+                    select 
+                    "WS " + string.Join(" WS ",
                         from s in syn.Split(" ") select $"'{s}'"
-                    )
+                    ) + " WS"
                 );
 
                 grammar = grammar.Replace(match.Value, expanded);
             }
 
-            File.WriteAllText(FOLDERPREFIX + "LexerAliases.g4", grammar);
+            grammar = "lexer grammar GeneratedLexer;" + Environment.NewLine + grammar;
+            File.WriteAllText(FOLDERPREFIX + "GeneratedLexer.g4", grammar);
         }
     }
 }

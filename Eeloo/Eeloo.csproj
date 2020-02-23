@@ -21,12 +21,12 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\AliasCompiler\AliasCompiler.csproj">
+    <ProjectReference Include="..\AliasGenerator\AliasGenerator.csproj">
       <Private>true</Private>
     </ProjectReference>
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="start dotnet $(SolutionDir)AliasCompiler\$(OutDir)AliasCompiler.dll" />
+    <Exec Command="dotnet $(SolutionDir)AliasGenerator\$(OutDir)AliasGenerator.dll" />
   </Target>
 </Project>

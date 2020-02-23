@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eeloo", "Eeloo\Eeloo.csproj", "{892C626F-F841-4207-94C2-73F12995BDAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AliasCompiler", "AliasCompiler\AliasCompiler.csproj", "{80E779D9-7473-4023-BF6E-30C4F26AA7DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AliasGenerator", "AliasGenerator\AliasGenerator.csproj", "{4A8E7EBA-A27F-4460-893D-4A51D0D4EBF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{892C626F-F841-4207-94C2-73F12995BDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{892C626F-F841-4207-94C2-73F12995BDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{892C626F-F841-4207-94C2-73F12995BDAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80E779D9-7473-4023-BF6E-30C4F26AA7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80E779D9-7473-4023-BF6E-30C4F26AA7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80E779D9-7473-4023-BF6E-30C4F26AA7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80E779D9-7473-4023-BF6E-30C4F26AA7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A8E7EBA-A27F-4460-893D-4A51D0D4EBF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A8E7EBA-A27F-4460-893D-4A51D0D4EBF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A8E7EBA-A27F-4460-893D-4A51D0D4EBF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A8E7EBA-A27F-4460-893D-4A51D0D4EBF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,4 @@
-lexer grammar LexerAliases;
-
-
-/* Lexer */
-
+﻿
 fragment LOWERCASE_LTR  : [a-z] ;
 fragment UPPERCASE_LTR  : [A-Z] ;
 fragment DIGIT          : [0-9] ;
@@ -66,9 +62,9 @@ EQL        :   '='      ;
 PLUS       :   '+'      ;
 MINUS      :   '-'      ;
 DIVIDE     :   '/'      ;
-MULTIPLY   :   '*' | 'times' | 'multiplied' WS 'by' ;
-POWER      :   '^' | 'to' WS 'the' WS 'power' WS 'of' | 'raised' WS 'to' WS 'the' | 'to' WS 'the' ; 
-MOD		   :   '%' | 'mod' | 'modulo' ;
+MULTIPLY   :   '*' | <<multiply>> ;
+POWER      :   '^' | <<power>> ; 
+MOD		   :   '%' | <<mod>> ;
 
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   WS BY WS ;
