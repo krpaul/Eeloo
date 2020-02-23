@@ -1,1 +1,3 @@
-﻿say(8 to the power of 3)
+﻿do this with every i from 1 to 5
+	say (i to the power of 2)
+end

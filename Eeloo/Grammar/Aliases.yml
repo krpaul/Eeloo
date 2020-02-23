@@ -1,4 +1,12 @@
-﻿power: 
+﻿greater:
+    - greater than
+less:
+    - less than
+greater_or_equal:
+    - greater than or equal to
+less_or_equal:
+    - less than or equal to
+power: 
     - to the power of
     - raised to the
     - to the
@@ -8,3 +16,10 @@ multiply:
 mod: 
     - mod
     - modulo
+foreach:
+    - __OPTIONAL_BOUNDING_WS__
+    - for
+    - for each
+    - for every
+    - using each
+    - using every

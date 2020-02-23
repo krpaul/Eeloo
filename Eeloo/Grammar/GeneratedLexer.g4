@@ -1,16 +1,23 @@
 lexer grammar GeneratedLexer;
 
+/* Edit this file for changes to the lexer 
+ * All the rules with << >> brackets bounding 
+ * a keyword will be replaced with many alias
+ * possibilities upon build. Aliases are 
+ * specified in the Aliases.yml file 
+*/
+
 fragment LOWERCASE_LTR  : [a-z] ;
 fragment UPPERCASE_LTR  : [A-Z] ;
 fragment DIGIT          : [0-9] ;
 
 
 DBL_EQL    :   '==' ;
-GRT_EQL    :   '>=' | (IS WS)? 'greater' WS 'than' WS 'or' WS 'equal' WS TO;
-LESS_EQL   :   '<=' | (IS WS)? 'less' WS 'than' WS 'or' WS 'equal' WS TO;
+GRT_EQL    :   '>=' | (IS WS)? (WS 'greater' WS 'than' WS 'or' WS 'equal' WS 'to' WS) ;
+LESS_EQL   :   '<=' | (IS WS)? (WS 'less' WS 'than' WS 'or' WS 'equal' WS 'to' WS) ;
 NOT_EQL    :   '!=' ;
-LESS       :   '<'  | (IS WS)? 'less' WS 'than';
-GRT        :   '>'  | (IS WS)? 'greater' WS 'than';
+LESS       :   '<'  | (IS WS)?  (WS 'less' WS 'than' WS) ;
+GRT        :   '>'  | (IS WS)?  (WS 'greater' WS 'than' WS) ;
 
 L_SQ_BRACK :    '['         ;
 R_SQ_BRACK :    ']'         ;
@@ -20,7 +27,7 @@ DOT		   :	'.'			;
 EXIT       :    'exit'      ;
 WHILE      :    'while'     ;
 UNTIL	   :    'until'		;
-FOR_EACH   :    'for' WS 'each'	;
+FOR_EACH   :    WS? 'for' WS? | WS? 'for' WS 'each' WS? | WS? 'for' WS 'every' WS? | WS? 'using' WS 'each' WS? | WS? 'using' WS 'every' WS? | WS? 'do' WS 'this' WS 'with' WS 'every' WS?	;
 FROM	   :	'from'		;
 REPEAT	   :    'repeat'    ;
 TIMES	   :    'times'     ;

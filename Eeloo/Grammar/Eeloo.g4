@@ -71,7 +71,7 @@ exps: exp (COMMA exp)* COMMA?     #plainExps
 
 while_stmt: ( WHILE | UNTIL ) exp NL lines END ;
 
-for_stmt: FOR_EACH var IN exp NL lines END ;
+for_stmt: FOR_EACH var (IN | FROM) exp NL lines END ;
 
 from_loop: FROM exp RANGE_1 exp (RANGE_2 exp)? USE IDENTIFIER NL lines END ;
 
