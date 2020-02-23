@@ -8,7 +8,7 @@ namespace AliasGenerator
 {
     class ConstructLexer
     {
-        public const string FOLDERPREFIX = "./";
+        public const string FOLDERPREFIX = "./Grammar/";
         static void Main(string[] args)
         {
             string grammar = File.ReadAllText(FOLDERPREFIX + "LexerAliasesGrammar");

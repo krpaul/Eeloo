@@ -11,10 +11,11 @@ using Eeloo.Objects;
 using Eeloo.Functions;
 using Eeloo.Evaluator;
 using Eeloo.Evaluator.Exceptions;
+using Eeloo.Grammar;
 
 namespace Eeloo
 {
-    class Antlr
+    class Interpreter
     {
         public static EvalVisitor visitor;
 
@@ -61,7 +62,7 @@ namespace Eeloo
                 EvalVisitor evalVisitor = new EvalVisitor(globalScope, builtIns);
 
                 // Give public access to the visitor and the global scope
-                Antlr.visitor = evalVisitor;
+                Interpreter.visitor = evalVisitor;
 
                 // Find all functions
                 func.Visit(tree);

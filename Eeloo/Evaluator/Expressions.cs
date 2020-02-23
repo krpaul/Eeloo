@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime.Misc;
+using Eeloo.Grammar;
 using Eeloo.Objects;
+using System.Collections.Generic;
 
 namespace Eeloo.Evaluator
 {

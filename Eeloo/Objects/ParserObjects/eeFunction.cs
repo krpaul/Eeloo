@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Eeloo.Grammar;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace Eeloo.Objects.ParserObjects
@@ -24,7 +24,7 @@ namespace Eeloo.Objects.ParserObjects
             this.codeblock = codeblock;
             
             // Create scope
-            this.scope = new Scope(Antlr.visitor.scope);
+            this.scope = new Scope(Interpreter.visitor.scope);
 
             // Assign each argument to a variable in the scope
             foreach (var arg in defaultArgs)
@@ -58,13 +58,13 @@ namespace Eeloo.Objects.ParserObjects
             }
 
             // Reassign the scope while the function is running
-            Antlr.visitor.scope = this.scope;
+            Interpreter.visitor.scope = this.scope;
 
             // Execute the function and remember the return value
-            var returnVal = Antlr.visitor.Visit(this.codeblock);
+            var returnVal = Interpreter.visitor.Visit(this.codeblock);
                                     
             // Exit the scope
-            Antlr.visitor.scope = Antlr.visitor.scope.parent;
+            Interpreter.visitor.scope = Interpreter.visitor.scope.parent;
 
             /* Return the return value
             If Lines return nothing, add an implicit None obj

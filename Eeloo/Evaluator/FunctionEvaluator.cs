@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using Antlr4.Runtime.Misc;
+using Eeloo.Grammar;
 using Eeloo.Objects;
-using Antlr4.Runtime.Misc;
-
+using System.Collections.Generic;
 
 namespace Eeloo.Evaluator
 {
@@ -25,7 +22,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitFn_def([NotNull] EelooParser.Fn_defContext ctx)
         {
             ArgList args = ctx.fn_args() != null ?
-                (ArgList)Antlr.visitor.Visit(ctx.fn_args()).value : 
+                (ArgList)Interpreter.visitor.Visit(ctx.fn_args()).value : 
                 new ArgList()
                 ;
 
