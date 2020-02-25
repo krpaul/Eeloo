@@ -40,7 +40,7 @@ namespace AliasGenerator
                 }
 
                 string wsIdenBounding = 
-                    flag == "OPTIONAL_BOUNDING_WS" ? 
+                    flag == "OptionalBoundingWhitespace" ? 
                         "WS?" : 
                         "WS";
 

@@ -11,11 +11,12 @@ namespace Eeloo.Functions
     // ICollection<eeObject> is an internal_EXPRLIST
     partial class BuiltInFunctions
     {
-        public static Dictionary<string, Delegate> functionMap 
+        public static readonly Dictionary<string, Delegate> functionMap 
             = new Dictionary<string, Delegate>() 
             {
-                { "say",  new Func<ICollection<eeObject>, eeObject>(BuiltInFunctions.say)},
+                { "output",  new Func<ICollection<eeObject>, eeObject>(BuiltInFunctions.say)},
             };
+
 
         /* Prints all given arguments to command line */
         public static eeObject say(ICollection<eeObject> exprlist)

@@ -27,7 +27,7 @@ DOT		   :	'.'			;
 EXIT       :    'exit'      ;
 WHILE      :    'while'     ;
 UNTIL	   :    'until'		;
-FOR_EACH   :    WS? 'for' WS? | WS? 'for' WS 'each' WS? | WS? 'for' WS 'every' WS? | WS? 'using' WS 'each' WS? | WS? 'using' WS 'every' WS? | WS? 'do' WS 'this' WS 'with' WS 'every' WS?	;
+FOR_EACH   :    WS? 'for' WS? | WS? 'for' WS 'each' WS? | WS? 'for' WS 'every' WS? | WS? 'using' WS 'each' WS? | WS? 'using' WS 'every' WS?	;
 FROM	   :	'from'		;
 REPEAT	   :    'repeat'    ;
 TIMES	   :    'times'     ;

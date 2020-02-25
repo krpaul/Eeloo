@@ -17,7 +17,7 @@ mod:
     - mod
     - modulo
 foreach:
-    - __OPTIONAL_BOUNDING_WS__
+    - __OptionalBoundingWhitespace__
     - for
     - for each
     - for every
