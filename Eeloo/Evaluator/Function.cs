@@ -15,15 +15,13 @@ namespace Eeloo.Evaluator
             string iden = ctx.IDENTIFIER().GetText();
 
             // If function is built-in
-            if (BuiltInFunctions.functionMap.ContainsKey(iden))
+            var func = BuiltInFunctions.ResolveFunc(iden);
+            if (func != null)
             {
                 // Evaluate function's arguments
                 ICollection<eeObject> arguments = Visit(ctx.exps()).AsEXPRLIST();
 
-                return (eeObject)
-                    BuiltInFunctions.functionMap[iden].DynamicInvoke(
-                        arguments
-                    );
+                return (eeObject) func.DynamicInvoke(arguments);
             }
 
             // Check if function is user-defined 
@@ -34,9 +32,7 @@ namespace Eeloo.Evaluator
                 return fn.AsFunction().invoke(args);
             }
             else
-            {
-                throw new NotImplementedException($"Function with name '{iden}' does not exist");
-            }
+            { throw new Exception($"Function with name '{iden}' does not exist"); }
         }
 
         // This method actually returns a Dictionary<string, eeObject>, but uses eeObject as a vehicle as to conform to the visitor's uniform return type

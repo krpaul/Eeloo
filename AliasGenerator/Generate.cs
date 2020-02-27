@@ -41,8 +41,8 @@ namespace AliasGenerator
 
                 string wsIdenBounding = 
                     flag == "OptionalBoundingWhitespace" ? 
-                        "WS?" : 
-                        "WS";
+                        "WS?" : // Optional whitespace
+                        "WS" ; // Mandatory whitespace
 
                 string expanded = string.Join(" | ",
                     from syn in al

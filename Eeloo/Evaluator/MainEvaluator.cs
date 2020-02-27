@@ -55,17 +55,6 @@ namespace Eeloo.Evaluator
            );
         }
 
-        public override eeObject VisitList([NotNull] EelooParser.ListContext ctx)
-        {
-            // Get expressions
-            var expressions = Visit(ctx.exps());
-
-            // Evaluate them
-            var listObj = eeObject.newListObject(expressions);
-
-            // Return the object
-            return listObj;
-        }
 
         public override eeObject VisitBool_stmt([NotNull] EelooParser.Bool_stmtContext ctx)
         { return eeObject.newBoolObject(ctx.TRUE() != null ? true : false); }

@@ -1,3 +1,3 @@
-﻿for i in 1...5
-	output (i ^ 2)
-end
+﻿my_nums = ask ("Enter a number: ", "Enter another one: ")
+
+print(my_nums)

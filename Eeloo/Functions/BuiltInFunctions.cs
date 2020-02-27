@@ -6,41 +6,33 @@ using Eeloo.Evaluator.Exceptions;
 using System.Linq;
 using Eeloo.Objects;
 
+
 namespace Eeloo.Functions
 {
+    using FnSignature = Func<ICollection<eeObject>, eeObject>;
+
     // ICollection<eeObject> is an internal_EXPRLIST
     partial class BuiltInFunctions
     {
-        public static readonly Dictionary<string, Delegate> functionMap 
-            = new Dictionary<string, Delegate>() 
+        public static readonly Dictionary<List<string>, FnSignature> functionMap 
+            = new Dictionary<List<string>, FnSignature>() 
             {
-                { "output",  new Func<ICollection<eeObject>, eeObject>(BuiltInFunctions.say)},
+                { new List<string>() { "output", "print", "say"  },  
+                    new FnSignature(BuiltInFunctions.Output)},
+                { new List<string>() { "input", "query", "ask" }, 
+                    new FnSignature(BuiltInFunctions.Input)}
             };
 
-
-        /* Prints all given arguments to command line */
-        public static eeObject say(ICollection<eeObject> exprlist)
+        public static Delegate ResolveFunc(string name)
         {
-            var a = exprlist;
-            var lineToPrint =
-                string.Join(", ", 
-                    (from node in exprlist select node.ToPrintableString())
-                );
-
-            Console.WriteLine(lineToPrint);
-
-            return eeObject.None;
-        }
-
-        /* Prints given string to command line and accepts one line of input */
-        public static eeObject ask(eeObject input)
-        {
-            //if (input.AsString() == null)
-            //    throw new ArgumentError("Argument for function \"ask\" must be of type string or similar");
-
-            Console.WriteLine(input.ToPrintableString());
-
-            return eeObject.newStringObject(Console.ReadLine());
+            foreach (List<string> aliases in functionMap.Keys)
+            {
+                if (aliases.Contains(name))
+                {
+                    return functionMap[aliases];
+                }
+            }
+            return null;
         }
     }
 }
