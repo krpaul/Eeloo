@@ -4,7 +4,7 @@ lexer grammar GeneratedLexer;
  * All the rules with << >> brackets bounding 
  * a keyword will be replaced with many alias
  * possibilities upon build. Aliases are 
- * specified in the Aliases.yml file 
+ * specified in the Aliases.yml file.
 */
 
 fragment LOWERCASE_LTR  : [a-z] ;

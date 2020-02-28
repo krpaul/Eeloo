@@ -214,7 +214,7 @@ namespace Eeloo.Objects
         // Reads the value of this eeObject, cross references the type and the modifier, and returns true if all checks out properly
         public bool Verify()
         {
-            if (modifier == null)
+            if (this.modifier == null)
                 return true;
 
             bool valid = true;

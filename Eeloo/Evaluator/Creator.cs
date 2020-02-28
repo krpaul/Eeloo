@@ -52,7 +52,10 @@ namespace Eeloo.Evaluator
         {
             var modNode = ctx.NUMBER_MODIFIER();
             string modifier = modNode == null ? null : modNode.GetText(); 
-            return eeObject.newNumberObject(modifier == "odd" ? 1 : 0, modifier);
+            return eeObject.newNumberObject(
+                modifier == "odd" ? 1 : 0, // Pass it a value of 1 if it has an "odd" modifier instead of the default 0
+                modifier                   // Pass the modifier
+            ); 
         }
 
         public override eeObject VisitStringCreator([NotNull] EelooParser.StringCreatorContext ctx)

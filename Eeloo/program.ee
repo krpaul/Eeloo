@@ -1,3 +1,4 @@
-﻿my_nums = ask ("Enter a number: ", "Enter another one: ")
+﻿a = positive number
+a = -1
 
-print(my_nums)
+say(a)
