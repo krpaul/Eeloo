@@ -26,6 +26,10 @@
     </ProjectReference>
   </ItemGroup>
   
+  <ItemGroup>
+    <Folder Include="Tests\" />
+  </ItemGroup>
+  
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="dotnet $(SolutionDir)AliasGenerator\$(OutDir)AliasGenerator.dll" />
   </Target>

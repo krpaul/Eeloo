@@ -14,6 +14,7 @@ stmt: assignment
 	| method_call
 	| return_stmt
 	| fn_def
+	| assert_stmt
     ;
 
 loop: while_stmt
@@ -23,6 +24,8 @@ loop: while_stmt
 	;
 
 assignment: var EQL exp	;
+
+assert_stmt: ASSERT WS? exp ;
 
 creator: LIST_MODIFIER? LIST_TOK       #listCreator
 		| NUMBER_MODIFIER? NUMBER_TOK  #numberCreator

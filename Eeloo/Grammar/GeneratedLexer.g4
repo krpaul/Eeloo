@@ -45,6 +45,7 @@ FUNCTION   :	'function'	;
 RETURN	   :	'return'    ;
 END        :    'end'       ;
 USE		   :	'use'		; 
+ASSERT     :    'assert'    ;
 
 // Types
 			   // Empty isn't a real modifier, just treated as one and instantiates an empty list 

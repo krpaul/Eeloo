@@ -1,3 +1,1 @@
-﻿a = negative number
-a = 3
-say(a)
+﻿assert 4 == 3
