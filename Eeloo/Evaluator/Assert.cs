@@ -15,7 +15,7 @@ namespace Eeloo.Evaluator
             // make sure it's true
             if (!bool_exp.AsBool())
             {
-                throw new Exception("Assertion statment failed");
+                throw new Exception($"Line {ctx.start.Line} in {Interpreter.filename}: Assertion statement failed");
             }
 
             return null;

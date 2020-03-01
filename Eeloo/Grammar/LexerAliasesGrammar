@@ -69,10 +69,10 @@ BY		   :   'by'     ;
 EQL        :   '='      ;
 PLUS       :   '+'      ;
 MINUS      :   '-'      ;
-DIVIDE     :   '/'      ;
-MULTIPLY   :   '*' | <<multiply>> ;
-POWER      :   '^' | <<power>> ; 
-MOD		   :   '%' | <<mod>> ;
+DIVIDE     :   '/' | <<divide>>     ;
+MULTIPLY   :   '*' | <<multiply>>   ;
+POWER      :   '^' | <<power>>	    ; 
+MOD		   :   '%' | <<mod>>		;
 
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   WS BY WS ;

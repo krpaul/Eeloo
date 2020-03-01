@@ -1,0 +1,8 @@
+﻿assert 2 + 4 == 6
+assert 6 - 5 isn't 2
+assert 4 * 2 == 8
+assert 1000 / 250 is 4
+
+a = 3
+b = 2
+assert (a ^ b) == (a raised to the b)

@@ -13,6 +13,9 @@ power:
 multiply: 
     - times
     - multiplied by
+divide: 
+    - over
+    - divided by
 mod: 
     - mod
     - modulo
