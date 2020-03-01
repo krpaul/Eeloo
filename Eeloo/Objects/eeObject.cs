@@ -266,14 +266,25 @@ namespace Eeloo.Objects
                 throw new Exception($"Constraint '{modifier}' violated with value of {this.ToPrintableString()}");
         }
 
-        // Workaround to override this object with another object
-        public void OverrideSelf(eeObject newObj)
+        // If this object is an element of a list, this method with replace it with another value
+        public void OverrideArrayItem(eeObject newObj)
         {
-            modifier = newObj.modifier;
+            value = newObj.value;
             attributes = newObj.attributes;
             methods = newObj.methods;
             type = newObj.type;
-            value = newObj.value;
+
+            // Array elements do not get modifiers
+            modifier = null;
+        }
+
+        // If this object is a variable, set it's value to newObj but retain the old modifier
+        public void OverrideNew(eeObject newObj)
+        {
+            // the two objects should be the same type, but this function doesn't handle that directly.
+            this.value = newObj.value;
+            this.methods = newObj.methods;
+            this.attributes = newObj.attributes;
         }
     }
 }

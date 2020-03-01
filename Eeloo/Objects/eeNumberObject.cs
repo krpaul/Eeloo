@@ -6,12 +6,12 @@ namespace Eeloo.Objects
 {
     partial class eeObject
     {
-        public static eeObject newNumberObject(long value, string modifier=null)
+        public static eeObject newNumberObject(long value, string mod=null)
         {
-            return new eeObject(value)
+            var ob = new eeObject(value)
             {
                 type = eeObjectType.NUMBER,
-                modifier = modifier,
+                modifier = mod,
                 attributes = new Dictionary<string, dynamic>()
                 {
                     { "maxCount", (ulong) 0}
@@ -29,6 +29,8 @@ namespace Eeloo.Objects
                             */
                 }
             };
+
+            return ob;
         }
 
         public static eeObject newNumberObject(double value, string modifier = null)
