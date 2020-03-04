@@ -70,10 +70,10 @@ BY		   :   'by'     ;
 EQL        :   '='      ;
 PLUS       :   '+'      ;
 MINUS      :   '-'      ;
-DIVIDE     :   '/'      ;
-MULTIPLY   :   '*' | WS 'times' WS | WS 'multiplied' WS 'by' WS ;
-POWER      :   '^' | WS 'to' WS 'the' WS 'power' WS 'of' WS | WS 'raised' WS 'to' WS 'the' WS | WS 'to' WS 'the' WS ; 
-MOD		   :   '%' | WS 'mod' WS | WS 'modulo' WS ;
+DIVIDE     :   '/' | WS 'over' WS | WS 'divided' WS 'by' WS     ;
+MULTIPLY   :   '*' | WS 'times' WS | WS 'multiplied' WS 'by' WS   ;
+POWER      :   '^' | WS 'to' WS 'the' WS 'power' WS 'of' WS | WS 'raised' WS 'to' WS 'the' WS | WS 'to' WS 'the' WS	    ; 
+MOD		   :   '%' | WS 'mod' WS | WS 'modulo' WS		;
 
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   WS BY WS ;
