@@ -89,6 +89,11 @@ namespace Eeloo.Objects
                 // Extract the expressions
                 expressions = exprlist.AsEXPRLIST();
 
+            return newListObject(expressions);
+        }
+
+        public static eeObject newListObject(ICollection<eeObject> expressions, string modifier=null)
+        {
             // Encapsulate the List object into an eeObject
             var newObj = new eeObject(expressions.ToList())
             {
