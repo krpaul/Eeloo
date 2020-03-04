@@ -163,10 +163,11 @@ namespace Eeloo.Objects
         }
 
         public bool IsEqualTo(eeObject obj)
-        { return this.value.Equals(obj.value); }
+        { return this.type == obj.type && this.value.Equals(obj.value); }
 
         public bool IsNotEqualTo(eeObject obj)
         { return !IsEqualTo(obj); }
+
 
         public bool IsGreaterThan(eeObject obj)
         {
