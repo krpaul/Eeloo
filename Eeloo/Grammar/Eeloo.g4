@@ -64,6 +64,8 @@ exp:  NUMBER						     #numExp
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
 	| creator							 #creatorExpression
+	| exp TO (STRING_TOK | LIST_TOK |
+			  NUMBER_TOK | BOOL_TOK )    #typecastExpression
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 
