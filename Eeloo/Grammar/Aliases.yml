@@ -19,8 +19,21 @@ divide:
 mod: 
     - mod
     - modulo
-foreach:
+between:
+    - between
+    - is between
+    - in range of
+    - in the range of
+assert:
     - __OptionalBoundingWhitespace__
+    - assert 
+    - assert that
+    - make sure
+    - make sure that
+    - make sure of 
+    - force check
+foreach:
+    - __OptionalBoundingWhitespace__ # this flag is used for statments' aliases
     - for
     - for each
     - for every

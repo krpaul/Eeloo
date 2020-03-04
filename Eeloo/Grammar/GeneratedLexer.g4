@@ -45,7 +45,8 @@ FUNCTION   :	'function'	;
 RETURN	   :	'return'    ;
 END        :    'end'       ;
 USE		   :	'use'		; 
-ASSERT     :    'assert'    ;
+ASSERT     :    WS? 'assert' WS? | WS? 'assert' WS 'that' WS? | WS? 'make' WS 'sure' WS? | WS? 'make' WS 'sure' WS 'that' WS? | WS? 'make' WS 'sure' WS 'of' WS? | WS? 'force' WS 'check' WS?  ;
+BETWEEN	   :	WS 'between' WS | WS 'is' WS 'between' WS | WS 'in' WS 'range' WS 'of' WS | WS 'in' WS 'the' WS 'range' WS 'of' WS	;
 
 // Types
 			   // Empty isn't a real modifier, just treated as one and instantiates an empty list 

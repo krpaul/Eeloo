@@ -60,6 +60,7 @@ exp:  NUMBER						     #numExp
 	| exp RANGE_1 exp         		     #rangeExp
 	| exp RANGE_1 exp RANGE_2 exp		 #rangeExtendedExp 
 	| exp IN exp						 #inExp
+	| exp BETWEEN exp AND exp			 #betweenExp					
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
 	| creator							 #creatorExpression

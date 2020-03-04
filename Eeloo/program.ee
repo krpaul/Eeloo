@@ -1,1 +1,2 @@
-﻿assert 4 is 3
+﻿berries = "b"
+say(berries is between "a" and "z")
