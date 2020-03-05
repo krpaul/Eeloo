@@ -156,6 +156,43 @@ namespace Eeloo.Objects
             }
         }
 
+        public eeObject DynamicBoolConvert()
+        {
+            bool val;
+            switch (this.type)
+            {
+                case eeObjectType.BOOL:
+                    return this;
+                case eeObjectType.DECIMAL:
+                case eeObjectType.NUMBER:
+                    val = this.AsNumber() != 0.0;
+                    break;
+                case eeObjectType.LIST:
+                    val = this.AsList().Count() != 0;
+                    break;
+                case eeObjectType.STRING:
+                    // check if the string itself is "true" or "false"
+                    string str = this.AsString().ToUpper(); // ToUpper because it's faster than ToLower for comparisons
+                    if (str == "TRUE") {
+                        val = true;
+                        break;
+                    } 
+                    else if (str == "FALSE") {
+                        val = false;
+                        break;
+                    }
+                    else {
+                        val = str.Length != 0;
+                        break;
+                    }
+                default:
+                    val = false;
+                    break;
+            }
+
+            return eeObject.newBoolObject(val);
+        }
+
         public bool AsBool()
         {
             // If object is a type of primitive
