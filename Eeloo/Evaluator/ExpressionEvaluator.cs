@@ -7,9 +7,6 @@ namespace Eeloo.Evaluator
 {
     partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
-        public override eeObject VisitNumExp([NotNull] EelooParser.NumExpContext ctx)
-        { return eeObject.newNumberObject(long.Parse(ctx.NUMBER().GetText())); }
-
         public override eeObject VisitAdditiveOprExp([NotNull] EelooParser.AdditiveOprExpContext ctx)
         {
             eeObject exp1 = Visit(ctx.exp(0)),
@@ -112,28 +109,18 @@ namespace Eeloo.Evaluator
         }
 
         public override eeObject VisitFunctionCallExp([NotNull] EelooParser.FunctionCallExpContext ctx)
-        {
-            return Visit(ctx.fn_call());
-        }
+        { return Visit(ctx.fn_call()); }
 
         public override eeObject VisitNegationExp([NotNull] EelooParser.NegationExpContext ctx)
-        {
-            return eeObject.newNumberObject(Visit(ctx.exp()).AsNumber() * -1);
-        }
+        { return eeObject.newNumberObject(Visit(ctx.exp()).AsNumber() * -1); }
 
         public override eeObject VisitVarExp([NotNull] EelooParser.VarExpContext ctx)
-        {
-            return Visit(ctx.var());
-        }
+        { return Visit(ctx.var()); }
 
         public override eeObject VisitStrExp([NotNull] EelooParser.StrExpContext ctx)
-        {
-            return Visit(ctx.@string());
-        }
+        { return Visit(ctx.@string()); }
 
         public override eeObject VisitListExp([NotNull] EelooParser.ListExpContext ctx)
-        {
-            return Visit(ctx.list());
-        }
+        { return Visit(ctx.list()); }
     }
 }
