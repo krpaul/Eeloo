@@ -10,21 +10,17 @@ namespace Eeloo.Evaluator
         public override eeObject VisitTypecastExpression([NotNull] EelooParser.TypecastExpressionContext ctx)
         {
             var obj = Visit(ctx.exp());
-            if (ctx.STRING_TOK() != null)
-            {
-                return eeObject.newStringObject(obj.value.ToString());
+            if (ctx.STRING_TOK() != null) {
+                return eeObject.newStringObject(obj.ToPrintableString());
             }
-            else if (ctx.NUMBER_TOK() != null)
-            {
+            else if (ctx.NUMBER_TOK() != null) {
                 return obj.DynamicNumConvert();
             }
-            else if (ctx.BOOL_TOK() != null)
-            {
-                return eeObject.newBoolObject(obj.AsBool());
+            else if (ctx.BOOL_TOK() != null) {
+                return obj.DynamicBoolConvert();
             }
-            else if (ctx.LIST_TOK() != null)
-            {
-                return eeObject.newListObject(obj.AsList());
+            else if (ctx.LIST_TOK() != null) {
+                return obj.DynamicListConvert();
             }
             else throw new Exception("Typecast error");
         }
