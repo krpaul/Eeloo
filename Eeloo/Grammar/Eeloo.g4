@@ -43,7 +43,11 @@ var: IDENTIFIER								#variable
    | IDENTIFIER L_SQ_BRACK exp R_SQ_BRACK	#arrayIndex
    ;
 
-exp:  NUMBER						     #numExp
+num: NUMBER				#int
+   | NUMBER DOT NUMBER  #dec
+   ;
+
+exp:  num     						     #numExp
 	| var						         #varExp
     | string							 #strExp
     | bool_stmt							 #boolExp

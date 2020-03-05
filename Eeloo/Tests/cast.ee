@@ -1,0 +1,5 @@
+﻿assert 3 as string == "3"
+say ("abcde44fghi.33" as number)
+assert "false" as bool == false
+assert "true" as bool == true
+say (3 as list)
