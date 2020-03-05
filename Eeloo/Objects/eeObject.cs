@@ -156,6 +156,27 @@ namespace Eeloo.Objects
             }
         }
 
+        public eeObject DynamicListConvert()
+        {
+            List<eeObject> val = new List<eeObject>();
+            switch (this.type)
+            {
+                case eeObjectType.LIST:
+                    return this;
+                case eeObjectType.STRING: // Return list of chars
+                    string str = this.AsString();
+                    val = str.ToCharArray().Select(c => eeObject.newStringObject(c.ToString())).ToList();
+                    break;
+                case eeObjectType.NUMBER:
+                case eeObjectType.DECIMAL:
+                case eeObjectType.BOOL: // Return list where this is the first object
+                    val = new List<eeObject>() { this };
+                    break;
+            }
+
+            return eeObject.newListObject(val);
+        }
+
         public eeObject DynamicBoolConvert()
         {
             bool val;
