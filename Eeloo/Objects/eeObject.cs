@@ -90,6 +90,72 @@ namespace Eeloo.Objects
             }
         }
 
+        public readonly List<char> CharNums = new List<char>() { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.' };
+        public eeObject DynamicNumConvert()
+        {
+            switch (this.type)
+            {
+                case eeObjectType.NUMBER:
+                case eeObjectType.DECIMAL:
+                    return this;
+                case eeObjectType.STRING:
+                    // go through the entire string and look for any numbers
+                    List<char> nums = new List<char>();
+                    foreach (char c in this.AsString().ToCharArray())
+                    {
+                        if (CharNums.Contains(c)) {
+                            nums.Add(c);
+                        }
+                    }
+
+                    // If no nums found
+                    if (nums.Count == 0)
+                        return eeObject.newNumberObject(0);
+
+                    string agg = new string(nums.ToArray());
+                    
+                    // If its a decimal
+                    if (nums.Contains('.')) {
+                        return eeObject.newNumberObject(double.Parse(agg));
+                    }
+                    // Otherwise
+                    return eeObject.newNumberObject(long.Parse(agg));
+                case eeObjectType.BOOL:
+                    // Use standard bool to int conversion
+                    return eeObject.newNumberObject(this.AsBool() ? 1 : 0);
+                case eeObjectType.LIST:
+                    // If all the elements in the list are number objects, return their sums
+                    List<eeObject> elems = this.AsList();
+                    bool allNums = true;
+                    foreach (eeObject obj in elems)
+                    {
+                        if (obj.type != eeObjectType.NUMBER || obj.type != eeObjectType.DECIMAL)
+                        {
+                            allNums = false;
+                            break;
+                        }
+                    }
+
+                    if (allNums)
+                    {
+                        // For now I'm using double as to retain decimal accuracy, but in the future we'll have to split it up into respectice long and double types
+                        double sum = 0; 
+                        foreach (eeObject obj in elems)
+                        {
+                            sum += obj.AsDecimal();
+                        }
+                        return eeObject.newNumberObject(sum);
+                    }
+                    // If not all nums, return the list's length
+                    else
+                    {
+                        return eeObject.newNumberObject(elems.Count());
+                    }
+                default: // Otherwise it's not a type we should concern ourselves with converting into a number;
+                    return eeObject.newNumberObject(0);
+            }
+        }
+
         public bool AsBool()
         {
             // If object is a type of primitive
