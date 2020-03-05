@@ -15,6 +15,7 @@ stmt: assignment
 	| return_stmt
 	| fn_def
 	| assert_stmt
+	| exp
     ;
 
 loop: while_stmt
@@ -57,6 +58,8 @@ exp:  NUMBER						     #numExp
 	| exp (IS NOT | ISNT) exp			 #inequalityExp
 	| exp (IS | DBL_EQL) exp			 #equalityExp
     | MINUS exp				             #negationExp
+	| exp AS (STRING_TOK | LIST_TOK | 
+	          NUMBER_TOK | BOOL_TOK)     #typecastExpression
 	| exp RANGE_1 exp         		     #rangeExp
 	| exp RANGE_1 exp RANGE_2 exp		 #rangeExtendedExp 
 	| exp IN exp						 #inExp
@@ -64,8 +67,6 @@ exp:  NUMBER						     #numExp
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
 	| creator							 #creatorExpression
-	| exp TO (STRING_TOK | LIST_TOK |
-			  NUMBER_TOK | BOOL_TOK )    #typecastExpression
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 

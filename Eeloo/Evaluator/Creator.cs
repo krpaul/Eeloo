@@ -45,7 +45,7 @@ namespace Eeloo.Evaluator
         {
             var modNode = ctx.LIST_MODIFIER();
             string modifier = modNode == null ? null : modNode.GetText(); 
-            return eeObject.newListObject(null, modifier);
+            return eeObject.newListObject((eeObject) null, modifier);
         }
 
         public override eeObject VisitNumberCreator([NotNull] EelooParser.NumberCreatorContext ctx)

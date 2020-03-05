@@ -1,2 +1,3 @@
-﻿berries = "b"
-say(berries is between "a" and "z")
+﻿a = "4rt3r434.33fjdksfs5" as number
+
+print(a)

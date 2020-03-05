@@ -56,6 +56,7 @@ NUMBER_MODIFIER: 'positive' | 'negative' | 'even' | 'odd' ;
 STRING_TOK :	'string'	;
 LIST_TOK   :	'list'		;
 NUMBER_TOK :    'number'	;
+BOOL_TOK   :    'bool'      ;
 
 TRUE  :    'true'      ;
 FALSE :    'false'     ;
@@ -66,6 +67,7 @@ STR		   : ["].*?["]	;
 NUMBER     : DIGIT+     ;
 
 TO		   :   'to'		;
+AS         :   ' as '     ;
 BY		   :   'by'     ;
 
 EQL        :   '='      ;
