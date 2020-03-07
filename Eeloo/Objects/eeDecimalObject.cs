@@ -9,5 +9,7 @@ namespace Eeloo.Objects
         private static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> decimalDefaultMethods
             = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
             { };
+
+        
     }
 }
