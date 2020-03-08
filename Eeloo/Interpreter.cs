@@ -39,8 +39,8 @@ namespace Eeloo
                 evalVisitor.Visit(tree);
             }
 #endif
-            eeNumber a = new eeNumber("9000000000");
-            a += new eeNumber(1);
+            eeNumber a = new eeNumber("9223372036854775807");
+            a += new eeNumber("922337203685477580743242");
             Console.WriteLine(a.ToString());
             Console.ReadLine();
             return;

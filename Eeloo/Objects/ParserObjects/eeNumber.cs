@@ -8,7 +8,7 @@ namespace Eeloo.Objects.ParserObjects
      */
     {
         // 
-        private byte[] integers;
+        private byte[] bytes;
         private bool negative;
 
         public eeNumber(long num)
@@ -19,7 +19,7 @@ namespace Eeloo.Objects.ParserObjects
                 num *= -1;
             }
 
-            integers = num.ToString().ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
+            bytes = num.ToString().ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
         }
 
         public eeNumber(string num)
@@ -30,16 +30,16 @@ namespace Eeloo.Objects.ParserObjects
                 num.Replace("-", "");
             }
 
-            integers = num.ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
+            bytes = num.ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
         }
 
         public eeNumber(byte[] nums)
-        { integers = nums;  }
+        { bytes = nums;  }
 
-        public string ToString()
+        public override string ToString()
         {
             string str = "";
-            foreach (byte b in this.integers)
+            foreach (byte b in this.bytes)
             { str += b.ToString(); }
 
             return str;
@@ -49,22 +49,26 @@ namespace Eeloo.Objects.ParserObjects
         {
             // Calculate which number has more digits
             byte[] lhs, rhs;
-            if (num1.integers.Length > num2.integers.Length)
+            if (num1.bytes.Length > num2.bytes.Length)
             {
-                lhs = num1.integers;
-                rhs = num2.integers;
+                lhs = num1.bytes;
+                rhs = num2.bytes;
             }
             else
             {
-                lhs = num2.integers;
-                rhs = num1.integers;
+                lhs = num2.bytes;
+                rhs = num1.bytes;
             }
 
+            // Reverse because we're adding from right to left.
+            lhs = lhs.Reverse().ToArray();
+            rhs = rhs.Reverse().ToArray();
+
             bool carry = false;
-            for (int i = rhs.Length - 1; i >= 0; i--)
+            for (int i = 0; i < rhs.Length; i++)
             {
                 // Add the digits
-                byte digitSum = (byte) (num1.integers[i] + num2.integers[i]);
+                byte digitSum = (byte) (lhs[i] + rhs[i]);
 
                 // Account for the carry
                 if (carry)
@@ -81,6 +85,9 @@ namespace Eeloo.Objects.ParserObjects
                 lhs[i] = digitSum;
             }
 
+            lhs = lhs.Reverse().ToArray();
+            rhs = rhs.Reverse().ToArray();
+
             // If there is still carry left
             if (carry)
             {
@@ -96,7 +103,7 @@ namespace Eeloo.Objects.ParserObjects
                 return new eeNumber(newBytes);
             }
 
-            num1.integers = lhs;
+            num1.bytes = lhs;
             return num1;
         }
     }
