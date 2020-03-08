@@ -9,6 +9,7 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
 using Eeloo.Objects;
+using Eeloo.Objects.ParserObjects;
 using Eeloo.Functions;
 using Eeloo.Evaluator;
 using Eeloo.Evaluator.Exceptions;
@@ -38,6 +39,11 @@ namespace Eeloo
                 evalVisitor.Visit(tree);
             }
 #endif
+            eeNumber a = new eeNumber("9000000000");
+            a += new eeNumber(1);
+            Console.WriteLine(a.ToString());
+            Console.ReadLine();
+            return;
             try
             {
                 // Get file text

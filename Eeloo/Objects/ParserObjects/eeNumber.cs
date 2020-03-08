@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Eeloo.Objects.ParserObjects
 {
@@ -39,9 +36,14 @@ namespace Eeloo.Objects.ParserObjects
         public eeNumber(byte[] nums)
         { integers = nums;  }
 
-        // Returns the amount of delta between this num and its next overflow
-        public Num GetOverflowDelta()
-        { return (Num)(Num.MaxValue - integers[integers.Length - 1]); }
+        public string ToString()
+        {
+            string str = "";
+            foreach (byte b in this.integers)
+            { str += b.ToString(); }
+
+            return str;
+        }
 
         public static eeNumber operator +(eeNumber num1, eeNumber num2)
         {
@@ -91,8 +93,11 @@ namespace Eeloo.Objects.ParserObjects
                 // copy all the old digits
                 lhs.CopyTo(newBytes, 1);
 
-                eeNumber newNum = new eeNumber(new byte { } );
+                return new eeNumber(newBytes);
             }
+
+            num1.integers = lhs;
+            return num1;
         }
     }
 }
