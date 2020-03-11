@@ -48,8 +48,8 @@ namespace Eeloo.Objects.ParserObjects
             return str;
         }
 
-        // Removes all preceding zeros from num
-        public void Clean()
+        /* Removes all preceding zeros from num */
+        public void TrimZeros()
         {
             /* Func which removes all preceding zeros from num.
              * We can't use indexing in case the length of the array overflows a long.
@@ -67,6 +67,40 @@ namespace Eeloo.Objects.ParserObjects
             // If it removed all the nums, it's a zero
             if (bytes.Length == 0)
                 bytes = new byte[1] { 0 };
+        }
+
+        /* Removes all two digits nums from num and carrys over digits */
+        public void CarryOver()
+        {
+            byte[] nums = this.bytes.Reverse().ToArray();
+            byte carry = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (carry != 0)
+                {
+                    nums[i] += carry;
+                    carry = 0;
+                }
+
+                if (nums[i] > 9)
+                {
+                    carry = (byte) (nums[i] / 10);
+                    nums[i] %= 10;
+                }
+            }
+
+            // if carry remains
+            if (carry != 0)
+            {
+                byte[] newBytes = new byte[nums.Length + 1];
+
+                newBytes[0] = carry;
+                nums.CopyTo(newBytes, 1);
+
+                nums = newBytes;
+            }
+
+            this.bytes = nums.Reverse().ToArray();
         }
 
         public static eeNumber operator +(eeNumber num1, eeNumber num2)
@@ -97,21 +131,64 @@ namespace Eeloo.Objects.ParserObjects
             byte[] lhs = num1.bytes.Reverse().ToArray(),
                    rhs = num2.bytes.Reverse().ToArray();
 
-            bool carry = false;
+            int i;
+            for (i = 0; i < rhs.Length; i++)
+            {
+                byte digitSum = (byte) (rhs[i] + lhs[i]);
+                lhs[i] = digitSum;
+            }
+
+            num1.bytes = lhs.Reverse().ToArray();
+            num1.CarryOver();
+
+            return num1;
+        }
+
+        public static eeNumber operator *(eeNumber num1, eeNumber num2)
+        {
+            bool negate = false;
+
+            // if first num is negative
+            //if (num1.negative && !num2.negative)
+            //{
+            //    num1.negative = false;
+            //    return num2 - num1;
+            //}
+            //// If 2nd num is negative
+            //else if (num2.negative && !num1.negative)
+            //{
+            //    num2.negative = false;
+            //    return num1 - num2;
+            //}
+            //// They're both negative
+            //else if (num1.negative && num2.negative)
+            //{
+            //    num1.negative = false;
+            //    num2.negative = false;
+            //    negate = true;
+            //}
+
+            // Reverse because we're going from right to left.
+            byte[] lhs = num1.bytes.Reverse().ToArray(),
+                   rhs = num2.bytes.Reverse().ToArray();
+
+            int carry = 0;
             for (int i = 0; i < rhs.Length; i++)
             {
-                // Add the digits
-                byte digitSum = (byte) (lhs[i] + rhs[i]);
+                // Multiply the digits
+                byte digitSum = (byte)(lhs[i] * rhs[i]);
 
                 // Account for the carry
-                if (carry)
-                    digitSum += 1; 
+                if (carry != 0)
+                {
+                    digitSum += 1;
+                }
 
                 // Count carry
                 if (digitSum > 9)
                 {
-                    carry = true;
-                    digitSum -= 10;
+                    carry = digitSum / 10; // Integer division
+                    digitSum %= 10;
                 }
 
                 // Set the digit
@@ -122,28 +199,12 @@ namespace Eeloo.Objects.ParserObjects
             lhs = lhs.Reverse().ToArray();
 
             // If there is still carry left
-            if (carry)
+            if (carry != 0)
             {
-                //// If adding a carry to the first number will overflow to the next place: 
-                //if (lhs[0] == 9)
-                //{
-                //    // Create a new number that is 1 larger
-                //    byte[] newBytes = new byte[lhs.Length + 1];
+                lhs[0]++;
 
-                //    // set the first value to 1
-                //    newBytes[0] = 1;
-
-                //    // copy all the old digits
-                //    lhs.CopyTo(newBytes, 1);
-
-                //    return new eeNumber(newBytes, negate);
-                //}
-                //else // if not, just add one to the first place
-                //    lhs[0]++;
-
-                    lhs[0]++; 
                 // if that caused an overflow
-                if (lhs[0] == 10)
+                if (lhs[0] > 9)
                 {
                     // Create a new array that is 1 larger
                     byte[] newBytes = new byte[lhs.Length + 1];
@@ -245,7 +306,7 @@ namespace Eeloo.Objects.ParserObjects
 
             num1.bytes = l_bytes;
             num1.negative = negate;
-            num1.Clean();
+            num1.TrimZeros();
 
             return num1;
         }

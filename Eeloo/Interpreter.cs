@@ -39,8 +39,8 @@ namespace Eeloo
                 evalVisitor.Visit(tree);
             }
 #endif
-            eeNumber a = new eeNumber("92");
-            eeNumber b = new eeNumber("9");
+            eeNumber a = new eeNumber("3333201");
+            eeNumber b = new eeNumber("-3");
             Console.WriteLine(a + b);
             Console.ReadLine();
             return;
