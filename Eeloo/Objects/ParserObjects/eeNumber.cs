@@ -93,22 +93,9 @@ namespace Eeloo.Objects.ParserObjects
                 negate = true;
             }
 
-            // Calculate which number has more digits
-            byte[] lhs, rhs;
-            if (num1.bytes.Length > num2.bytes.Length)
-            {
-                lhs = num1.bytes;
-                rhs = num2.bytes;
-            }
-            else
-            {
-                lhs = num2.bytes;
-                rhs = num1.bytes;
-            }
-
             // Reverse because we're adding from right to left.
-            lhs = lhs.Reverse().ToArray();
-            rhs = rhs.Reverse().ToArray();
+            byte[] lhs = num1.bytes.Reverse().ToArray(),
+                   rhs = num2.bytes.Reverse().ToArray();
 
             bool carry = false;
             for (int i = 0; i < rhs.Length; i++)
@@ -137,16 +124,41 @@ namespace Eeloo.Objects.ParserObjects
             // If there is still carry left
             if (carry)
             {
-                // Create a new number that is 1 larger
-                byte[] newBytes = new byte[lhs.Length + 1];
+                //// If adding a carry to the first number will overflow to the next place: 
+                //if (lhs[0] == 9)
+                //{
+                //    // Create a new number that is 1 larger
+                //    byte[] newBytes = new byte[lhs.Length + 1];
 
-                // set the first value to 1
-                newBytes[0] = 1;
+                //    // set the first value to 1
+                //    newBytes[0] = 1;
 
-                // copy all the old digits
-                lhs.CopyTo(newBytes, 1);
+                //    // copy all the old digits
+                //    lhs.CopyTo(newBytes, 1);
 
-                return new eeNumber(newBytes, negate);
+                //    return new eeNumber(newBytes, negate);
+                //}
+                //else // if not, just add one to the first place
+                //    lhs[0]++;
+
+                    lhs[0]++; 
+                // if that caused an overflow
+                if (lhs[0] == 10)
+                {
+                    // Create a new array that is 1 larger
+                    byte[] newBytes = new byte[lhs.Length + 1];
+
+                    // set the first value to 1
+                    newBytes[0] = 1;
+
+                    // set that digit to zero
+                    lhs[0] = 0;
+
+                    // copy all the old digits
+                    lhs.CopyTo(newBytes, 1);
+
+                    lhs = newBytes;
+                }
             }
 
             num1.bytes = lhs;
@@ -157,35 +169,48 @@ namespace Eeloo.Objects.ParserObjects
 
         public static eeNumber operator -(eeNumber num1, eeNumber num2)
         {
-            // Calculate which number has more digits
-            eeNumber lhs, rhs;
-            if (num1.bytes.Length > num2.bytes.Length)
+            // if first num is negative
+            if (num1.negative && !num2.negative)
             {
-                lhs = num1;
-                rhs = num2;
+                // add them then negate it
+                num2.negative = false;
+                var sum = num1 + num2;
+                sum.negative = true;
+                return sum;
             }
-            else
+            // if second num is negative
+            else if (num2.negative && !num1.negative)
             {
-                lhs = num2;
-                rhs = num1;
+                // minus and negatives cancel
+                num2.negative = false;
+                return num1 + num2;
+            }
+            // If they're both negative
+            else if (num1.negative && num2.negative)
+            {
+                // Treat this as adding a negative to a positive
+                num2.negative = false;
+                return num1 + num2;
             }
 
-            bool negate = false;
             // If we're going to get a negative answer
-            if (rhs > lhs)
+            bool negate = false;
+            if (num2 > num1)
             {
                 // reverse the two 
-                var buf = lhs;
-                lhs = rhs;
-                rhs = buf;
+                var buf = num1;
+                num1 = num2;
+                num2 = buf;
 
                 // and negate
                 negate = true;
             }
 
+            // if the num is only 1 digit long, it's easier to do regular subtraction as a native c# type
+                
             // Reverse because we're adding from right to left.
-            byte[] l_bytes = lhs.bytes.Reverse().ToArray(),
-                   r_bytes = rhs.bytes.Reverse().ToArray();
+            byte[] l_bytes = num1.bytes.Reverse().ToArray(),
+                   r_bytes = num2.bytes.Reverse().ToArray();
 
             bool carry = false;
             for (int i = 0; i < r_bytes.Length; i++)
@@ -214,21 +239,14 @@ namespace Eeloo.Objects.ParserObjects
             // If there is still carry left
             if (carry)
             {
-                // Create a new number that is 1 larger
-                byte[] newBytes = new byte[l_bytes.Length + 1];
-
-                // set the first value to 1
-                newBytes[0] = 1;
-
-                // copy all the old digits
-                l_bytes.CopyTo(newBytes, 1);
-
-                var newNum = new eeNumber(newBytes, negate);
-                newNum.Clean();
+                // subtract one from the first value
+                l_bytes[0]--;
             }
 
             num1.bytes = l_bytes;
+            num1.negative = negate;
             num1.Clean();
+
             return num1;
         }
 
