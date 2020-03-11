@@ -274,7 +274,8 @@ namespace Eeloo.Objects.ParserObjects
                    r_bytes = num2.bytes.Reverse().ToArray();
 
             bool carry = false;
-            for (int i = 0; i < r_bytes.Length; i++)
+            int i;
+            for (i = 0; i < r_bytes.Length; i++)
             {
                 // Account for the previous carry
                 if (carry)
@@ -294,15 +295,25 @@ namespace Eeloo.Objects.ParserObjects
                 l_bytes[i] = digitDiff;
             }
 
-            // Put it in order again
-            l_bytes = l_bytes.Reverse().ToArray();
 
             // If there is still carry left
-            if (carry)
+            while (carry)
             {
-                // subtract one from the first value
-                l_bytes[0]--;
+                // subtract one from the next value
+                if (l_bytes[i] == 0)
+                {
+                    l_bytes[i] = 9;
+                    i++;
+                }
+                else
+                {
+                    l_bytes[i] -= 1;
+                    carry = false;
+                }
             }
+            
+            // Put it in order again
+            l_bytes = l_bytes.Reverse().ToArray();
 
             num1.bytes = l_bytes;
             num1.negative = negate;
