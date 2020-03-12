@@ -11,6 +11,9 @@ namespace Eeloo.Objects.ParserObjects
         private byte[] bytes;
         private bool negative;
 
+        // static zero
+        static eeNumber ZERO = new eeNumber(0);
+
         public eeNumber(long num)
         {
             if (num < 0) // If it's negative
@@ -148,31 +151,25 @@ namespace Eeloo.Objects.ParserObjects
         {
             bool negate = false;
 
-            // if first num is negative
-            //if (num1.negative && !num2.negative)
-            //{
-            //    num1.negative = false;
-            //    return num2 - num1;
-            //}
-            //// If 2nd num is negative
-            //else if (num2.negative && !num1.negative)
-            //{
-            //    num2.negative = false;
-            //    return num1 - num2;
-            //}
-            //// They're both negative
-            //else if (num1.negative && num2.negative)
-            //{
-            //    num1.negative = false;
-            //    num2.negative = false;
-            //    negate = true;
-            //}
+            // if either num is negative
+            if (num1.negative ^ num2.negative)
+            {
+                num1.negative = false;
+                num2.negative = false;
+
+                negate = true;
+            }
+            else if (num1.negative && num2.negative)
+            {
+                num1.negative = false;
+                num2.negative = false;
+            }
 
             // Reverse because we're going from right to left.
             byte[] lhs = num1.bytes.Reverse().ToArray(),
                    rhs = num2.bytes.Reverse().ToArray();
 
-            int carry = 0;
+            byte carry = 0;
             for (int i = 0; i < rhs.Length; i++)
             {
                 // Multiply the digits
@@ -180,14 +177,12 @@ namespace Eeloo.Objects.ParserObjects
 
                 // Account for the carry
                 if (carry != 0)
-                {
-                    digitSum += 1;
-                }
+                { digitSum += carry; }
 
                 // Count carry
                 if (digitSum > 9)
                 {
-                    carry = digitSum / 10; // Integer division
+                    carry = (byte) (digitSum / 10); // Integer division
                     digitSum %= 10;
                 }
 
@@ -198,32 +193,9 @@ namespace Eeloo.Objects.ParserObjects
             // Put it in order again
             lhs = lhs.Reverse().ToArray();
 
-            // If there is still carry left
-            if (carry != 0)
-            {
-                lhs[0]++;
-
-                // if that caused an overflow
-                if (lhs[0] > 9)
-                {
-                    // Create a new array that is 1 larger
-                    byte[] newBytes = new byte[lhs.Length + 1];
-
-                    // set the first value to 1
-                    newBytes[0] = 1;
-
-                    // set that digit to zero
-                    lhs[0] = 0;
-
-                    // copy all the old digits
-                    lhs.CopyTo(newBytes, 1);
-
-                    lhs = newBytes;
-                }
-            }
-
             num1.bytes = lhs;
             num1.negative = negate;
+            num1.CarryOver();
 
             return num1;
         }
@@ -267,8 +239,6 @@ namespace Eeloo.Objects.ParserObjects
                 negate = true;
             }
 
-            // if the num is only 1 digit long, it's easier to do regular subtraction as a native c# type
-                
             // Reverse because we're adding from right to left.
             byte[] l_bytes = num1.bytes.Reverse().ToArray(),
                    r_bytes = num2.bytes.Reverse().ToArray();
