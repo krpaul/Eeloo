@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 
 namespace Eeloo.Objects.ParserObjects
 {
@@ -130,6 +131,14 @@ namespace Eeloo.Objects.ParserObjects
                 negate = true;
             }
 
+            if (num2.bytes.Length > num1.bytes.Length)
+            {
+                // switch so that num1 is larger
+                var buf = num1;
+                num1 = num2;
+                num2 = buf;
+            }
+
             // Reverse because we're adding from right to left.
             byte[] lhs = num1.bytes.Reverse().ToArray(),
                    rhs = num2.bytes.Reverse().ToArray();
@@ -169,35 +178,51 @@ namespace Eeloo.Objects.ParserObjects
             byte[] lhs = num1.bytes.Reverse().ToArray(),
                    rhs = num2.bytes.Reverse().ToArray();
 
-            byte carry = 0;
+            // new digit
+            eeNumber finalNum = new eeNumber(0);
+
+            // foreach digit in on the top num
             for (int i = 0; i < rhs.Length; i++)
             {
-                // Multiply the digits
-                byte digitSum = (byte)(lhs[i] * rhs[i]);
+                byte carry = 0;
+                List<byte> product = new List<byte>();
 
-                // Account for the carry
-                if (carry != 0)
-                { digitSum += carry; }
-
-                // Count carry
-                if (digitSum > 9)
+                // foreach digit in the bottom num
+                for (int j = 0; j < lhs.Length; j++)
                 {
-                    carry = (byte) (digitSum / 10); // Integer division
-                    digitSum %= 10;
+                    // multiply them
+                    byte digitProduct = (byte)(lhs[j] * rhs[i]);
+
+                    if (carry != 0)
+                    {
+                        digitProduct += carry;
+                        carry = 0;
+                    }
+
+                    if (digitProduct > 9)
+                    {
+                        carry = (byte) (digitProduct / 10);
+                        digitProduct %= 10;
+                    }
+
+                    product.Add(digitProduct);
                 }
 
-                // Set the digit
-                lhs[i] = digitSum;
+                // If carry is left
+                if (carry != 0)
+                { product.Add(carry); }
+
+                product.Reverse();
+
+                // Add the needed amount of trailing zeros for place value
+                for (int z = 0; z < i; z++)
+                    product.Add(0);
+
+                finalNum += new eeNumber(product.ToArray());
             }
 
-            // Put it in order again
-            lhs = lhs.Reverse().ToArray();
-
-            num1.bytes = lhs;
-            num1.negative = negate;
-            num1.CarryOver();
-
-            return num1;
+            finalNum.negative = negate;
+            return finalNum;
         }
 
         public static eeNumber operator -(eeNumber num1, eeNumber num2)
