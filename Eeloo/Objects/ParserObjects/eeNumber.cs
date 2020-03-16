@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Eeloo.Objects.ParserObjects
 {
@@ -46,10 +47,22 @@ namespace Eeloo.Objects.ParserObjects
         public override string ToString()
         {
             string str = negative ? "-" : "";
-            foreach (byte b in this.bytes)
-            { str += b.ToString(); }
 
-            return str;
+            int chunkSize = 0;
+            foreach (byte b in this.bytes.Reverse())
+            {
+                if (chunkSize == 3)
+                {
+                    str += ",";
+                    chunkSize = 0;
+                }
+                str += b.ToString();
+                chunkSize++;
+            }
+
+            var chrs = str.ToCharArray();
+            Array.Reverse(chrs);
+            return new string(chrs);
         }
 
         /* Removes all preceding zeros from num */
@@ -76,16 +89,19 @@ namespace Eeloo.Objects.ParserObjects
         /* Removes all two digits nums from num and carrys over digits */
         public void CarryOver()
         {
+            // Iterate over the bytes in reverse order
             byte[] nums = this.bytes.Reverse().ToArray();
             byte carry = 0;
             for (int i = 0; i < nums.Length; i++)
             {
+                // Account for previous carry if needed
                 if (carry != 0)
                 {
                     nums[i] += carry;
                     carry = 0;
                 }
 
+                // If this digit overflows
                 if (nums[i] > 9)
                 {
                     carry = (byte) (nums[i] / 10);
@@ -93,18 +109,23 @@ namespace Eeloo.Objects.ParserObjects
                 }
             }
 
-            // if carry remains
+            // if some carry remains afterwards
             if (carry != 0)
             {
+                // stretch the array
                 byte[] newBytes = new byte[nums.Length + 1];
 
+                // and make the first byte the leftover carry
                 newBytes[0] = carry;
-                nums.CopyTo(newBytes, 1);
+                nums.Reverse().ToArray().CopyTo(newBytes, 1);
 
-                nums = newBytes;
+                // override the bytes
+                this.bytes = newBytes;
             }
-
-            this.bytes = nums.Reverse().ToArray();
+            else // otherwise, everything is already in place.
+            {
+                this.bytes = nums.Reverse().ToArray(); 
+            }
         }
 
         public static eeNumber operator +(eeNumber num1, eeNumber num2)
