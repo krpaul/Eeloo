@@ -12,6 +12,7 @@ namespace Eeloo.Objects.ParserObjects
         // 
         private byte[] bytes;
         private bool negative;
+        private eeNumber denominator;
 
         // static zero
         static eeNumber ZERO = new eeNumber(0);
@@ -128,6 +129,14 @@ namespace Eeloo.Objects.ParserObjects
             }
         }
 
+        private eeNumber GetNumerator()
+        {
+            //eeNumber newNum = new 
+            return null;
+        }
+
+        /* operators */
+
         public static eeNumber operator +(eeNumber num1, eeNumber num2)
         {
             bool negate = false;
@@ -181,69 +190,137 @@ namespace Eeloo.Objects.ParserObjects
         {
             bool negate = false;
 
+            /* first account for negatives */
             // if either num is negative
             if (num1.negative ^ num2.negative)
             {
+                // set both to non-negative to multiply them
                 num1.negative = false;
                 num2.negative = false;
 
+                // apply negative afterwards
                 negate = true;
             }
             else if (num1.negative && num2.negative)
             {
+                // otherwise, negatives just cancel out
                 num1.negative = false;
                 num2.negative = false;
             }
 
-            // Reverse because we're going from right to left.
-            byte[] lhs = num1.bytes.Reverse().ToArray(),
-                   rhs = num2.bytes.Reverse().ToArray();
+            eeNumber final;
 
-            // new digit
-            eeNumber finalNum = new eeNumber(0);
-
-            // foreach digit in on the top num
-            for (int i = 0; i < rhs.Length; i++)
+            // if only one num is a fraction
+            if (num1.IsFrac() ^ num2.IsFrac())
             {
-                byte carry = 0;
-                List<byte> product = new List<byte>();
+                eeNumber frac = num1.denominator != null ? num1 : num2,
+                         reg = num1.denominator != null ? num2 : num1;
 
-                // foreach digit in the bottom num
-                for (int j = 0; j < lhs.Length; j++)
+                var den = frac.PopDenominator();
+                var newNum = (frac * reg) / den;
+
+                final = newNum;
+            }
+            // if both nums are fractions
+            else if (num1.IsFrac() && num2.denominator.IsFrac())
+            {
+                eeNumber frac1 = num1.PopDenominator(),
+                         frac2 = num2.PopDenominator();
+
+                final = (num1 * num2) / (frac1 * frac2);
+            }
+            // regular nums
+            else
+            {
+                // Reverse because we're going from right to left.
+                byte[] lhs = num1.bytes.Reverse().ToArray(),
+                       rhs = num2.bytes.Reverse().ToArray();
+
+                // new digit
+                eeNumber finalNum = new eeNumber(0);
+
+                // foreach digit in on the top num
+                for (int i = 0; i < rhs.Length; i++)
                 {
-                    // multiply them
-                    byte digitProduct = (byte)(lhs[j] * rhs[i]);
+                    byte carry = 0;
+                    List<byte> product = new List<byte>();
 
+                    // foreach digit in the bottom num
+                    for (int j = 0; j < lhs.Length; j++)
+                    {
+                        // multiply them
+                        byte digitProduct = (byte)(lhs[j] * rhs[i]);
+
+                        if (carry != 0)
+                        {
+                            digitProduct += carry;
+                            carry = 0;
+                        }
+
+                        if (digitProduct > 9)
+                        {
+                            carry = (byte) (digitProduct / 10);
+                            digitProduct %= 10;
+                        }
+
+                        product.Add(digitProduct);
+                    }
+
+                    // If carry is left
                     if (carry != 0)
-                    {
-                        digitProduct += carry;
-                        carry = 0;
-                    }
+                    { product.Add(carry); }
 
-                    if (digitProduct > 9)
-                    {
-                        carry = (byte) (digitProduct / 10);
-                        digitProduct %= 10;
-                    }
+                    product.Reverse();
 
-                    product.Add(digitProduct);
+                    // Add the needed amount of trailing zeros for place value
+                    for (int z = 0; z < i; z++)
+                        product.Add(0);
+
+                    finalNum += new eeNumber(product.ToArray());
                 }
 
-                // If carry is left
-                if (carry != 0)
-                { product.Add(carry); }
-
-                product.Reverse();
-
-                // Add the needed amount of trailing zeros for place value
-                for (int z = 0; z < i; z++)
-                    product.Add(0);
-
-                finalNum += new eeNumber(product.ToArray());
+                final = finalNum;
             }
 
-            finalNum.negative = negate;
-            return finalNum;
+            final.negative = negate;
+            return final;
+        }
+
+        public static eeNumber operator /(eeNumber num1, eeNumber num2)
+        {
+            /* eeNumbers do not perform traditional division. That is only done
+             * when the number needs to be approximated for a text representation.
+             * For divison, we always keep the fractional form for arbitrary accuracy.
+             */
+
+            // frac divided by num
+            if (num1.denominator != null && num2.denominator == null)
+            {
+                num1.denominator *= num2;
+                return num1;
+            }
+            // num divided by num
+            else if (num2.denominator == null && num1.denominator == null)
+            {
+                num1.denominator = num2.denominator;
+                return num1;
+            }
+            // num divided by frac
+            else if (num1.denominator == null && num2.denominator != null)
+            {
+                eeNumber numerator = num1 * num2.denominator;
+                eeNumber denominator = num2;
+
+                return numerator / denominator;
+            }
+            // frac divided by frac
+            else
+            {
+                eeNumber numerator = num1 * num2.denominator;
+                eeNumber denominator = num2;
+
+                return numerator / denominator;
+            }
         }
 
         public static eeNumber operator -(eeNumber num1, eeNumber num2)
@@ -340,6 +417,16 @@ namespace Eeloo.Objects.ParserObjects
 
         public static bool operator ==(eeNumber num1, eeNumber num2)
         {
+            // check if they're null first
+            bool nullA = object.Equals(num1, null),
+                 nullB = object.Equals(num2, null)
+                 ;
+        
+            if (nullA && nullB) // both null -> true
+                return true;
+            else if (nullA ^ nullB) // only one null -> false
+                return false;
+
             if (num1.bytes.Length != num2.bytes.Length)
                 return false;
 
@@ -390,5 +477,16 @@ namespace Eeloo.Objects.ParserObjects
 
         public static bool operator <(eeNumber num1, eeNumber num2)
         { return !(num1 > num2 || num1 == num2); }
+
+        private bool IsFrac()
+        { return denominator != null; }
+
+        // removes the denominator of this number and returns it
+        private eeNumber PopDenominator()
+        {
+            var den = this.denominator;
+            this.denominator = null;
+            return den;
+        }
     }
 }
