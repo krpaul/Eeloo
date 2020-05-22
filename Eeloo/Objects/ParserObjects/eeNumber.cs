@@ -17,8 +17,9 @@ namespace Eeloo.Objects.ParserObjects
 
         public const int DEFAULTMAXDECIMALPLACE = 8;
 
-        // static zero
-        static eeNumber ZERO = new eeNumber(0);
+        // static often-used nums
+        static eeNumber ZERO = new eeNumber(0),
+                        ONE = new eeNumber(1);
 
         /*/ Constructors /*/
         public eeNumber(long num)
@@ -81,11 +82,11 @@ namespace Eeloo.Objects.ParserObjects
             int chunkSize = 0;
             foreach (byte b in this.bytes.Reverse())
             {
-                if (chunkSize == 3)
-                {
-                    str += ",";
-                    chunkSize = 0;
-                }
+                //if (chunkSize == 3)
+                //{
+                //    str += ",";
+                //    chunkSize = 0;
+                //}
                 str += b.ToString();
                 chunkSize++;
             }
@@ -421,7 +422,7 @@ namespace Eeloo.Objects.ParserObjects
             // num divided by num
             else if (num2.denominator == null && num1.denominator == null)
             {
-                num1.denominator = num2.denominator;
+                num1.denominator = num2;
                 return num1;
             }
             // num divided by frac
@@ -548,8 +549,6 @@ namespace Eeloo.Objects.ParserObjects
             Queue<byte> bytesQue = new Queue<byte>(this.bytes); // a que of the dividend as bytes
             List<eeNumber> quotient = new List<eeNumber>();     // quotient
 
-            var ONE = new eeNumber(1);
-
             eeNumber divPart = null;
 
             while (bytesQue.Count() > 0)
@@ -590,24 +589,20 @@ namespace Eeloo.Objects.ParserObjects
             return intergerQuotient;
         }
 
-        //private string ApproximateDivision()
-        //{
-        //    //string approx = "";
+        public string ApproximateDivision()
+        {
+            eeNumber denom = this.PopDenominator(),
+                     remainder,
+                     integerQuotient = this.IntegerDivision(denom, out remainder);
 
-        //    //// to store the chunk of the number we're dividing at any moment
-        //    //var divChunk = new List<byte>();
+            string approx = integerQuotient.ToString();
 
-        //    //divChunk = this.bytes.Take(denominator.bytes.Length).ToList();
-        //    //if (new eeNumber(divChunk.ToArray()) < denominator)
-        //    //{
-        //    //    // add a digit
-        //    //    divChunk.Add(bytes[denominator.bytes.Length]);
-        //    //}
-            
-        //    //for(;;)
-        //    //{
-        //    //    divChunk
-        //    //}
-        //}
+            if (remainder == ZERO)
+                return approx;
+
+            eeNumber dec = new eeNumber(remainder.ToString() + new string('0', DEFAULTMAXDECIMALPLACE)).IntegerDivision(denom, out eeNumber unused);
+
+            return $"{approx}.{dec.ToString()}";
+        }
     }
 }
