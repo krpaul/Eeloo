@@ -39,8 +39,10 @@ namespace Eeloo
                 evalVisitor.Visit(tree);
             }
 #endif
-            eeNumber a = new eeNumber(long.MaxValue);
-            Console.WriteLine(a * a);
+            eeNumber m;
+
+            eeNumber a = (new eeNumber(long.MaxValue) * new eeNumber(long.MaxValue)).IntegerDivision(new eeNumber(11), out m);
+            Console.WriteLine(a);
             Console.ReadLine();
             return;
             try

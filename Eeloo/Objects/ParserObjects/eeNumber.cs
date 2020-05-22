@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 
@@ -14,9 +15,12 @@ namespace Eeloo.Objects.ParserObjects
         private bool negative;
         private eeNumber denominator;
 
+        public const int DEFAULTMAXDECIMALPLACE = 8;
+
         // static zero
         static eeNumber ZERO = new eeNumber(0);
 
+        /*/ Constructors /*/
         public eeNumber(long num)
         {
             if (num < 0) // If it's negative
@@ -26,6 +30,7 @@ namespace Eeloo.Objects.ParserObjects
             }
 
             bytes = num.ToString().ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
+            this.TrimZeros();
         }
 
         public eeNumber(string num)
@@ -37,13 +42,37 @@ namespace Eeloo.Objects.ParserObjects
             }
 
             bytes = num.ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
+            this.TrimZeros();
         }
 
         public eeNumber(byte[] nums, bool negative = false)
         {
             bytes = nums;
             this.negative = negative;
+            this.TrimZeros();
         }
+
+        public eeNumber(IEnumerable<byte> nums, bool negative = false)
+        {
+            bytes = nums.ToArray();
+            this.negative = negative;
+            this.TrimZeros();
+        }
+
+        // will glue all given nums together
+        public eeNumber(IEnumerable<eeNumber> nums, bool negative = false)
+        {
+            var bytes = new List<byte>();
+            foreach (var num in nums)
+            {
+                foreach(byte b in num.bytes)
+                    bytes.Add(b);
+            }
+            this.bytes = bytes.ToArray();         
+            this.TrimZeros();
+        }
+
+        /*/ End Constructors /*/
 
         public override string ToString()
         {
@@ -129,12 +158,6 @@ namespace Eeloo.Objects.ParserObjects
             }
         }
 
-        private eeNumber GetNumerator()
-        {
-            //eeNumber newNum = new 
-            return null;
-        }
-
         /* operators */
 
         public static eeNumber operator +(eeNumber num1, eeNumber num2)
@@ -182,6 +205,102 @@ namespace Eeloo.Objects.ParserObjects
 
             num1.bytes = lhs.Reverse().ToArray();
             num1.CarryOver();
+            num1.negative = negate;
+
+            return num1;
+        }
+
+        public static eeNumber operator -(eeNumber num1, eeNumber num2)
+        {
+            // if first num is negative
+            if (num1.negative && !num2.negative)
+            {
+                // add them then negate it
+                num2.negative = false;
+                var sum = num1 + num2;
+                sum.negative = true;
+                return sum;
+            }
+            // if second num is negative
+            else if (num2.negative && !num1.negative)
+            {
+                // minus and negatives cancel
+                num2.negative = false;
+                return num1 + num2;
+            }
+            // If they're both negative
+            else if (num1.negative && num2.negative)
+            {
+                // Treat this as adding a negative to a positive
+                num2.negative = false;
+                return num1 + num2;
+            }
+
+            // If we're going to get a negative answer
+            bool negate = false;
+            if (num2 > num1)
+            {
+                // reverse the two 
+                var buf = num1;
+                num1 = num2;
+                num2 = buf;
+
+                // and negate
+                negate = true;
+            }
+
+            // Reverse because we're subtracting from right to left.
+            byte[] l_bytes = num1.bytes.Reverse().ToArray(),
+                   r_bytes = num2.bytes.Reverse().ToArray();
+
+            bool carry = false;
+            int i;
+            for (i = 0; i < r_bytes.Length; i++)
+            {
+                // Account for the previous carry
+                if (carry)
+                {
+                    r_bytes[i]++;
+                    carry = false;
+                }
+
+                // Subtract the digits
+                byte digitDiff;
+                if (l_bytes[i] < r_bytes[i]) // account for carry
+                {
+                    digitDiff = (byte)((10 + l_bytes[i]) - r_bytes[i]);
+                    carry = true;
+                }
+                else
+                { digitDiff = (byte)(l_bytes[i] - r_bytes[i]); }
+
+                // Set the digit
+                l_bytes[i] = digitDiff;
+            }
+
+
+            // If there is still carry left
+            while (carry)
+            {
+                // subtract one from the next value
+                if (l_bytes[i] == 0)
+                {
+                    l_bytes[i] = 9;
+                    i++;
+                }
+                else
+                {
+                    l_bytes[i] -= 1;
+                    carry = false;
+                }
+            }
+            
+            // Put it in order again
+            l_bytes = l_bytes.Reverse().ToArray();
+
+            num1.bytes = l_bytes;
+            num1.negative = negate;
+            num1.TrimZeros();
 
             return num1;
         }
@@ -323,94 +442,15 @@ namespace Eeloo.Objects.ParserObjects
             }
         }
 
-        public static eeNumber operator -(eeNumber num1, eeNumber num2)
+        public static eeNumber operator %(eeNumber num1, eeNumber num2)
         {
-            // if first num is negative
-            if (num1.negative && !num2.negative)
+            if (num1 < num2)
+                return num1;
+
+            while (num1 > num2)
             {
-                // add them then negate it
-                num2.negative = false;
-                var sum = num1 + num2;
-                sum.negative = true;
-                return sum;
+                num1 -= num2;
             }
-            // if second num is negative
-            else if (num2.negative && !num1.negative)
-            {
-                // minus and negatives cancel
-                num2.negative = false;
-                return num1 + num2;
-            }
-            // If they're both negative
-            else if (num1.negative && num2.negative)
-            {
-                // Treat this as adding a negative to a positive
-                num2.negative = false;
-                return num1 + num2;
-            }
-
-            // If we're going to get a negative answer
-            bool negate = false;
-            if (num2 > num1)
-            {
-                // reverse the two 
-                var buf = num1;
-                num1 = num2;
-                num2 = buf;
-
-                // and negate
-                negate = true;
-            }
-
-            // Reverse because we're adding from right to left.
-            byte[] l_bytes = num1.bytes.Reverse().ToArray(),
-                   r_bytes = num2.bytes.Reverse().ToArray();
-
-            bool carry = false;
-            int i;
-            for (i = 0; i < r_bytes.Length; i++)
-            {
-                // Account for the previous carry
-                if (carry)
-                    r_bytes[i]++;
-
-                // Subtract the digits
-                byte digitDiff;
-                if (l_bytes[i] < r_bytes[i]) // account for carry
-                {
-                    digitDiff = (byte)((10 + l_bytes[i]) - r_bytes[i]);
-                    carry = true;
-                }
-                else
-                { digitDiff = (byte)(l_bytes[i] - r_bytes[i]); }
-
-                // Set the digit
-                l_bytes[i] = digitDiff;
-            }
-
-
-            // If there is still carry left
-            while (carry)
-            {
-                // subtract one from the next value
-                if (l_bytes[i] == 0)
-                {
-                    l_bytes[i] = 9;
-                    i++;
-                }
-                else
-                {
-                    l_bytes[i] -= 1;
-                    carry = false;
-                }
-            }
-            
-            // Put it in order again
-            l_bytes = l_bytes.Reverse().ToArray();
-
-            num1.bytes = l_bytes;
-            num1.negative = negate;
-            num1.TrimZeros();
 
             return num1;
         }
@@ -478,6 +518,13 @@ namespace Eeloo.Objects.ParserObjects
         public static bool operator <(eeNumber num1, eeNumber num2)
         { return !(num1 > num2 || num1 == num2); }
 
+        public static bool operator <=(eeNumber num1, eeNumber num2)
+        { return num1 == num2 || num1 < num2; }
+
+        public static bool operator >=(eeNumber num1, eeNumber num2)
+        { return num1 == num2 || num1 > num2; }
+
+        /* Utility methods */
         private bool IsFrac()
         { return denominator != null; }
 
@@ -488,5 +535,79 @@ namespace Eeloo.Objects.ParserObjects
             this.denominator = null;
             return den;
         }
+
+        public eeNumber IntegerDivision(eeNumber divisor, out eeNumber mod)
+        {
+            // base case
+            if (this < divisor)
+            {
+                mod = this;
+                return new eeNumber(0);
+            }
+
+            Queue<byte> bytesQue = new Queue<byte>(this.bytes); // a que of the dividend as bytes
+            List<eeNumber> quotient = new List<eeNumber>();     // quotient
+
+            var ONE = new eeNumber(1);
+
+            eeNumber divPart = null;
+
+            while (bytesQue.Count() > 0)
+            {
+                /* Grab the next digit from dividend */
+                var asList = divPart == null ? new List<byte>() : divPart.bytes.ToList();
+                var nextByte = bytesQue.Dequeue();
+                asList.Add(nextByte);
+
+                /* Keep grabbing until we run out or need more */
+                divPart = new eeNumber(asList);
+                while (bytesQue.Count() != 0 && divPart < divisor)
+                {
+                    quotient.Add(new eeNumber(0));
+
+                    asList.Add(bytesQue.Dequeue());
+                    divPart = new eeNumber(asList);
+                }
+
+                /* Divide it and append the division to the quotient */
+                eeNumber q = new eeNumber(1); // number of times divisor fits into this divPart
+                while (divisor * q <= divPart)
+                    q += ONE;
+                q -= ONE;
+
+                quotient.Add(q); // keep track of quotient
+
+                /* Figure out the remainder*/
+                divPart = divPart - (divisor * q);
+            }
+
+            // remainder
+            mod = divPart;
+
+            var intergerQuotient = new eeNumber(quotient);
+            intergerQuotient.TrimZeros();
+
+            return intergerQuotient;
+        }
+
+        //private string ApproximateDivision()
+        //{
+        //    //string approx = "";
+
+        //    //// to store the chunk of the number we're dividing at any moment
+        //    //var divChunk = new List<byte>();
+
+        //    //divChunk = this.bytes.Take(denominator.bytes.Length).ToList();
+        //    //if (new eeNumber(divChunk.ToArray()) < denominator)
+        //    //{
+        //    //    // add a digit
+        //    //    divChunk.Add(bytes[denominator.bytes.Length]);
+        //    //}
+            
+        //    //for(;;)
+        //    //{
+        //    //    divChunk
+        //    //}
+        //}
     }
 }
