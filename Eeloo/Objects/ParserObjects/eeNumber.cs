@@ -31,7 +31,6 @@ namespace Eeloo.Objects.ParserObjects
             }
 
             bytes = num.ToString().ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
-            this.TrimZeros();
         }
 
         public eeNumber(string num)
@@ -43,21 +42,18 @@ namespace Eeloo.Objects.ParserObjects
             }
 
             bytes = num.ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
-            this.TrimZeros();
         }
 
         public eeNumber(byte[] nums, bool negative = false)
         {
             bytes = nums;
             this.negative = negative;
-            this.TrimZeros();
         }
 
         public eeNumber(IEnumerable<byte> nums, bool negative = false)
         {
             bytes = nums.ToArray();
             this.negative = negative;
-            this.TrimZeros();
         }
 
         // will glue all given nums together
@@ -70,7 +66,6 @@ namespace Eeloo.Objects.ParserObjects
                     bytes.Add(b);
             }
             this.bytes = bytes.ToArray();         
-            this.TrimZeros();
         }
 
         /*/ End Constructors /*/
@@ -79,21 +74,17 @@ namespace Eeloo.Objects.ParserObjects
         {
             string str = negative ? "-" : "";
 
-            int chunkSize = 0;
             foreach (byte b in this.bytes.Reverse())
-            {
-                //if (chunkSize == 3)
-                //{
-                //    str += ",";
-                //    chunkSize = 0;
-                //}
                 str += b.ToString();
-                chunkSize++;
-            }
 
             var chrs = str.ToCharArray();
             Array.Reverse(chrs);
             return new string(chrs);
+        }
+
+        public string ToPrintableString()
+        {
+            return this.ApproximateDivision(DEFAULTMAXDECIMALPLACE);
         }
 
         /* Removes all preceding zeros from num */
@@ -537,7 +528,7 @@ namespace Eeloo.Objects.ParserObjects
             return den;
         }
 
-        public eeNumber IntegerDivision(eeNumber divisor, out eeNumber mod)
+        private eeNumber IntegerDivision(eeNumber divisor, out eeNumber mod, bool trimZero=true)
         {
             // base case
             if (this < divisor)
@@ -566,6 +557,7 @@ namespace Eeloo.Objects.ParserObjects
 
                     asList.Add(bytesQue.Dequeue());
                     divPart = new eeNumber(asList);
+                    if (trimZero) divPart.TrimZeros();
                 }
 
                 /* Divide it and append the division to the quotient */
@@ -589,7 +581,7 @@ namespace Eeloo.Objects.ParserObjects
             return intergerQuotient;
         }
 
-        public string ApproximateDivision()
+        private string ApproximateDivision(int accurateTo)
         {
             eeNumber denom = this.PopDenominator(),
                      remainder,
@@ -600,7 +592,10 @@ namespace Eeloo.Objects.ParserObjects
             if (remainder == ZERO)
                 return approx;
 
-            eeNumber dec = new eeNumber(remainder.ToString() + new string('0', DEFAULTMAXDECIMALPLACE)).IntegerDivision(denom, out eeNumber unused);
+            eeNumber dec = new eeNumber(
+                remainder.ToString() + new string('0', accurateTo)
+            )
+            .IntegerDivision(denom, out eeNumber unused, false);
 
             return $"{approx}.{dec.ToString()}";
         }

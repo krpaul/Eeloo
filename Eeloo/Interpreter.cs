@@ -41,8 +41,8 @@ namespace Eeloo
 #endif
             eeNumber m;
 
-            var a = (new eeNumber(long.MaxValue) * new eeNumber(long.MaxValue)) / new eeNumber(11);
-            Console.WriteLine(a.ApproximateDivision());
+            var a = (new eeNumber(4)) / new eeNumber(432423);
+            Console.WriteLine(a.ToPrintableString());
             Console.ReadLine();
             return;
             try
