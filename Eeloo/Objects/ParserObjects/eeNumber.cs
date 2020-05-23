@@ -84,7 +84,7 @@ namespace Eeloo.Objects.ParserObjects
 
         public string ToPrintableString()
         {
-            return this.ApproximateDivision(DEFAULTMAXDECIMALPLACE);
+            return this.denominator != null ? this.ApproximateDivision(DEFAULTMAXDECIMALPLACE) : this.ToString();
         }
 
         /* Removes all preceding zeros from num */
@@ -299,6 +299,10 @@ namespace Eeloo.Objects.ParserObjects
 
         public static eeNumber operator *(eeNumber num1, eeNumber num2)
         {
+            // if either num is 0, return 0
+            if (num1 == ZERO || num2 == ZERO)
+                return new eeNumber(0);
+
             bool negate = false;
 
             /* first account for negatives */
@@ -439,12 +443,12 @@ namespace Eeloo.Objects.ParserObjects
             if (num1 < num2)
                 return num1;
 
-            while (num1 > num2)
-            {
-                num1 -= num2;
-            }
+            if (num1.denominator != null || num2.denominator != null)
+                throw new Exception("Modulo of non-integers not supported currently");
 
-            return num1;
+            num1.IntegerDivision(num2, out eeNumber rem);
+
+            return rem;
         }
 
         public static bool operator ==(eeNumber num1, eeNumber num2)
@@ -560,6 +564,12 @@ namespace Eeloo.Objects.ParserObjects
                     if (trimZero) divPart.TrimZeros();
                 }
 
+                bool brk;
+                if (bytesQue.Count() == 0)
+                    brk = true;
+
+                if (trimZero) divPart.TrimZeros();
+
                 /* Divide it and append the division to the quotient */
                 eeNumber q = new eeNumber(1); // number of times divisor fits into this divPart
                 while (divisor * q <= divPart)
@@ -583,6 +593,9 @@ namespace Eeloo.Objects.ParserObjects
 
         private string ApproximateDivision(int accurateTo)
         {
+            if (this.denominator == null)
+                throw new Exception("Cannot approximate division on an integer");
+
             eeNumber denom = this.PopDenominator(),
                      remainder,
                      integerQuotient = this.IntegerDivision(denom, out remainder);
@@ -596,6 +609,8 @@ namespace Eeloo.Objects.ParserObjects
                 remainder.ToString() + new string('0', accurateTo)
             )
             .IntegerDivision(denom, out eeNumber unused, false);
+
+            this.denominator = denom;
 
             return $"{approx}.{dec.ToString()}";
         }
