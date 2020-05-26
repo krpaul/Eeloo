@@ -39,10 +39,8 @@ namespace Eeloo
                 evalVisitor.Visit(tree);
             }
 #endif
-            eeNumber m;
-
-            var a = (new eeNumber(4)) / new eeNumber(432423);
-            Console.WriteLine(a.ToPrintableString());
+            //var a = (new eeNumber(long.MaxValue)) / new eeNumber(11);
+            Console.WriteLine((new eeNumber(1) / new eeNumber(11)).ToPrintableString());
             Console.ReadLine();
             return;
             try

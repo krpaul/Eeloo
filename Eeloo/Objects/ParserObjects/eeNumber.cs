@@ -84,7 +84,9 @@ namespace Eeloo.Objects.ParserObjects
 
         public string ToPrintableString()
         {
-            return this.denominator != null ? this.ApproximateDivision(DEFAULTMAXDECIMALPLACE) : this.ToString();
+            return this.denominator != null 
+                ? this.ApproximateDivision(DEFAULTMAXDECIMALPLACE) // is a frac
+                : this.ToString();                                 // regular integer
         }
 
         /* Removes all preceding zeros from num */
@@ -532,7 +534,7 @@ namespace Eeloo.Objects.ParserObjects
             return den;
         }
 
-        private eeNumber IntegerDivision(eeNumber divisor, out eeNumber mod, bool trimZero=true)
+        private eeNumber IntegerDivision(eeNumber divisor, out eeNumber mod)
         {
             // base case
             if (this < divisor)
@@ -561,14 +563,10 @@ namespace Eeloo.Objects.ParserObjects
 
                     asList.Add(bytesQue.Dequeue());
                     divPart = new eeNumber(asList);
-                    if (trimZero) divPart.TrimZeros();
+                    divPart.TrimZeros();
                 }
 
-                bool brk;
-                if (bytesQue.Count() == 0)
-                    brk = true;
-
-                if (trimZero) divPart.TrimZeros();
+                divPart.TrimZeros();
 
                 /* Divide it and append the division to the quotient */
                 eeNumber q = new eeNumber(1); // number of times divisor fits into this divPart
@@ -605,14 +603,19 @@ namespace Eeloo.Objects.ParserObjects
             if (remainder == ZERO)
                 return approx;
 
-            eeNumber dec = new eeNumber(
-                remainder.ToString() + new string('0', accurateTo)
-            )
-            .IntegerDivision(denom, out eeNumber unused, false);
-
+            const string ZEROSTR = "0";
+            string decimalAprx = "";
+            for (int i = 1; i <= accurateTo; i++)
+            {
+                eeNumber dec = new eeNumber(
+                    remainder.ToString() + ZEROSTR
+                );
+                decimalAprx += dec.IntegerDivision(denom, out eeNumber rem).ToString();
+                remainder = rem;
+            }
             this.denominator = denom;
 
-            return $"{approx}.{dec.ToString()}";
+            return $"{approx}.{decimalAprx}";
         }
     }
 }
