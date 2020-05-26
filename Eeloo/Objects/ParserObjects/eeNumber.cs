@@ -589,7 +589,7 @@ namespace Eeloo.Objects.ParserObjects
             return intergerQuotient;
         }
 
-        private string ApproximateDivision(int accurateTo)
+        private string ApproximateDivision(long accurateTo)
         {
             if (this.denominator == null)
                 throw new Exception("Cannot approximate division on an integer");
@@ -605,6 +605,12 @@ namespace Eeloo.Objects.ParserObjects
 
             const string ZEROSTR = "0";
             string decimalAprx = "";
+
+            // If the dividend is longer than the max accuracy, iterate to that, otherwise, to max accuracy
+            long c = denom.bytes.LongCount();
+            if (c > accurateTo)
+                accurateTo = c;
+
             for (int i = 1; i <= accurateTo; i++)
             {
                 eeNumber dec = new eeNumber(
