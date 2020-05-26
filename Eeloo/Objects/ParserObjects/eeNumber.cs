@@ -619,6 +619,8 @@ namespace Eeloo.Objects.ParserObjects
                 decimalAprx += dec.IntegerDivision(denom, out eeNumber rem).ToString();
                 remainder = rem;
             }
+            decimalAprx = decimalAprx.TrimEnd('0');
+
             this.denominator = denom;
 
             return $"{approx}.{decimalAprx}";

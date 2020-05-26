@@ -39,7 +39,14 @@ namespace Eeloo
                 evalVisitor.Visit(tree);
             }
 #endif
-            Console.WriteLine((new eeNumber(1) / new eeNumber("849141781498148915148791465416548")).ToPrintableString());
+            var frac1 = new eeNumber(4) / new eeNumber(5);
+            var frac2 = new eeNumber(1) / new eeNumber(2);
+            Console.WriteLine(
+                (frac1 * frac2).ToPrintableString()
+            );
+            Console.WriteLine(
+                (new eeNumber(1) / new eeNumber(5000)).ToPrintableString()
+            );
             Console.ReadLine();
             return;
 
