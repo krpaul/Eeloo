@@ -39,10 +39,10 @@ namespace Eeloo
                 evalVisitor.Visit(tree);
             }
 #endif
-            //var a = (new eeNumber(long.MaxValue)) / new eeNumber(11);
-            Console.WriteLine((new eeNumber(1) / new eeNumber(11)).ToPrintableString());
+            Console.WriteLine((new eeNumber(1) / new eeNumber("849141781498148915148791465416548")).ToPrintableString());
             Console.ReadLine();
             return;
+
             try
             {
                 // Get file text

@@ -609,7 +609,7 @@ namespace Eeloo.Objects.ParserObjects
             // If the dividend is longer than the max accuracy, iterate to that, otherwise, to max accuracy
             long c = denom.bytes.LongCount();
             if (c > accurateTo)
-                accurateTo = c;
+                accurateTo += c;
 
             for (int i = 1; i <= accurateTo; i++)
             {
