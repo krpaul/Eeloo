@@ -339,7 +339,7 @@ namespace Eeloo.Objects.ParserObjects
                 final = newNum;
             }
             // if both nums are fractions
-            else if (num1.IsFrac() && num2.denominator.IsFrac())
+            else if (num1.IsFrac() && num2.IsFrac())
             {
                 eeNumber frac1 = num1.PopDenominator(),
                          frac2 = num2.PopDenominator();
