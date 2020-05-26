@@ -410,20 +410,21 @@ namespace Eeloo.Objects.ParserObjects
              * For divison, we always keep the fractional form for arbitrary accuracy.
              */
 
+            bool a = num1.IsFrac(), b = num2.IsFrac();
             // frac divided by num
-            if (num1.denominator != null && num2.denominator == null)
+            if (a && !b)
             {
                 num1.denominator *= num2;
                 return num1;
             }
             // num divided by num
-            else if (num2.denominator == null && num1.denominator == null)
+            else if (!a && !b)
             {
                 num1.denominator = num2;
                 return num1;
             }
             // num divided by frac
-            else if (num1.denominator == null && num2.denominator != null)
+            else if (!a && b)
             {
                 eeNumber numerator = num1 * num2.denominator;
                 eeNumber denominator = num2;
@@ -433,8 +434,10 @@ namespace Eeloo.Objects.ParserObjects
             // frac divided by frac
             else
             {
-                eeNumber numerator = num1 * num2.denominator;
-                eeNumber denominator = num2;
+                var denom1 = num1.PopDenominator();
+
+                eeNumber numerator = num1 * num2.PopDenominator();
+                eeNumber denominator = num2 * denom1;
 
                 return numerator / denominator;
             }

@@ -40,8 +40,8 @@ namespace Eeloo
             }
 #endif
             var frac1 = new eeNumber(4) / new eeNumber(5);
-            var frac2 = new eeNumber(1) / new eeNumber(2);
-            var prod = frac1 * frac2;
+            var frac2 = new eeNumber(1) / new eeNumber(5);
+            var prod = frac1 / frac2;
             Console.WriteLine(
                 prod.ToPrintableString()
             );
