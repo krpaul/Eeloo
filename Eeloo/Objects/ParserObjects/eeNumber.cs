@@ -42,6 +42,20 @@ namespace Eeloo.Objects.ParserObjects
                 num = num.Replace("-", "");
             }
 
+            if (num.Contains('.')) // if it's a decimal/double
+            {
+                var split = num.Split('.'); // seperate integer and decimal
+
+                // set the denominator
+                denominator = new eeNumber("1" + new string('0', split[1].Length));
+
+                var fracNumerator = new eeNumber(split[1]);
+                var intPart = new eeNumber(split[0]);
+
+                // continue for the numerator normally
+                num = ((intPart * denominator) + fracNumerator).ToString();
+            }
+
             bytes = num.ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
         }
 
