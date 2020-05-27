@@ -21,7 +21,8 @@ namespace Eeloo.Objects.ParserObjects
         static eeNumber ZERO = new eeNumber(0),
                         ONE = new eeNumber(1);
 
-        /*/ Constructors /*/
+        #region Constructors
+
         public eeNumber(long num)
         {
             if (num < 0) // If it's negative
@@ -68,91 +69,9 @@ namespace Eeloo.Objects.ParserObjects
             this.bytes = bytes.ToArray();         
         }
 
-        /*/ End Constructors /*/
+        #endregion
 
-        public override string ToString()
-        {
-            string str = negative ? "-" : "";
-
-            foreach (byte b in this.bytes.Reverse())
-                str += b.ToString();
-
-            var chrs = str.ToCharArray();
-            Array.Reverse(chrs);
-            return new string(chrs);
-        }
-
-        public string ToPrintableString()
-        {
-            return this.denominator != null 
-                ? this.ApproximateDivision(DEFAULTMAXDECIMALPLACE) // is a frac
-                : this.ToString();                                 // regular integer
-        }
-
-        /* Removes all preceding zeros from num */
-        public void TrimZeros()
-        {
-            /* Func which removes all preceding zeros from num.
-             * We can't use indexing in case the length of the array overflows a long.
-             * We also cant use recursion because of maximum recursion depth. 
-             * Best solution is a LINQ query             
-             */
-
-            // Check if func call is uneeded.
-            if (bytes.Length == 1 || bytes[0] != 0)
-                return;
-
-            // SkipWhile each first elem is 0
-            bytes = bytes.SkipWhile(x => x == 0).ToArray();
-
-            // If it removed all the nums, it's a zero
-            if (bytes.Length == 0)
-                bytes = new byte[1] { 0 };
-        }
-
-        /* Removes all two digits nums from num and carrys over digits */
-        public void CarryOver()
-        {
-            // Iterate over the bytes in reverse order
-            byte[] nums = this.bytes.Reverse().ToArray();
-            byte carry = 0;
-            for (int i = 0; i < nums.Length; i++)
-            {
-                // Account for previous carry if needed
-                if (carry != 0)
-                {
-                    nums[i] += carry;
-                    carry = 0;
-                }
-
-                // If this digit overflows
-                if (nums[i] > 9)
-                {
-                    carry = (byte) (nums[i] / 10);
-                    nums[i] %= 10;
-                }
-            }
-
-            // if some carry remains afterwards
-            if (carry != 0)
-            {
-                // stretch the array
-                byte[] newBytes = new byte[nums.Length + 1];
-
-                // and make the first byte the leftover carry
-                newBytes[0] = carry;
-                nums.Reverse().ToArray().CopyTo(newBytes, 1);
-
-                // override the bytes
-                this.bytes = newBytes;
-            }
-            else // otherwise, everything is already in place.
-            {
-                this.bytes = nums.Reverse().ToArray(); 
-            }
-        }
-
-        /* operators */
+        #region Operators
 
         public static eeNumber operator +(eeNumber num1, eeNumber num2)
         {
@@ -525,7 +444,92 @@ namespace Eeloo.Objects.ParserObjects
         public static bool operator >=(eeNumber num1, eeNumber num2)
         { return num1 == num2 || num1 > num2; }
 
-        /* Utility methods */
+        #endregion
+
+        #region Utility Methods
+
+        public override string ToString()
+        {
+            string str = negative ? "-" : "";
+
+            foreach (byte b in this.bytes.Reverse())
+                str += b.ToString();
+
+            var chrs = str.ToCharArray();
+            Array.Reverse(chrs);
+            return new string(chrs);
+        }
+
+        public string ToPrintableString()
+        {
+            return this.denominator != null
+                ? this.ApproximateDivision(DEFAULTMAXDECIMALPLACE) // is a frac
+                : this.ToString();                                 // regular integer
+        }
+
+        /* Removes all preceding zeros from num */
+        public void TrimZeros()
+        {
+            /* Func which removes all preceding zeros from num.
+             * We can't use indexing in case the length of the array overflows a long.
+             * We also cant use recursion because of maximum recursion depth. 
+             * Best solution is a LINQ query             
+             */
+
+            // Check if func call is uneeded.
+            if (bytes.Length == 1 || bytes[0] != 0)
+                return;
+
+            // SkipWhile each first elem is 0
+            bytes = bytes.SkipWhile(x => x == 0).ToArray();
+
+            // If it removed all the nums, it's a zero
+            if (bytes.Length == 0)
+                bytes = new byte[1] { 0 };
+        }
+
+        /* Removes all two digits nums from num and carrys over digits */
+        public void CarryOver()
+        {
+            // Iterate over the bytes in reverse order
+            byte[] nums = this.bytes.Reverse().ToArray();
+            byte carry = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                // Account for previous carry if needed
+                if (carry != 0)
+                {
+                    nums[i] += carry;
+                    carry = 0;
+                }
+
+                // If this digit overflows
+                if (nums[i] > 9)
+                {
+                    carry = (byte)(nums[i] / 10);
+                    nums[i] %= 10;
+                }
+            }
+
+            // if some carry remains afterwards
+            if (carry != 0)
+            {
+                // stretch the array
+                byte[] newBytes = new byte[nums.Length + 1];
+
+                // and make the first byte the leftover carry
+                newBytes[0] = carry;
+                nums.Reverse().ToArray().CopyTo(newBytes, 1);
+
+                // override the bytes
+                this.bytes = newBytes;
+            }
+            else // otherwise, everything is already in place.
+            {
+                this.bytes = nums.Reverse().ToArray();
+            }
+        }
+
         private bool IsFrac()
         { return denominator != null; }
 
@@ -628,5 +632,7 @@ namespace Eeloo.Objects.ParserObjects
 
             return $"{approx}.{decimalAprx}";
         }
+
+        #endregion
     }
 }
