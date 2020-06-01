@@ -288,7 +288,17 @@ namespace Eeloo.Objects
         }
 
         public bool IsEqualTo(eeObject obj)
-        { return this.type == obj.type && this.value.Equals(obj.value); }
+        {
+            // eeNumber has a separate object comparason 
+            if (this.type == eeObjectType.NUMBER && obj.type == eeObjectType.NUMBER)
+            {
+                return ((eeNumber) this.value) == ((eeNumber) obj.value);
+            }
+            else // all other underlying native c# objects can be compared as usual
+            {
+                return this.type == obj.type && this.value.Equals(obj.value);
+            }
+        }
 
         public bool IsNotEqualTo(eeObject obj)
         { return !IsEqualTo(obj); }
