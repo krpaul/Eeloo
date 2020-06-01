@@ -67,12 +67,9 @@ namespace Eeloo.Evaluator
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
 
-            double result = exp1.AsNumber() ^ exp2.AsNumber();
-
-            if (result % 1 == 0) // If is int, cast result
-                return eeObject.newNumberObject((int)result);
-            else // If is decimal, keep it as a double
-                return eeObject.newNumberObject(result);
+            return eeObject.newNumberObject(
+                eeNumber.Power(exp1.AsNumber(), exp2.AsNumber())
+            );
         }
 
         public override eeObject VisitBracketedExp([NotNull] EelooParser.BracketedExpContext ctx)

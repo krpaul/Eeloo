@@ -19,6 +19,7 @@ namespace Eeloo.Objects.ParserObjects
         // static often-used nums
         public static eeNumber ZERO = new eeNumber(0),
                                ONE = new eeNumber(1),
+                               TWO = new eeNumber(2),
                                NEG_ONE = new eeNumber(-1);
 
         #region Constructors
@@ -376,10 +377,26 @@ namespace Eeloo.Objects.ParserObjects
             }
         }
 
-        //public eeNumber Power(eeNumber exp)
-        //{
+        /* https://bisqwit.iki.fi/story/howto/bitmath/#OptimizationForConstantExponents */
+        public static eeNumber Power(eeNumber base_, eeNumber exp)
+        {
+            var result = new eeNumber(1);
+            while (exp > ONE)
+            {
+                if (exp.IsOdd()) // A is odd?
+                {
+                    result = result * base_;
+                }
+                base_ = base_ * base_;
+                exp = exp.IntegerDivision(TWO, out _); // right-shift, i.e. divide by 2, round down
+            }
+            if (exp > ZERO)
+            {
+                result = result * base_;
+            }
 
-        //}
+            return result;
+        }
 
         public static eeNumber operator %(eeNumber num1, eeNumber num2)
         {
@@ -464,7 +481,7 @@ namespace Eeloo.Objects.ParserObjects
         { return num1 == num2 || num1 > num2; }
 
         public bool IsEven()
-        { return this.bytes.Last() % 2 == 0; }
+        { return this.bytes[0] % 2 == 0; }
 
         public bool IsOdd()
         { return !this.IsEven(); }
@@ -564,6 +581,9 @@ namespace Eeloo.Objects.ParserObjects
 
         private bool IsFrac()
         { return denominator != null; }
+
+        public bool IsInt()
+        { return !IsFrac();  }
 
         // removes the denominator of this number and returns it
         private eeNumber PopDenominator()
