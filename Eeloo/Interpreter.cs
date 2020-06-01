@@ -28,7 +28,6 @@ namespace Eeloo
 #if DEBUG
             foreach (string testfile in Directory.GetFiles("../../../Tests/"))
             {
-                break;
                 filename = testfile.Split('/').Last();
 
                 string input = File.ReadAllText(testfile) + Environment.NewLine;

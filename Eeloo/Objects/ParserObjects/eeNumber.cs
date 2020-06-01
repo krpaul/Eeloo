@@ -349,12 +349,16 @@ namespace Eeloo.Objects.ParserObjects
             if (a && !b)
             {
                 num1.denominator *= num2;
+
+                num1.Simplify();
                 return num1;
             }
             // num divided by num
             else if (!a && !b)
             {
                 num1.denominator = num2;
+
+                num1.Simplify();
                 return num1;
             }
             // num divided by frac
@@ -517,7 +521,7 @@ namespace Eeloo.Objects.ParserObjects
         #region Utility Methods
 
         /* Removes all preceding zeros from num */
-        public void TrimZeros()
+        private void TrimZeros()
         {
             /* Func which removes all preceding zeros from num.
              * We can't use indexing in case the length of the array overflows a long.
@@ -538,7 +542,7 @@ namespace Eeloo.Objects.ParserObjects
         }
 
         /* Removes all two digits nums from num and carrys over digits */
-        public void CarryOver()
+        private void CarryOver()
         {
             // Iterate over the bytes in reverse order
             byte[] nums = this.bytes.Reverse().ToArray();
@@ -576,6 +580,23 @@ namespace Eeloo.Objects.ParserObjects
             else // otherwise, everything is already in place.
             {
                 this.bytes = nums.Reverse().ToArray();
+            }
+        }
+
+        private void Simplify()
+        {
+            if (denominator == null) return;
+
+            var denom = PopDenominator();
+            var intDiv = IntegerDivision(denom, out eeNumber remainder);
+
+            if (remainder == ZERO)
+            {
+                this.bytes = intDiv.bytes;
+            }
+            else
+            {
+                this.denominator = denom;    
             }
         }
 
