@@ -10,7 +10,6 @@ namespace Eeloo.Objects.ParserObjects
      * 
      */
     {
-        // 
         private byte[] bytes;
         private bool negative;
         private eeNumber denominator;
@@ -18,8 +17,9 @@ namespace Eeloo.Objects.ParserObjects
         public const int DEFAULTMAXDECIMALPLACE = 8;
 
         // static often-used nums
-        static eeNumber ZERO = new eeNumber(0),
-                        ONE = new eeNumber(1);
+        public static eeNumber ZERO = new eeNumber(0),
+                               ONE = new eeNumber(1),
+                               NEG_ONE = new eeNumber(-1);
 
         #region Constructors
 
@@ -53,7 +53,7 @@ namespace Eeloo.Objects.ParserObjects
                 var intPart = new eeNumber(split[0]);
 
                 // continue for the numerator normally
-                num = ((intPart * denominator) + fracNumerator).ToString();
+                num = ((intPart * denominator) + fracNumerator).NumeratorToString();
             }
 
             bytes = num.ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
@@ -460,11 +460,12 @@ namespace Eeloo.Objects.ParserObjects
 
         #endregion
 
-        #region Utility Methods
+        #region String Conversion
 
-        public override string ToString()
+        /* Returns the absolute value of the numerator as a string */
+        public string NumeratorToString()
         {
-            string str = negative ? "-" : "";
+            string str = "";
 
             foreach (byte b in this.bytes.Reverse())
                 str += b.ToString();
@@ -474,12 +475,18 @@ namespace Eeloo.Objects.ParserObjects
             return new string(chrs);
         }
 
-        public string ToPrintableString()
+        /* Returns an approximation of this number as a string (or an exact value if this number is rational) */
+        public override string ToString()
         {
-            return this.denominator != null
+            string s = negative ? "-" : "";
+            return s + (this.denominator != null
                 ? this.ApproximateDivision(DEFAULTMAXDECIMALPLACE) // is a frac
-                : this.ToString();                                 // regular integer
+                : this.NumeratorToString());                       // regular integer
         }
+
+        #endregion
+
+        #region Utility Methods
 
         /* Removes all preceding zeros from num */
         public void TrimZeros()
@@ -619,7 +626,7 @@ namespace Eeloo.Objects.ParserObjects
                      remainder,
                      integerQuotient = this.IntegerDivision(denom, out remainder);
 
-            string approx = integerQuotient.ToString();
+            string approx = integerQuotient.NumeratorToString();
 
             if (remainder == ZERO)
                 return approx;
@@ -635,9 +642,9 @@ namespace Eeloo.Objects.ParserObjects
             for (int i = 1; i <= accurateTo; i++)
             {
                 eeNumber dec = new eeNumber(
-                    remainder.ToString() + ZEROSTR
+                    remainder.NumeratorToString() + ZEROSTR
                 );
-                decimalAprx += dec.IntegerDivision(denom, out eeNumber rem).ToString();
+                decimalAprx += dec.IntegerDivision(denom, out eeNumber rem).NumeratorToString();
                 remainder = rem;
             }
             decimalAprx = decimalAprx.TrimEnd('0');

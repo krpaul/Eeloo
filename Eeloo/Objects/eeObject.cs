@@ -249,11 +249,12 @@ namespace Eeloo.Objects
 
         public dynamic AsNumber()
         {
-            if (value is double)
-                return AsDecimal();
-            else if (value is long)
-                return AsInteger();
-            else throw new Exception();
+            //if (value is double)
+            //    return AsDecimal();
+            //else if (value is long)
+            //    return AsInteger();
+            //else throw new Exception();
+            return value as eeNumber;
         }
 
         public List<eeObject> AsList()

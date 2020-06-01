@@ -28,6 +28,7 @@ namespace Eeloo
 #if DEBUG
             foreach (string testfile in Directory.GetFiles("../../../Tests/"))
             {
+                break;
                 filename = testfile.Split('/').Last();
 
                 string input = File.ReadAllText(testfile) + Environment.NewLine;
@@ -38,15 +39,7 @@ namespace Eeloo
                 var tree = parser.program(); Scope globalScope = new Scope(null); var builtIns = (from fn in typeof(BuiltInFunctions).GetMethods() where char.IsLower(fn.Name[0]) select fn.Name).Distinct(); FunctionEvaluator func = new FunctionEvaluator(globalScope); EvalVisitor evalVisitor = new EvalVisitor(globalScope, builtIns); Interpreter.visitor = evalVisitor; func.Visit(tree);
                 evalVisitor.Visit(tree);
             }
-#endif
-            var frac1 = new eeNumber(4) / new eeNumber(5);
-            var frac2 = new eeNumber(1) / new eeNumber(5);
-            var prod = frac1 / frac2;
-            Console.WriteLine(
-                prod.ToPrintableString()
-            );
-            Console.ReadLine();
-            return;
+#endif  
 
             try
             {

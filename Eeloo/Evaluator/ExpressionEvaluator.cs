@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using Eeloo.Objects.ParserObjects;
 using System;
 
 namespace Eeloo.Evaluator
@@ -112,7 +113,7 @@ namespace Eeloo.Evaluator
         { return Visit(ctx.fn_call()); }
 
         public override eeObject VisitNegationExp([NotNull] EelooParser.NegationExpContext ctx)
-        { return eeObject.newNumberObject(Visit(ctx.exp()).AsNumber() * -1); }
+        { return eeObject.newNumberObject(Visit(ctx.exp()).AsNumber() * eeNumber.NEG_ONE); }
 
         public override eeObject VisitVarExp([NotNull] EelooParser.VarExpContext ctx)
         { return Visit(ctx.var()); }
