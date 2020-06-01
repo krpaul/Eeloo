@@ -67,7 +67,7 @@ namespace Eeloo.Evaluator
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
 
-            double result = System.Math.Pow(exp1.AsNumber(), exp2.AsNumber());
+            double result = exp1.AsNumber() ^ exp2.AsNumber();
 
             if (result % 1 == 0) // If is int, cast result
                 return eeObject.newNumberObject((int)result);

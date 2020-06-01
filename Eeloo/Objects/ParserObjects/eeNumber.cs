@@ -376,6 +376,11 @@ namespace Eeloo.Objects.ParserObjects
             }
         }
 
+        //public eeNumber Power(eeNumber exp)
+        //{
+
+        //}
+
         public static eeNumber operator %(eeNumber num1, eeNumber num2)
         {
             if (num1 < num2)
@@ -457,6 +462,12 @@ namespace Eeloo.Objects.ParserObjects
 
         public static bool operator >=(eeNumber num1, eeNumber num2)
         { return num1 == num2 || num1 > num2; }
+
+        public bool IsEven()
+        { return this.bytes.Last() % 2 == 0; }
+
+        public bool IsOdd()
+        { return !this.IsEven(); }
 
         #endregion
 
