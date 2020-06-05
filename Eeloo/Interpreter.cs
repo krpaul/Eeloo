@@ -17,7 +17,7 @@ using Eeloo.Grammar;
 
 namespace Eeloo
 {
-    class Interpreter
+    public class Interpreter
     {
         public static EvalVisitor visitor;
         public static string filename = "";
