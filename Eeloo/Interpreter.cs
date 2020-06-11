@@ -80,14 +80,9 @@ namespace Eeloo
                 // Visit tree
                 evalVisitor.Visit(tree);
             }
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("Error on " + e.Message);
-            //}
-            finally
+            catch (Exception e)
             {
-                // Exit on keyPress
-                Console.ReadKey();
+                throw e;
             }
         }
     }

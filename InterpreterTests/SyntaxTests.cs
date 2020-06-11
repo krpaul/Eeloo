@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Xunit;
 using Eeloo;
 
@@ -9,7 +10,10 @@ namespace InterpreterTests
         [Fact]
         public void TestMath()
         {
-            Interpreter.Main(new string[] { "./Tests/math.ee" });
+            // Get file text
+            string input = File.ReadAllText("../../../Tests/math.ee");
+             
+            Interpreter.Interpret(input);
         }
     }
 }
