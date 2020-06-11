@@ -18,35 +18,24 @@ using Eeloo.Grammar;
 namespace Eeloo
 {
     public class Interpreter
-    {
+    { 
         public static EvalVisitor visitor;
         public static string filename = "";
 
-        public static void Main(string[] args)
+        
+        public static void Main(string[] args) // passing filenames to read
         {
-            // Run tests
-#if DEBUG
-            foreach (string testfile in Directory.GetFiles("../../../Tests/"))
-            {
-                filename = testfile.Split('/').Last();
+            // Get file text
+            string input = File.ReadAllText(args[0]);
+            filename = args[0].Split('/').Last();
 
-                string input = File.ReadAllText(testfile) + Environment.NewLine;
-                var stream = new AntlrInputStream(input);
-                var lexer = new EelooLexer(stream);
-                var tokens = new CommonTokenStream(lexer);
-                var parser = new EelooParser(tokens); parser.AddErrorListener(new ThrowingErrorListener());
-                var tree = parser.program(); Scope globalScope = new Scope(null); var builtIns = (from fn in typeof(BuiltInFunctions).GetMethods() where char.IsLower(fn.Name[0]) select fn.Name).Distinct(); FunctionEvaluator func = new FunctionEvaluator(globalScope); EvalVisitor evalVisitor = new EvalVisitor(globalScope, builtIns); Interpreter.visitor = evalVisitor; func.Visit(tree);
-                evalVisitor.Visit(tree);
-            }
-#endif  
+            Interpret(input);
+        }
 
+        public static void Interpret(string input)
+        {
             try
             {
-                // Get file text
-                string input = File.ReadAllText(args[0]);
-
-                filename = args[0].Split('/').Last();
-
                 // Add newline to stream
                 input += Environment.NewLine;
 
