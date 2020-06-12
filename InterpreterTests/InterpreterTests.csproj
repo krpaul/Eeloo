@@ -18,9 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Tests/">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Tests/" />
   </ItemGroup>
 
   <ItemGroup>

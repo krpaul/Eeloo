@@ -1,0 +1,2 @@
+﻿assert "ab" * (2 ^ 2) == "abababab"
+assert 3 as string is "3"

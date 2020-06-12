@@ -7,13 +7,18 @@ namespace InterpreterTests
 {
     public class SyntaxTests
     {
+        private string ReadTestFile(string name)
+        {
+            // Get & return file text
+            return File.ReadAllText($"../../../Tests/{ name }.ee");
+        }
+
         [Fact]
         public void TestMath()
-        {
-            // Get file text
-            string input = File.ReadAllText("../../../Tests/math.ee");
-             
-            Interpreter.Interpret(input);
-        }
+        { Interpreter.Interpret(ReadTestFile("math")); }
+
+        [Fact]
+        public void TestStrings()
+        { Interpreter.Interpret(ReadTestFile("strings")); }
     }
 }
