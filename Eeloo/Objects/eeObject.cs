@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Eeloo.Evaluator;
 using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Objects
@@ -62,6 +63,8 @@ namespace Eeloo.Objects
 
         public eeObject()
         { this._value = null; }
+
+        #region Casts
 
         public string AsString()
         { return value as string; }
@@ -287,6 +290,10 @@ namespace Eeloo.Objects
             return this.value as ICollection<eeObject>;
         }
 
+        #endregion
+
+        #region Comparisons
+
         public bool IsEqualTo(eeObject obj)
         {
             // eeNumber has a separate object comparason 
@@ -330,6 +337,20 @@ namespace Eeloo.Objects
 
         public bool IsLessThanOrEqualTo(eeObject obj)
         { return !IsGreaterThan(obj); }
+
+        #endregion
+
+        #region Operations
+        //public eeObject Add(eeObject exp)
+        //{
+        //    switch (type)
+        //    {
+        //        case eeObjectType.STRING:
+        //            StringMathHelpers.Add(this, exp);
+        //        case eeObjectType.
+        //    }
+        //}
+        #endregion
 
         // Methods in Eeloo will be passed as an internal_EXPRLIST ICollection object to the method handler.
         public eeObject CallMethod(string name, eeObject parameters)
