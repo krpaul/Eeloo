@@ -41,6 +41,11 @@ namespace Eeloo.Evaluator
 
         public static eeObject Multiply(eeObject exp1, eeObject exp2)
         {
+            if (!
+                ((exp1.type == eeObjectType.STRING && exp2.type == eeObjectType.NUMBER) ||
+                (exp1.type == eeObjectType.NUMBER && exp2.type == eeObjectType.STRING))
+            ) throw new Exception("String multiplication factors must be of type string and number.");
+
             // Figure out which one is a string and which one is a num
             string str = exp1.type == eeObjectType.NUMBER ? exp2.AsString() : exp1.AsString();
             eeNumber num = exp1.type == eeObjectType.NUMBER ? exp1.AsNumber() : exp2.AsNumber();

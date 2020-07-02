@@ -79,6 +79,9 @@ namespace Eeloo
 
                 // Visit tree
                 evalVisitor.Visit(tree);
+
+                // hang
+                Console.ReadKey();
             }
             catch (Exception e)
             {
