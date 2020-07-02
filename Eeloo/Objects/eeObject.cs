@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Eeloo.Evaluator;
+using Eeloo.Evaluator.Exceptions;
+using Eeloo.Helpers;
 using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Objects
@@ -93,6 +95,7 @@ namespace Eeloo.Objects
             }
         }
 
+        // tries to coax an eeObject into a number, if compatible
         public readonly List<char> CharNums = new List<char>() { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.' };
         public eeObject DynamicNumConvert()
         {
@@ -318,9 +321,9 @@ namespace Eeloo.Objects
                 case eeObjectType.NUMBER:
                     return this.AsNumber() > obj.AsNumber();
                 case eeObjectType.LIST:
-                    return this.AsList().Count > obj.AsList().Count;
+                    return ListMathHelpers.GreaterThan(this, obj);
                 case eeObjectType.STRING:
-                    return this.AsString().Length > obj.AsString().Length;
+                    return StringMathHelpers.GreaterThan(this, obj);
                 case eeObjectType.DECIMAL:
                     return this.AsDecimal() > obj.AsDecimal();
                 case eeObjectType.BOOL:
@@ -341,15 +344,31 @@ namespace Eeloo.Objects
         #endregion
 
         #region Operations
-        //public eeObject Add(eeObject exp)
-        //{
-        //    switch (type)
-        //    {
-        //        case eeObjectType.STRING:
-        //            StringMathHelpers.Add(this, exp);
-        //        case eeObjectType.
-        //    }
-        //}
+        public eeObject Add(eeObject exp)
+        {
+            switch (type)
+            {
+                case eeObjectType.STRING:
+                    return StringMathHelpers.Add(this, exp);
+                case eeObjectType.LIST:
+                    return null;
+                default:
+                    throw new Exception($"Cannot add objects of type {type} and {exp.type} together");
+            }
+        }
+
+        public eeObject Multiply(eeObject exp)
+        {
+            switch (type)
+            {
+                case eeObjectType.STRING:
+                    return StringMathHelpers.Multiply(this, exp);
+                case eeObjectType.LIST:
+                    return ListMathHelpers.Multiply(this, exp);
+                default:
+                    throw new Exception($"Cannot add objects of type {this.type} and {exp.type} together");
+            }
+        }
         #endregion
 
         // Methods in Eeloo will be passed as an internal_EXPRLIST ICollection object to the method handler.

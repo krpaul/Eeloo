@@ -8,6 +8,8 @@ namespace Eeloo.Objects
 {
     partial class eeObject
     {
+        public static eeObject ZERO = new eeObject(eeNumber.ZERO);
+
         public static eeObject newNumberObject(long value, string mod=null)
         {
             var ob = new eeObject(new eeNumber(value))

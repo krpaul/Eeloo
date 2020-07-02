@@ -8,20 +8,31 @@ namespace Eeloo.Evaluator
 {
     partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
+        /* This function checks if the requested operation involves strings. 
+         * If so, the handlers in StringMath.cs will take the operation and
+         * this function will return true.
+        */
         public override eeObject VisitAdditiveOprExp([NotNull] EelooParser.AdditiveOprExpContext ctx)
         {
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
 
-            switch (ctx.opr.Type)
-            {
-                case EelooLexer.PLUS:
-                    return eeObject.newNumberObject(exp1.AsNumber() + exp2.AsNumber());
-                case EelooLexer.MINUS:
-                    return eeObject.newNumberObject(exp1.AsNumber() - exp2.AsNumber());
-                default:
-                    throw new Exception($"Invalid operation: {ctx.opr.Text}");
-            }
+            return exp1.Add(exp2);
+
+            //bool strOp = IsStringOperation(exp1, exp2);
+
+            //switch (ctx.opr.Type)
+            //{
+            //    case EelooLexer.PLUS:
+            //        if (strOp)
+            //        { return StringMathHelpers.Add(exp1, exp2); }
+            //        else
+            //        { return eeObject.newNumberObject(exp1.AsNumber() + exp2.AsNumber()); }
+            //    case EelooLexer.MINUS:
+            //        return eeObject.newNumberObject(exp1.AsNumber() - exp2.AsNumber());
+            //    default:
+            //        throw new Exception($"Invalid operation: {ctx.opr.Text}");
+            //}
         }
 
         public override eeObject VisitMultiplicativeOprExp([NotNull] EelooParser.MultiplicativeOprExpContext ctx)
@@ -29,17 +40,20 @@ namespace Eeloo.Evaluator
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
 
-            switch (ctx.opr.Type)
-            {
-                case EelooLexer.MULTIPLY:
-                    return eeObject.newNumberObject(exp1.AsNumber() * exp2.AsNumber());
-                case EelooLexer.DIVIDE:
-                    return eeObject.newNumberObject(exp1.AsNumber() / exp2.AsNumber());
-                case EelooLexer.MOD:
-                    return eeObject.newNumberObject(exp1.AsNumber() % exp2.AsNumber());
-                default:
-                    throw new Exception($"Invalid operation: {ctx.opr.Text}");
-            }
+            return exp1.Multiply(exp2);
+            //bool strOp = IsStringOperation(exp1, exp2);
+
+            //switch (ctx.opr.Type)
+            //{
+            //    case EelooLexer.MULTIPLY:
+            //        return eeObject.newNumberObject(exp1.AsNumber() * exp2.AsNumber());
+            //    case EelooLexer.DIVIDE:
+            //        return eeObject.newNumberObject(exp1.AsNumber() / exp2.AsNumber());
+            //    case EelooLexer.MOD:
+            //        return eeObject.newNumberObject(exp1.AsNumber() % exp2.AsNumber());
+            //    default:
+            //        throw new Exception($"Invalid operation: {ctx.opr.Text}");
+            //}
         }
 
         public override eeObject VisitComparisonExp([NotNull] EelooParser.ComparisonExpContext ctx)
