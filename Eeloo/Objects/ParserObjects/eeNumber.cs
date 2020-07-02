@@ -16,11 +16,10 @@ namespace Eeloo.Objects.ParserObjects
 
         public const int DEFAULTMAXDECIMALPLACE = 8;
 
-        // static often-used nums
-        public static eeNumber ZERO = new eeNumber(0),
-                               ONE = new eeNumber(1),
-                               TWO = new eeNumber(2),
-                               NEG_ONE = new eeNumber(-1);
+        //// static often-used nums
+        private static readonly eeNumber ZERO = new eeNumber(0),
+                                        ONE = new eeNumber(1),
+                                        TWO = new eeNumber(2);
 
         #region Constructors
 

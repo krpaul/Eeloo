@@ -346,28 +346,23 @@ namespace Eeloo.Objects
         #region Operations
         public eeObject Add(eeObject exp)
         {
-            switch (type)
-            {
-                case eeObjectType.STRING:
-                    return StringMathHelpers.Add(this, exp);
-                case eeObjectType.LIST:
-                    return null;
-                default:
-                    throw new Exception($"Cannot add objects of type {type} and {exp.type} together");
-            }
+             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING)
+                 return StringMathHelpers.Add(this, exp);
+            else if (this.type == eeObjectType.LIST || exp.type == eeObjectType.LIST)
+                return ListMathHelpers.Add(this, exp);
+            else
+                throw new Exception($"Cannot add objects of type {type} and {exp.type} together");
         }
 
         public eeObject Multiply(eeObject exp)
         {
-            switch (type)
-            {
-                case eeObjectType.STRING:
+                if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING)
                     return StringMathHelpers.Multiply(this, exp);
-                case eeObjectType.LIST:
+                else if (this.type == eeObjectType.LIST || exp.type == eeObjectType.LIST)
                     return ListMathHelpers.Multiply(this, exp);
-                default:
-                    throw new Exception($"Cannot add objects of type {this.type} and {exp.type} together");
-            }
+                //else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER)
+                else
+                    throw new Exception($"Cannot multiply objects of type {this.type} and {exp.type} together");
         }
         #endregion
 

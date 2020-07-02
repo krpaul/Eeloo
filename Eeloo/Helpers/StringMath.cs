@@ -52,7 +52,7 @@ namespace Eeloo.Evaluator
 
             // Copy string n times
             string concat = "";
-            for (eeNumber i = eeNumber.ZERO; i < num; i += eeNumber.ONE)
+            for (eeNumber i = new eeNumber(0); i < num; i += new eeNumber(1))
                 concat += str;
 
             return eeObject.newStringObject(concat);

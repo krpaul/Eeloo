@@ -5,6 +5,7 @@ using System.Linq;
 using System.ComponentModel;
 using System.Text;
 using System.ComponentModel.Design;
+using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Helpers
 {
@@ -31,8 +32,8 @@ namespace Eeloo.Helpers
                 eeObject list = exp1.type == eeObjectType.LIST ? exp1 : exp2;
 
                 // TO DO: Make this use our already defined eeListObject methods.
-                ((List<eeObject>) exp1.value).Add(nonlist);
-                return exp1;
+                ((List<eeObject>) list.value).Add(nonlist);
+                return list;
             }
             else {
                 throw new Exception("This shouldn't happen");
@@ -83,11 +84,14 @@ namespace Eeloo.Helpers
 
         public static eeObject Multiply(eeObject exp1, eeObject exp2)
         {
+            bool isExp1 = false;
+
             List<eeObject> list;
             eeObject nonlist;
 
             if (exp1.type == eeObjectType.LIST && exp2.type == eeObjectType.NUMBER)
             {
+                isExp1 = true;
                 list = (List<eeObject>) exp1.value;
                 nonlist = exp2;
             }
@@ -98,8 +102,14 @@ namespace Eeloo.Helpers
             }
             else { throw new Exception("This shouldn't happen");  }
 
-            list.RemoveAll(new Predicate<eeObject>((a) => a == nonlist));
-            return exp1;
+            var listCount = list.Count();
+
+            for (eeNumber i = new eeNumber(0); i < nonlist.AsNumber(); i += new eeNumber(1))
+            {
+                for (int j = 0; j < listCount; j++)
+                    list.Add(list[j]);
+            }
+            return (isExp1 ? exp1 : exp2);
         }
         
         // Returns bool as opposed to a eeBoolObject because the eeObject method also returns a bool directly.

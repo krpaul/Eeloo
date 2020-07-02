@@ -90,6 +90,6 @@ namespace Eeloo.Evaluator
         { return Visit(ctx.exp()); }
 
         public override eeObject VisitNegationExp([NotNull] EelooParser.NegationExpContext ctx)
-        { return eeObject.newNumberObject(Visit(ctx.exp()).AsNumber() * eeNumber.NEG_ONE); }
+        { return eeObject.newNumberObject(Visit(ctx.exp()).AsNumber() * new eeNumber(-1)); }
     }
 }

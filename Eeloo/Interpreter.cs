@@ -83,10 +83,11 @@ namespace Eeloo
                 // hang
                 Console.ReadKey();
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            //catch (Exception e)
+            //{
+            //    throw e;
+            //}
+            finally { }
         }
     }
 }
