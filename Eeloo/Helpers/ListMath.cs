@@ -1,11 +1,9 @@
 ﻿using Eeloo.Objects;
+using Eeloo.Objects.ParserObjects;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ComponentModel;
-using System.Text;
-using System.ComponentModel.Design;
-using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Helpers
 {
@@ -25,19 +23,20 @@ namespace Eeloo.Helpers
             // if at least one is a list
             else if (exp1.type == eeObjectType.LIST ^ exp2.type == eeObjectType.LIST)
             {
-                // append the nonlist to the list
-
-                // find the nonlist and list
-                eeObject nonlist = exp1.type == eeObjectType.LIST ? exp2 : exp1;
-                eeObject list = exp1.type == eeObjectType.LIST ? exp1 : exp2;
-
-                // TO DO: Make this use our already defined eeListObject methods.
-                ((List<eeObject>) list.value).Add(nonlist);
-                return list;
+                // append/prepend the nonlist to the list
+                
+                if (exp1.type == eeObjectType.LIST) //append
+                {
+                    ((List<eeObject>)exp1.value).Add(exp2);
+                    return exp1;
+                }
+                else // prepend
+                {
+                    ((List<eeObject>)exp2.value).Insert(0, exp1);
+                    return exp2;
+                }
             }
-            else {
-                throw new Exception("This shouldn't happen");
-            }
+            else { throw new Exception("This shouldn't happen"); }
         }
 
         /* List Subtraction:
@@ -103,12 +102,12 @@ namespace Eeloo.Helpers
             else { throw new Exception("This shouldn't happen");  }
 
             var listCount = list.Count();
-
             for (eeNumber i = new eeNumber(0); i < nonlist.AsNumber(); i += new eeNumber(1))
             {
                 for (int j = 0; j < listCount; j++)
                     list.Add(list[j]);
             }
+
             return (isExp1 ? exp1 : exp2);
         }
         
