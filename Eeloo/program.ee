@@ -1,3 +1,9 @@
-﻿print (7 * "5")
+﻿start comment
+print (7 * "5")
 print (7 * [5, 7, "a"])
 print (7 + ["5", 6, 3])
+end comment
+
+str = "abc123abc"
+
+print( str - "abc")

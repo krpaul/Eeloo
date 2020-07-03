@@ -6,3 +6,8 @@ assert 1000 / 250 is 4
 a = 3
 b = 2
 assert (a ^ b) == (a raised to the b)
+assert not 7 > 10
+assert 2 ^ 2 ^ 2 > 7.8
+assert 42 - 2 - 2 is 38
+assert 1
+assert not 0

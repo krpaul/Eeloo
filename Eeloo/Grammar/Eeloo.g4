@@ -70,6 +70,7 @@ exp:  num     						     #numExp
 	| exp BETWEEN exp AND exp			 #betweenExp					
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
+	| NOT exp							 #notExp
 	| creator							 #creatorExpression
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;

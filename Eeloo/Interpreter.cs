@@ -79,15 +79,11 @@ namespace Eeloo
 
                 // Visit tree
                 evalVisitor.Visit(tree);
-
-                // hang
-                Console.ReadKey();
             }
-            //catch (Exception e)
-            //{
-            //    throw e;
-            //}
-            finally { }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

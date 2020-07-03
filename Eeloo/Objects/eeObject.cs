@@ -346,23 +346,38 @@ namespace Eeloo.Objects
         #region Operations
         public eeObject Add(eeObject exp)
         {
-             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING)
-                 return StringMathHelpers.Add(this, exp);
-            else if (this.type == eeObjectType.LIST || exp.type == eeObjectType.LIST)
+            if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING) // string math
+                return StringMathHelpers.Add(this, exp);
+            else if (this.type == eeObjectType.LIST || exp.type == eeObjectType.LIST) // list math
                 return ListMathHelpers.Add(this, exp);
+            else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
+                return eeObject.newNumberObject(this.AsNumber() + exp.AsNumber());
             else
                 throw new Exception($"Cannot add objects of type {type} and {exp.type} together");
         }
 
+        public eeObject Subtract(eeObject exp)
+        {
+            if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING) // string math
+                return StringMathHelpers.Subtract(this, exp);
+            else if (this.type == eeObjectType.LIST || exp.type == eeObjectType.LIST) // list math
+                return ListMathHelpers.Subtract(this, exp);
+            else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
+                return eeObject.newNumberObject(this.AsNumber() - exp.AsNumber());
+            else
+                throw new Exception($"Cannot subtract objects of type {type} and {exp.type} together");
+        }
+
         public eeObject Multiply(eeObject exp)
         {
-                if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING)
-                    return StringMathHelpers.Multiply(this, exp);
-                else if (this.type == eeObjectType.LIST || exp.type == eeObjectType.LIST)
-                    return ListMathHelpers.Multiply(this, exp);
-                //else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER)
-                else
-                    throw new Exception($"Cannot multiply objects of type {this.type} and {exp.type} together");
+            if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING)
+                return StringMathHelpers.Multiply(this, exp);
+            else if (this.type == eeObjectType.LIST || exp.type == eeObjectType.LIST)
+                return ListMathHelpers.Multiply(this, exp);
+            else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
+                return eeObject.newNumberObject(this.AsNumber() * exp.AsNumber());
+            else
+                throw new Exception($"Cannot multiply objects of type {this.type} and {exp.type} together");
         }
         #endregion
 

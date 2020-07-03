@@ -1,2 +1,14 @@
 ﻿assert "ab" * (2 ^ 2) == "abababab"
 assert 3 as string is "3"
+assert 7 * "5" == "5555555"
+assert "7" * 5 == "77777"
+assert "abc" + "123" == "abc123"
+
+str = "abc123abc"
+
+assert str - "abc" == "abc123"
+assert str - "123" == "abcabc"
+
+str =  str - "abc"
+
+assert str - "abc" == "123"
