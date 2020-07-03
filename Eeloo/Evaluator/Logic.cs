@@ -36,5 +36,10 @@ namespace Eeloo.Evaluator
 
             return eeObject.newBoolObject((bool)exp1 || (bool)exp2);
         }
+
+        public override eeObject VisitNotExp([NotNull] EelooParser.NotExpContext ctx)
+        {
+            return eeObject.newBoolObject(!Visit(ctx.exp()).AsBool());
+        }
     }
 }

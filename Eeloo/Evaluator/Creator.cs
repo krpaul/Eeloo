@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Evaluator
 {
@@ -53,7 +54,7 @@ namespace Eeloo.Evaluator
             var modNode = ctx.NUMBER_MODIFIER();
             string modifier = modNode == null ? null : modNode.GetText(); 
             return eeObject.newNumberObject(
-                modifier == "odd" ? 1 : 0, // Pass it a value of 1 if it has an "odd" modifier instead of the default 0
+                modifier == "odd" ? new eeNumber(1) : new eeNumber(0), // Pass it a value of 1 if it has an "odd" modifier instead of the default 0
                 modifier                   // Pass the modifier
             ); 
         }

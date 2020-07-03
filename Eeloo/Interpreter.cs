@@ -80,10 +80,11 @@ namespace Eeloo
                 // Visit tree
                 evalVisitor.Visit(tree);
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            //catch (Exception e)
+            //{
+            //    throw e;
+            //}
+            finally { }
         }
     }
 }

@@ -3,6 +3,7 @@ using Eeloo.Grammar;
 using Eeloo.Objects;
 using System;
 using System.Collections.Generic;
+using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Evaluator
 {
@@ -15,15 +16,15 @@ namespace Eeloo.Evaluator
             if (start < stop)
             {
                 for (long i = start; i <= stop; i += step)
-                    rangeObj.Add(eeObject.newNumberObject(i));
+                    rangeObj.Add(eeObject.newNumberObject(new eeNumber(i)));
             }
             else if (stop < start)
             {
                 for (long i = start; i >= stop; i -= step)
-                    rangeObj.Add(eeObject.newNumberObject(i));
+                    rangeObj.Add(eeObject.newNumberObject(new eeNumber(i)));
             }
             else
-                rangeObj.Add(eeObject.newNumberObject(start));
+                rangeObj.Add(eeObject.newNumberObject(new eeNumber(start)));
 
             return rangeObj;
         }

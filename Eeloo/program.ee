@@ -6,4 +6,4 @@ end comment
 
 str = "abc123abc"
 
-print( str - "abc")
+print(15.1 > 14.5)

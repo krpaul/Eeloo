@@ -116,19 +116,19 @@ namespace Eeloo.Objects
 
                     // If no nums found
                     if (nums.Count == 0)
-                        return eeObject.newNumberObject(0);
+                        return eeObject.newNumberObject(new eeNumber(0));
 
                     string agg = new string(nums.ToArray());
                     
                     // If its a decimal
                     if (nums.Contains('.')) {
-                        return eeObject.newNumberObject(double.Parse(agg));
+                        return eeObject.newNumberObject(new eeNumber(agg));
                     }
                     // Otherwise
-                    return eeObject.newNumberObject(long.Parse(agg));
+                    return eeObject.newNumberObject(new eeNumber(agg));
                 case eeObjectType.BOOL:
                     // Use standard bool to int conversion
-                    return eeObject.newNumberObject(this.AsBool() ? 1 : 0);
+                    return eeObject.newNumberObject(this.AsBool() ? new eeNumber(1) : new eeNumber(0));
                 case eeObjectType.LIST:
                     // If all the elements in the list are number objects, return their sums
                     List<eeObject> elems = this.AsList();
@@ -150,15 +150,15 @@ namespace Eeloo.Objects
                         {
                             sum += obj.AsDecimal();
                         }
-                        return eeObject.newNumberObject(sum);
+                        return eeObject.newNumberObject(new eeNumber(sum.ToString()));
                     }
                     // If not all nums, return the list's length
                     else
                     {
-                        return eeObject.newNumberObject(elems.Count());
+                        return eeObject.newNumberObject(new eeNumber(elems.Count()));
                     }
                 default: // Otherwise it's not a type we should concern ourselves with converting into a number;
-                    return eeObject.newNumberObject(0);
+                    return eeObject.newNumberObject(new eeNumber(0));
             }
         }
 
