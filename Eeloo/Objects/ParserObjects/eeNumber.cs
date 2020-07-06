@@ -1,25 +1,37 @@
 ﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime;
 using System;
+using System.Runtime.CompilerServices;
+using Xunit;
 
 namespace Eeloo.Objects.ParserObjects
 {
     public class eeNumber
     /* The eeNumber implementation:
      * 
+     * Whole numbers are represented by an array of bytes. Technically, the maximum size of an eeNumber
+     * is 10 ^ 2147483647 - 1 but the end goal is to make this limit the maximum amount the interpreter's 
+     * alloted memory can store.
+     * 
+     * Fractional numbers are represented by whole numbers with the denominator field set to an eeNumber 
+     * with a multiple of 10.
+     *  // Decimal numbers can only have a denominator which is a multiple of 10 because 
+     * 
+     * When an eeNumber is cast to string, a decimal approximation will be calculated. (In the future this approximation will be cached.
      */
     {
         private byte[] bytes;
         private bool negative;
-        private eeNumber denominator;
+        public eeNumber denominator;
 
         public const int DEFAULTMAXDECIMALPLACE = 8;
 
-        //// static often-used nums
+        // static often-used nums
         private static readonly eeNumber ZERO = new eeNumber(0),
-                                        ONE = new eeNumber(1),
-                                        TWO = new eeNumber(2);
+                                         ONE  = new eeNumber(1),
+                                         TWO  = new eeNumber(2);
 
         #region Constructors
 
@@ -446,6 +458,19 @@ namespace Eeloo.Objects.ParserObjects
 
         public static bool operator >(eeNumber num1, eeNumber num2)
         {
+            // if at least one number is a fraction
+            if (num1.IsFrac() || num2.IsFrac())
+            {
+                eeNumber numerator1 = num1,
+                         denom1 = num1.PopDenominator(),
+                         numerator2 = num2,
+                         denom2 = num2.PopDenominator();
+
+                // cross multiply & compare
+                return (numerator1 * denom2) > (numerator2 * denom1);
+            }
+
+            // if both are whole numbers, compare digits normally.
             byte[] l_bytes = num1.bytes,
                    r_bytes = num2.bytes;
 
@@ -471,7 +496,7 @@ namespace Eeloo.Objects.ParserObjects
                 }
             }
 
-            return false;
+            throw new Exception("This shouldn't happen");
         }
 
         public static bool operator <(eeNumber num1, eeNumber num2)
@@ -608,6 +633,10 @@ namespace Eeloo.Objects.ParserObjects
         // removes the denominator of this number and returns it
         private eeNumber PopDenominator()
         {
+            // if not a fraction
+            if (this.IsInt())
+                return new eeNumber(1);
+
             var den = this.denominator;
             this.denominator = null;
             return den;
@@ -622,7 +651,7 @@ namespace Eeloo.Objects.ParserObjects
                 return new eeNumber(0);
             }
 
-            Queue<byte> bytesQue = new Queue<byte>(this.bytes); // a que of the dividend as bytes
+            Queue<byte> bytesQue = new Queue<byte>(this.bytes); // a queue of the dividend as bytes
             List<eeNumber> quotient = new List<eeNumber>();     // quotient
 
             eeNumber divPart = null;
