@@ -22,28 +22,19 @@ namespace Eeloo.Evaluator
             bool between;
             switch (toCheck.type)
             {
-                case eeObjectType.DECIMAL:
-                    var d_val = (double) toCheck.value;
-
-                    between = d_val > (double) bounds[0].value 
-                        && d_val < (double) bounds[1].value;
-
-                    if (between)
-                        return eeObject.TRUE;
-                    else return eeObject.FALSE;
                 case eeObjectType.NUMBER:
-                    var l_val = (long) toCheck.value;
+                    var l_val = toCheck.AsNumber();
 
-                    between = l_val > (long) bounds[0].value
-                        && l_val < (long) bounds[1].value;
+                    between = l_val > bounds[0].AsNumber()
+                        && l_val < bounds[1].AsNumber();
 
                     if (between)
                         return eeObject.TRUE;
                     else return eeObject.FALSE;
                 case eeObjectType.STRING:
-                    string s_chk  = (string)toCheck.value,
-                           s_val1 = (string)bounds[0].value,
-                           s_val2 = (string)bounds[1].value;
+                    string s_chk  = toCheck.AsString(),
+                           s_val1 = bounds[0].AsString(),
+                           s_val2 = bounds[1].AsString();
 
                     // Make sure they're chars
                     bool isChar = s_chk.Length == 1 && s_val1.Length == 1 && s_val2.Length == 1;

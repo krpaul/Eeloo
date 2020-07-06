@@ -16,7 +16,6 @@ namespace Eeloo.Objects
         internal_RETURN_VALUE = -2,
         internal_EXPRLIST = -1, 
         NUMBER = 1,  // Avoiding 0 as first value since type's default value will take 0 and we'll know if we forgot to assign it somwhere in the case of a 0
-        DECIMAL,
         STRING,
         BOOL,
         LIST,
@@ -83,8 +82,6 @@ namespace Eeloo.Objects
                     return "\"" + this.AsString() + "\""; 
                 case eeObjectType.NUMBER:
                     return this.AsNumber().ToString(); 
-                case eeObjectType.DECIMAL:
-                    return this.AsDecimal().ToString();  
                 case eeObjectType.BOOL:
                     return this.AsBool() ? "true" : "false";
                 case eeObjectType.FUNCTION:
@@ -102,7 +99,6 @@ namespace Eeloo.Objects
             switch (this.type)
             {
                 case eeObjectType.NUMBER:
-                case eeObjectType.DECIMAL:
                     return this;
                 case eeObjectType.STRING:
                     // go through the entire string and look for any numbers
@@ -135,7 +131,7 @@ namespace Eeloo.Objects
                     bool allNums = true;
                     foreach (eeObject obj in elems)
                     {
-                        if (obj.type != eeObjectType.NUMBER || obj.type != eeObjectType.DECIMAL)
+                        if (obj.type != eeObjectType.NUMBER)
                         {
                             allNums = false;
                             break;
@@ -148,7 +144,7 @@ namespace Eeloo.Objects
                         double sum = 0; 
                         foreach (eeObject obj in elems)
                         {
-                            sum += obj.AsDecimal();
+                            sum += obj.AsNumber();
                         }
                         return eeObject.newNumberObject(new eeNumber(sum.ToString()));
                     }
@@ -174,7 +170,6 @@ namespace Eeloo.Objects
                     val = str.ToCharArray().Select(c => eeObject.newStringObject(c.ToString())).ToList();
                     break;
                 case eeObjectType.NUMBER:
-                case eeObjectType.DECIMAL:
                 case eeObjectType.BOOL: // Return list where this is the first object
                     val = new List<eeObject>() { this };
                     break;
@@ -190,7 +185,6 @@ namespace Eeloo.Objects
             {
                 case eeObjectType.BOOL:
                     return this;
-                case eeObjectType.DECIMAL:
                 case eeObjectType.NUMBER:
                     val = this.AsNumber() != 0.0;
                     break;
@@ -229,8 +223,6 @@ namespace Eeloo.Objects
                     return (bool) value;
                 case eeObjectType.NUMBER:
                     return this.AsNumber().IsZero();
-                case eeObjectType.DECIMAL:
-                    return this.AsDecimal() != 0.0;
                 case eeObjectType.STRING:
                     return this.AsString().Length != 0;
             }
@@ -246,12 +238,6 @@ namespace Eeloo.Objects
             // Return false if anything else
             return false;
         }
-
-        public long AsInteger()
-        { return (long) value; }
-
-        public double AsDecimal()
-        { return (double) value; }
 
         public dynamic AsNumber()
         {
@@ -324,8 +310,6 @@ namespace Eeloo.Objects
                     return ListMathHelpers.GreaterThan(this, obj);
                 case eeObjectType.STRING:
                     return StringMathHelpers.GreaterThan(this, obj);
-                case eeObjectType.DECIMAL:
-                    return this.AsDecimal() > obj.AsDecimal();
                 case eeObjectType.BOOL:
                 default:
                     throw new InvalidOperationException("TO DO");

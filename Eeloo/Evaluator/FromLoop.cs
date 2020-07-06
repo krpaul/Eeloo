@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Evaluator
 {
@@ -11,8 +12,8 @@ namespace Eeloo.Evaluator
             eeObject start = Visit(ctx.exp(0)),
                      stop = Visit(ctx.exp(1));
 
-            long step  = ctx.RANGE_2() != null 
-                        ? (long) Visit(ctx.exp(2)).value 
+            eeNumber step  = ctx.RANGE_2() != null 
+                        ? Visit(ctx.exp(2)).AsNumber()
                         : 1;
 
             // If range is reversed
@@ -24,7 +25,7 @@ namespace Eeloo.Evaluator
                 stop = b;
 
                 // Reverse step
-                step *= 1;
+                step *= new eeNumber(1);
             }
 
             var iterVar = ctx.IDENTIFIER().GetText();
@@ -32,7 +33,7 @@ namespace Eeloo.Evaluator
             for (
                 eeObject iter = start;
                 iter.IsLessThanOrEqualTo(stop);
-                iter.value = (iter.AsInteger() + step)
+                iter.value = (iter.AsNumber() + step)
             ) {
                 scope.assignVar(iterVar, iter);
                 var codeblock = Visit(ctx.lines());

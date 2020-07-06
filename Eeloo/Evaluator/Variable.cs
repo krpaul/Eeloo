@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using Eeloo.Objects.ParserObjects;
 using System;
 using System.Collections.Generic;
 
@@ -51,7 +52,11 @@ namespace Eeloo.Evaluator
                 throw new Exception("TO DO: Index is not a number");
             }
 
-            int indexValue = (int)index.AsInteger();
+            // workaround for now to get eeNumbers to work with c#'s arrays
+            eeNumber indexValue_ee = index.AsNumber();
+            int indexValue;
+            for (indexValue = 0; new eeNumber(indexValue) < indexValue_ee; ++indexValue) ;
+
             bool reversed = false;
 
             // If the index is a negative number
