@@ -25,13 +25,6 @@ namespace Eeloo
         
         public static void Main(string[] args) // passing filenames to read
         {
-            //var a = new eeNumber(900);
-            //var b = new eeNumber(10);
-
-            //Console.WriteLine(a / b);
-
-            //return;
-
             // Get file text
             string input = File.ReadAllText(args[0]);
             filename = args[0].Split('/').Last();

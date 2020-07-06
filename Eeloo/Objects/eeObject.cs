@@ -228,7 +228,7 @@ namespace Eeloo.Objects
                 case eeObjectType.BOOL:
                     return (bool) value;
                 case eeObjectType.NUMBER:
-                    return this.AsNumber() != 0;
+                    return this.AsNumber().IsZero();
                 case eeObjectType.DECIMAL:
                     return this.AsDecimal() != 0.0;
                 case eeObjectType.STRING:

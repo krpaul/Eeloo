@@ -610,19 +610,19 @@ namespace Eeloo.Objects.ParserObjects
 
         private void Simplify()
         {
-            if (denominator == null) return;
+            if (denominator.IsInt()) return;
 
             var denom = PopDenominator();
-            var intDiv = IntegerDivision(denom, out eeNumber remainder);
 
+            if (this == ZERO) // if the numerator is zero, return as-is (without denom)
+                return;
+
+            // basic simplification
+            var intDiv = IntegerDivision(denom, out eeNumber remainder);
             if (remainder == ZERO)
-            {
                 this.bytes = intDiv.bytes;
-            }
             else
-            {
                 this.denominator = denom;    
-            }
         }
 
         private bool IsFrac()
@@ -630,6 +630,9 @@ namespace Eeloo.Objects.ParserObjects
 
         public bool IsInt()
         { return !IsFrac();  }
+
+        public bool IsZero()
+        { return this == ZERO;  }
 
         // removes the denominator of this number and returns it
         private eeNumber PopDenominator()
