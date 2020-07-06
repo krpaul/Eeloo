@@ -6,4 +6,7 @@ end comment
 
 str = "abc123abc"
 
-print(15.1 > 14.5)
+a = 2/5
+b = 5
+
+print (a)

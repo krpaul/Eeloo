@@ -496,7 +496,8 @@ namespace Eeloo.Objects.ParserObjects
                 }
             }
 
-            throw new Exception("This shouldn't happen");
+            // they're equal
+            return false;
         }
 
         public static bool operator <(eeNumber num1, eeNumber num2)
