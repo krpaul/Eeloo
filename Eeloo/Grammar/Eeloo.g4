@@ -47,12 +47,12 @@ num: NUMBER				#int
    | NUMBER DOT NUMBER  #dec
    ;
 
-exp:  num     						     #numExp
-	| var						         #varExp
+exp:  MINUS? num     			         #numExp
+	| MINUS? var						         #varExp
     | string							 #strExp
     | bool_stmt							 #boolExp
     | list								 #listExp
-	| fn_call							 #functionCallExp
+	| MINUS? fn_call							 #functionCallExp
     | LBRACK exp RBRACK		             #bracketedExp
 	| <assoc=right> exp POWER exp		 #pwrExp
 	| exp opr=(MULTIPLY | DIVIDE | MOD) exp	 #multiplicativeOprExp
@@ -61,7 +61,6 @@ exp:  num     						     #numExp
 			   LESS     | GRT     ) exp  #comparisonExp
 	| exp (IS NOT | ISNT) exp			 #inequalityExp
 	| exp (IS | DBL_EQL) exp			 #equalityExp
-    | MINUS exp				             #negationExp
 	| exp AS (STRING_TOK | LIST_TOK | 
 	          NUMBER_TOK | BOOL_TOK)     #typecastExpression
 	| exp RANGE_1 exp         		     #rangeExp

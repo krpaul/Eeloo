@@ -9,7 +9,15 @@ namespace Eeloo.Evaluator
     public partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
         public override eeObject VisitNumExp([NotNull] EelooParser.NumExpContext ctx)
-        { return Visit(ctx.num()); }
+        {
+            bool negate = ctx.MINUS() != null;
+            var num = Visit(ctx.num());
+
+            if (negate)
+                num = num.Multiply(eeObject.NegOne);
+            
+            return num; 
+        }
 
         public override eeObject VisitInt([NotNull] EelooParser.IntContext ctx)
         {

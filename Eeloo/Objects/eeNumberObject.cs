@@ -8,7 +8,8 @@ namespace Eeloo.Objects
 {
     partial class eeObject
     {
-        public static readonly eeObject ZERO = new eeObject(new eeNumber(0));
+        public static readonly eeObject Zero = newNumberObject(new eeNumber(0));
+        public static readonly eeObject NegOne = newNumberObject(new eeNumber(-1));
 
         //public static eeObject newNumberObject(long value, string mod=null)
         //{
