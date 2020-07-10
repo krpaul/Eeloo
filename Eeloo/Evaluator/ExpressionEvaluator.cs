@@ -9,10 +9,30 @@ namespace Eeloo.Evaluator
     partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
         public override eeObject VisitFunctionCallExp([NotNull] EelooParser.FunctionCallExpContext ctx)
-        { return Visit(ctx.fn_call()); }
+        { 
+            bool negate = ctx.MINUS() != null;
+            var exp = Visit(ctx.fn_call());
+
+            if (negate && exp.type == eeObjectType.NUMBER)
+                exp = exp.Multiply(eeObject.NegOne);
+            else if (negate && exp.type != eeObjectType.NUMBER)
+                throw new Exception($"Cannot negate object of type {eeObjectType.NUMBER}");
+
+            return exp;
+        }
 
         public override eeObject VisitVarExp([NotNull] EelooParser.VarExpContext ctx)
-        { return Visit(ctx.var()); }
+        {
+            bool negate = ctx.MINUS() != null;
+            var exp = Visit(ctx.var());
+
+            if (negate && exp.type == eeObjectType.NUMBER)
+                exp = exp.Multiply(eeObject.NegOne);
+            else if (negate && exp.type != eeObjectType.NUMBER)
+                throw new Exception($"Cannot negate object of type {eeObjectType.NUMBER}");
+
+            return exp;
+        }
 
         public override eeObject VisitStrExp([NotNull] EelooParser.StrExpContext ctx)
         { return Visit(ctx.@string()); }
