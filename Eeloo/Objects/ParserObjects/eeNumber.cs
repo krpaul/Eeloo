@@ -24,7 +24,7 @@ namespace Eeloo.Objects.ParserObjects
     {
         private byte[] bytes;
         private bool negative;
-        public eeNumber denominator;
+        public eeNumber denominator = null;
 
         public const int DEFAULTMAXDECIMALPLACE = 8;
 
@@ -355,6 +355,9 @@ namespace Eeloo.Objects.ParserObjects
              * For divison, we always keep the fractional form for arbitrary accuracy.
              */
 
+            //num1.denominator = num2;
+            //return num1;
+
             bool a = num1.IsFrac(), b = num2.IsFrac();
             // frac divided by num
             if (a && !b)
@@ -367,8 +370,16 @@ namespace Eeloo.Objects.ParserObjects
             // num divided by num
             else if (!a && !b)
             {
-                num1.denominator = num2;
+                // check if right is a factor of left
+                if (num1 > num2)
+                {
+                    eeNumber i;
+                    for (i = new eeNumber(1); (i * num2) < num1; i += ONE) ;
+                    if ((i * num2) == num1)
+                        return i;
+                }
 
+                num1.denominator = num2;
                 num1.Simplify();
                 return num1;
             }
@@ -450,7 +461,11 @@ namespace Eeloo.Objects.ParserObjects
                     return false; 
             }
 
-            return true;
+            // true if both integers or fracitons
+            bool fracStatus = num1.IsFrac() == num2.IsFrac();
+            bool denomsEqual = fracStatus ? num1.denominator == num2.denominator : false;
+
+            return true && denomsEqual;
         }
 
         public static bool operator !=(eeNumber num1, eeNumber num2)
@@ -610,19 +625,36 @@ namespace Eeloo.Objects.ParserObjects
 
         private void Simplify()
         {
-            if (denominator.IsInt()) return;
+            if (this.IsInt()) return;
 
             var denom = PopDenominator();
-
-            if (this == ZERO) // if the numerator is zero, return as-is (without denom)
+            if (this == ZERO || denom == ONE) // if the numerator is zero or denom is 1, return as-is (without denom)
                 return;
 
-            // basic simplification
-            var intDiv = IntegerDivision(denom, out eeNumber remainder);
-            if (remainder == ZERO)
-                this.bytes = intDiv.bytes;
+            /* Iterate from 0 to the smaller number out of numerator/denominator. 
+             * Then use the GCD to simplify
+             */
+            var smaller = this > denom ? denom : this;
+            eeNumber gcd = new eeNumber(1);
+            for (eeNumber i = new eeNumber(1); i < smaller; i += ONE)
+            {
+                this.IntegerDivision(i, out eeNumber rem1);
+                denom.IntegerDivision(i, out eeNumber rem2);
+
+                if ((rem1 == ZERO) && (rem2 == ZERO))
+                    gcd = i;
+            }
+
+            if (gcd == ONE) // no change needed
+                this.denominator = denom;
             else
-                this.denominator = denom;    
+            {
+                var newObj = this.IntegerDivision(gcd, out _);
+                this.bytes = newObj.bytes;
+
+                if (this.denominator != gcd) // if denom won't be 1
+                    this.denominator = denom.IntegerDivision(gcd, out _);
+            }
         }
 
         private bool IsFrac()

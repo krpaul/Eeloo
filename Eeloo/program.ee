@@ -1,12 +1,1 @@
-﻿start comment
-print (7 * "5")
-print (7 * [5, 7, "a"])
-print (7 + ["5", 6, 3])
-end comment
-
-str = "abc123abc"
-
-a = 2/5
-b = 5
-
-print (a)
+﻿print (9/5 == 18/10)
