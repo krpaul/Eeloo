@@ -10,4 +10,7 @@ assert not (7 > 10)
 assert 2 ^ 2 ^ 2 > 7.8
 assert 42 - 2 - 2 is 38
 
-assert (9/5 == 18/10)
+assert 9/5 == 18/10
+assert 9/-5 is -18/10
+assert -9/5 isn't 18/10
+assert -9/-5 is 18/10

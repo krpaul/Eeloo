@@ -356,16 +356,34 @@ namespace Eeloo.Objects.ParserObjects
              * For divison, we always keep the fractional form for arbitrary accuracy.
              */
 
-            //num1.denominator = num2;
-            //return num1;
+            bool negate = false;
+            /* first, account for negatives */
+            // if either num is negative
+            if (num1.negative ^ num2.negative)
+            {
+                // set both to non-negative to multiply them
+                num1.negative = false;
+                num2.negative = false;
 
+                // apply negative afterwards
+                negate = true;
+            }
+            else if (num1.negative && num2.negative)
+            {
+                // otherwise, negatives just cancel out
+                num1.negative = false;
+                num2.negative = false;
+            }
+
+            /* then, divide */
             bool a = num1.IsFrac(), b = num2.IsFrac();
             // frac divided by num
             if (a && !b)
             {
                 num1.denominator *= num2;
-
+                num1.negative = negate;
                 num1.Simplify();
+
                 return num1;
             }
             // num divided by num
@@ -381,7 +399,9 @@ namespace Eeloo.Objects.ParserObjects
                 }
 
                 num1.denominator = num2;
+                num1.negative = negate;
                 num1.Simplify();
+
                 return num1;
             }
             // num divided by frac
@@ -389,8 +409,10 @@ namespace Eeloo.Objects.ParserObjects
             {
                 eeNumber numerator = num1 * num2.denominator;
                 eeNumber denominator = num2;
-
-                return numerator / denominator;
+                
+                var newNum = numerator / denominator;
+                newNum.negative = negate;
+                return newNum;
             }
             // frac divided by frac
             else
@@ -400,7 +422,9 @@ namespace Eeloo.Objects.ParserObjects
                 eeNumber numerator = num1 * num2.PopDenominator();
                 eeNumber denominator = num2 * denom1;
 
-                return numerator / denominator;
+                var newNum = numerator / denominator;
+                newNum.negative = negate;
+                return newNum;
             }
         }
 
