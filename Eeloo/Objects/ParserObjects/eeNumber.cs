@@ -5,6 +5,7 @@ using System.Runtime;
 using System;
 using System.Runtime.CompilerServices;
 using Xunit;
+using System.Xml;
 
 namespace Eeloo.Objects.ParserObjects
 {
@@ -452,6 +453,18 @@ namespace Eeloo.Objects.ParserObjects
             if (num1.bytes.Length != num2.bytes.Length)
                 return false;
 
+            if (num1.IsFrac() && num2.IsFrac())
+            {
+                int l =5;
+            }
+
+            // check negatives
+            bool negA = num1.negative,
+                 negB = num2.negative;
+
+            if (negA ^ negB) // asymmetrical negativity
+                return false;
+
             byte[] l_bytes = num1.bytes,
                    r_bytes = num2.bytes;
 
@@ -642,7 +655,7 @@ namespace Eeloo.Objects.ParserObjects
                 denom.IntegerDivision(i, out eeNumber rem2);
 
                 if ((rem1 == ZERO) && (rem2 == ZERO))
-                    gcd = i;
+                    gcd.bytes = i.bytes;
             }
 
             if (gcd == ONE) // no change needed

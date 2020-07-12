@@ -14,7 +14,7 @@ namespace Eeloo.Evaluator
             var num = Visit(ctx.num());
 
             if (negate)
-                num = num.Multiply(eeObject.NegOne);
+                num = num.Multiply(eeObject.NegOne());
             
             return num; 
         }
