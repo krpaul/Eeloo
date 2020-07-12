@@ -20,5 +20,9 @@ namespace InterpreterTests
         [Fact]
         public void TestStrings()
         { Interpreter.Interpret(ReadTestFile("strings")); }
+
+        [Fact]
+        public void TestCasts()
+        { Interpreter.Interpret(ReadTestFile("cast")); }
     }
 }
