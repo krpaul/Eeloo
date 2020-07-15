@@ -66,7 +66,6 @@ namespace Eeloo.Objects
         { this._value = null; }
 
         #region Casts
-
         public string AsString()
         { return value as string; }
 
@@ -289,6 +288,21 @@ namespace Eeloo.Objects
             if (this.type == eeObjectType.NUMBER && obj.type == eeObjectType.NUMBER)
             {
                 return ((eeNumber) this.value) == ((eeNumber) obj.value);
+            }
+            else if (this.type == eeObjectType.LIST && obj.type == eeObjectType.LIST)
+            {
+                List<eeObject> listA = this.AsList(),
+                               listB = obj.AsList();
+
+                if (listA.Count() != listB.Count()) return false;
+
+                for (int i = 0; i < listA.Count(); i++)
+                {
+                    if (listA[i].IsNotEqualTo(listB[i]))
+                        return false;
+                }
+
+                return true;
             }
             else // all other underlying native c# objects can be compared as usual
             {
