@@ -1,2 +1,4 @@
 ﻿assert 1
 assert not 0
+assert "test" is "test"
+assert not ""

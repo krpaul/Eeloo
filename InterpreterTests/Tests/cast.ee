@@ -6,4 +6,4 @@ assert 2 to the 2 as string is "4"
 assert "a" as list is ["a"]
 assert 3 * 3 as list is [9]
 assert 3 as string as list == ["3"]
-assert 1 + 2 as string as list as string as list == ["3"]
+assert 1 + 2 as string as list == ["3"]

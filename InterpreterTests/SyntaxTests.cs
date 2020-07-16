@@ -18,11 +18,15 @@ namespace InterpreterTests
         { Interpreter.Interpret(ReadTestFile("math")); }
 
         [Fact]
-        public void TestStrings()
-        { Interpreter.Interpret(ReadTestFile("strings")); }
+        public void TestString()
+        { Interpreter.Interpret(ReadTestFile("string")); }
 
         [Fact]
-        public void TestCasts()
+        public void TestCast()
         { Interpreter.Interpret(ReadTestFile("cast")); }
+
+        [Fact]
+        public void TestBool()
+        { Interpreter.Interpret(ReadTestFile("bool")); }
     }
 }
