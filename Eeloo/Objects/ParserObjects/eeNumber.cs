@@ -25,14 +25,14 @@ namespace Eeloo.Objects.ParserObjects
     {
         private byte[] bytes;
         private bool negative;
-        public eeNumber denominator = null;
+        private eeNumber denominator = null;
 
         public const int DEFAULTMAXDECIMALPLACE = 8;
 
         // static often-used nums
-        private static readonly eeNumber ZERO = new eeNumber(0),
-                                         ONE  = new eeNumber(1),
-                                         TWO  = new eeNumber(2);
+        public static readonly eeNumber ZERO = new eeNumber(0),
+                                        ONE  = new eeNumber(1),
+                                        TWO  = new eeNumber(2);
 
         #region Constructors
 
@@ -805,6 +805,23 @@ namespace Eeloo.Objects.ParserObjects
             this.denominator = denom;
 
             return $"{approx}.{decimalAprx}";
+        }
+
+        // returns a copy of this eeNumber
+        public eeNumber Copy()
+        {
+            var copy = new eeNumber(0);
+
+            copy.negative = this.negative;
+            copy.bytes = (byte[]) this.bytes.Clone();
+            
+            if (this.IsFrac())
+            {
+                copy.denominator = new eeNumber(0);
+                copy.denominator.bytes = (byte[]) this.denominator.bytes.Clone();
+            }
+
+            return copy;
         }
 
         #endregion

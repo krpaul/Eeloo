@@ -210,7 +210,7 @@ namespace Eeloo.Objects
                     break;
             }
 
-            return eeObject.newBoolObject(val);
+            return newBoolObject(val);
         }
 
         public bool AsBool()
