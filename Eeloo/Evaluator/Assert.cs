@@ -13,7 +13,7 @@ namespace Eeloo.Evaluator
             var bool_exp = Visit(ctx.exp());
 
             // make sure it's true
-            if (!bool_exp.AsBool())
+            if (bool_exp.DynamicBoolConvert() == eeObject.TRUE)
             {
                 throw new Exception($"Line {ctx.start.Line} in {Interpreter.filename}: Assertion statement failed");
             }

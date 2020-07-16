@@ -1,1 +1,2 @@
-﻿print ("a" as list is ["a"])
+﻿print (1 as bool)
+print (0 as bool)

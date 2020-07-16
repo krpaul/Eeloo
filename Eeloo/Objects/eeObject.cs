@@ -185,7 +185,7 @@ namespace Eeloo.Objects
                 case eeObjectType.BOOL:
                     return this;
                 case eeObjectType.NUMBER:
-                    val = this.AsNumber() != 0.0;
+                    val = !this.AsNumber().IsZero();
                     break;
                 case eeObjectType.LIST:
                     val = this.AsList().Count() != 0;
