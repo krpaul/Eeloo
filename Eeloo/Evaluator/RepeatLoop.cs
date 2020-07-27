@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using Eeloo.Objects.ParserObjects;
 using System;
 
 namespace Eeloo.Evaluator
@@ -10,10 +11,10 @@ namespace Eeloo.Evaluator
         public override eeObject VisitRepeat_loop([NotNull] EelooParser.Repeat_loopContext ctx)
         {
             var count = Visit(ctx.exp());
-            if (count.type != eeObjectType.NUMBER || count.AsNumber() < 1)
+            if (count.type != eeObjectType.NUMBER || count.AsNumber() < eeNumber.ONE)
                 throw new Exception("Cannot repeat a non-positive integer number of times.");
 
-            for (long i = 0; i < count.AsNumber(); i++)
+            for (eeNumber i = new eeNumber(0); i < count.AsNumber(); i += eeNumber.ONE)
             {
                 var codeblock = Visit(ctx.lines());
 

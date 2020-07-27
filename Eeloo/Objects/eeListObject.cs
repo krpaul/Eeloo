@@ -27,7 +27,7 @@ namespace Eeloo.Objects
 
         // Constructor passed an internal_EXPRLIST eeObject
         public static eeObject newListObject(eeObject exprlist, string modifier=null)
-         {
+        {
             ICollection<eeObject> expressions;
 
             if (exprlist == null)

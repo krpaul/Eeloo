@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using System.ComponentModel.DataAnnotations;
 
 namespace Eeloo.Evaluator
 {
@@ -8,11 +9,20 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitList([NotNull] EelooParser.ListContext ctx)
         {
-            // Get expressions
-            var expressions = Visit(ctx.exps());
+            var e = ctx.exps();
+            eeObject listObj;
+            if (e != null)
+            {
+                // Get expressions
+                var expressions = Visit(ctx.exps());
 
-            // Evaluate them
-            var listObj = eeObject.newListObject(expressions);
+                // Evaluate them
+                listObj = eeObject.newListObject(expressions);
+            }
+            else
+            {
+                listObj = eeObject.newListObject((eeObject) null);
+            }
 
             // Return the object
             return listObj;
