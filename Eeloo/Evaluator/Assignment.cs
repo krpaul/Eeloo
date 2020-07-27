@@ -52,7 +52,7 @@ namespace Eeloo.Evaluator
                 }
                 else if (asArr != null) // is a list item
                 {
-                    oldVar.OverrideArrayItem(assignVal);
+                    oldVar.CopyFrom(assignVal, true);
                 }
 
                 // This should not return

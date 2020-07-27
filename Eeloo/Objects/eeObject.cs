@@ -451,15 +451,34 @@ namespace Eeloo.Objects
         }
 
         // If this object is an element of a list, this method with replace it with another value
-        public void OverrideArrayItem(eeObject newObj)
+        public void CopyFrom(eeObject fromObj, bool asArrayElement=false)
         {
-            value = newObj.value;
-            attributes = newObj.attributes;
-            methods = newObj.methods;
-            type = newObj.type;
+            switch (fromObj.type)
+            {
+                case eeObjectType.NUMBER:
+                    this.value = fromObj.AsNumber().Copy();
+                    break;
+                default: // all other types are natively constants so we dont need to explicity copy them
+                    this.value = fromObj.value;
+                    break;
+            }
+
+            this.attributes = fromObj.attributes;
+            this.methods = fromObj.methods;
+            this.type = fromObj.type;
 
             // Array elements do not get modifiers
-            modifier = null;
+            if (asArrayElement)
+                modifier = null;
+        }
+
+        // returns a copy of this object; using CopyFrom because it's already implemented
+        public eeObject Copy()
+        {
+            eeObject newObject = new eeObject();
+            newObject.CopyFrom(this);
+
+            return newObject;
         }
 
         // If this object is a variable, set it's value to newObj but retain the old modifier

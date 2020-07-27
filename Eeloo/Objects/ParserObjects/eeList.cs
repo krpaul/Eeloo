@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Eeloo.Objects.ParserObjects
 {
-    class eeList
+    public class eeList
     /* The eeList implementation:
      * 
      * The eeList is a linked list indexed by eeNumber, allowing it 
@@ -41,11 +41,13 @@ namespace Eeloo.Objects.ParserObjects
             _count += eeNumber.ONE;
             if (LastNode == null) // if this is the second object to enter the list
             {
-                LastNode = new eeListNode(obj, _count.Copy(), HeadNode, null);
+                var node = new eeListNode(obj.Copy(), _count.Copy(), HeadNode, null);
+                LastNode = node;
+                HeadNode.next = node;
                 return;
             }
 
-            var newNode = new eeListNode(obj, _count.Copy(), LastNode, null);
+            var newNode = new eeListNode(obj.Copy(), _count.Copy(), LastNode, null);
             this.LastNode.next = newNode;
             this.LastNode = newNode;
         }
@@ -68,10 +70,10 @@ namespace Eeloo.Objects.ParserObjects
 
         public override string ToString()
         {
-            var ret = new StringBuilder();
+            var ret = new StringBuilder("[ ");
             foreach (var node in Iterate())
-                ret.Append(node.ToString());
-
+                ret.Append(node.ToString() + " -> ");
+            ret.Append(" ]");
             return ret.ToString();
         }
 
