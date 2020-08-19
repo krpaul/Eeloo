@@ -26,6 +26,36 @@ namespace Eeloo.Objects
                         return eeObject.None;
                     }
                 },
+                {
+                    "remove", // appends new values to the end of the list
+                    (eeObject self, ICollection<eeObject> valsToRem) =>
+                    {
+                        foreach (eeObject obj in valsToRem)
+                        {
+                            ((List<eeObject>) self.value).Remove(obj);
+                        }
+
+                        var lenAttr = self.attributes["length"];
+                        lenAttr.value = lenAttr.AsNumber() - new eeNumber(valsToRem.Count());
+
+                        return eeObject.None;
+                    }
+                },
+                {
+                    "removeAll", // appends new values to the end of the list
+                    (eeObject self, ICollection<eeObject> valsToRem) =>
+                    {
+                        foreach (eeObject obj in valsToRem)
+                        {
+                            ((List<eeObject>) self.value).RemoveAll((o) => o.IsEqualTo(obj));
+                        }
+
+                        var lenAttr = self.attributes["length"];
+                        lenAttr.value = new eeNumber(self.AsList().Count());
+
+                        return eeObject.None;
+                    }
+                },
             };
 
         /* Note: the eeObject.value for eeListObject must always be a List<eeObject> */

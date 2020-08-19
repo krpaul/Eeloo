@@ -1,7 +1,10 @@
 ﻿a = [1, 2]
 
 repeat 30 times
-	a.add(3)
+	a.add(3, 4)
 end
 
+a.removeAll(4)
+
 print(a.length)
+print(a)
