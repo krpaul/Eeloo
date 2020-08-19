@@ -38,8 +38,8 @@ namespace Eeloo.Objects
         }
 
         // Values in this dictionary will be regular object values
-        public Dictionary<string, dynamic> attributes
-            = new Dictionary<string, dynamic>();
+        public Dictionary<string, eeObject> attributes
+            = new Dictionary<string, eeObject>();
 
         /* Values in this dictionary will be various Func<>'s
          * First param is always the eeObject itself
@@ -379,6 +379,7 @@ namespace Eeloo.Objects
         }
         #endregion
 
+        #region Methods
         // Methods in Eeloo will be passed as an internal_EXPRLIST ICollection object to the method handler.
         public eeObject CallMethod(string name, eeObject parameters)
         {
@@ -489,6 +490,16 @@ namespace Eeloo.Objects
             this.methods = newObj.methods;
             this.attributes = newObj.attributes;
         }
+
+        public eeObject GetAttribute(string name)
+        {
+            if (!this.attributes.ContainsKey(name))
+                throw new Exception($"No attribute named {name} in object");
+
+            return this.attributes[name];
+        }
+
+        #endregion
     }
 }
 

@@ -52,7 +52,8 @@ exp:  MINUS? num     			         #numExp
     | string							 #strExp
     | bool_stmt							 #boolExp
     | list								 #listExp
-	| MINUS? fn_call							 #functionCallExp
+	| MINUS? fn_call					 #functionCallExp
+	| exp DOT IDENTIFIER			     #attributeRefExp
     | LBRACK exp RBRACK		             #bracketedExp
 	| <assoc=right> exp POWER exp		 #pwrExp
 	| exp opr=(MULTIPLY | DIVIDE | MOD) exp	 #multiplicativeOprExp

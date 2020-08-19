@@ -1,7 +1,7 @@
-﻿a = list
+﻿a = [1, 2]
 
-repeat 4000000000 times
+repeat 30 times
 	a.add(3)
 end
 
-print(a)
+print(a.length)

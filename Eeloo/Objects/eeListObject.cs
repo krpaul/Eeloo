@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Eeloo.Objects.ParserObjects;
 
 namespace Eeloo.Objects
 {
@@ -17,6 +19,9 @@ namespace Eeloo.Objects
                         {
                             ((List<eeObject>) self.value).Add(obj);
                         }
+
+                        var lenAttr = self.attributes["length"];
+                        lenAttr.value = lenAttr.AsNumber() + new eeNumber(newVals.Count());
 
                         return eeObject.None;
                     }
@@ -50,7 +55,7 @@ namespace Eeloo.Objects
             };
 
             newObj.attributes.Add(
-                "length", expressions.Count
+                "length", newNumberObject(new eeNumber(expressions.Count))
             );
 
             return newObj;
