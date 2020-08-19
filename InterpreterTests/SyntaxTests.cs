@@ -28,5 +28,9 @@ namespace InterpreterTests
         [Fact]
         public void TestBool()
         { Interpreter.Interpret(ReadTestFile("bool")); }
+
+        [Fact]
+        public void TestList()
+        { Interpreter.Interpret(ReadTestFile("list")); }
     }
 }

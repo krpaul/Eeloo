@@ -1,0 +1,12 @@
+﻿a = [1, 2]
+
+repeat 30 times
+	a.add(3, 4)
+end
+
+assert a.length is 62
+
+a.removeAll(4)
+
+assert a.length == 32
+assert a as string is "[1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]"
