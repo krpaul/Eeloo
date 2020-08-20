@@ -449,6 +449,15 @@ namespace Eeloo.Objects.ParserObjects
             return result;
         }
 
+        public static eeNumber AsboluteValue(eeNumber num)
+        {
+            if (num >= ZERO) return num;
+            else { 
+                num.negative = false;
+                return num;
+            }
+        }
+
         public static eeNumber operator %(eeNumber num1, eeNumber num2)
         {
             if (num1 < num2)

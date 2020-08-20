@@ -1,1 +1,24 @@
 ﻿testA = list
+repeat 300 times
+	testA.add(3)
+end
+
+assert testA.length is 300
+
+testB = list
+for each x in 1...10
+	testB.add(x)
+end
+assert testB == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+testC = list
+from 1...16 by 2 use x
+	testC.add(x)
+end
+assert testC == [1, 3, 5, 7, 9, 11, 13, 15]
+
+testD = list
+from 0 to 20 by 3 use j
+	testD.add(j)
+end
+assert testD == [0, 3, 6, 9, 12, 15, 18]

@@ -32,5 +32,9 @@ namespace InterpreterTests
         [Fact]
         public void TestList()
         { Interpreter.Interpret(ReadTestFile("list")); }
-    }
+
+        [Fact]
+        public void TestLoop()
+        { Interpreter.Interpret(ReadTestFile("loop")); }
+}
 }

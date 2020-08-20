@@ -4,27 +4,28 @@ using Eeloo.Objects;
 using System;
 using System.Collections.Generic;
 using Eeloo.Objects.ParserObjects;
+using Microsoft.Win32.SafeHandles;
 
 namespace Eeloo.Evaluator
 {
     partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
-        private ICollection<eeObject> getRange(long start, long stop, long step=1)
+        private ICollection<eeObject> getRange(eeNumber start, eeNumber stop, eeNumber step)
         {
             ICollection<eeObject> rangeObj = new List<eeObject>();
 
             if (start < stop)
             {
-                for (long i = start; i <= stop; i += step)
-                    rangeObj.Add(eeObject.newNumberObject(new eeNumber(i)));
+                for (eeNumber i = start; i <= stop; i += step)
+                    rangeObj.Add(eeObject.newNumberObject(i.Copy()));
             }
             else if (stop < start)
             {
-                for (long i = start; i >= stop; i -= step)
-                    rangeObj.Add(eeObject.newNumberObject(new eeNumber(i)));
+                for (eeNumber i = start; i >= stop; i -= step)
+                    rangeObj.Add(eeObject.newNumberObject(i.Copy()));
             }
             else
-                rangeObj.Add(eeObject.newNumberObject(new eeNumber(start)));
+                rangeObj.Add(eeObject.newNumberObject(start.Copy()));
 
             return rangeObj;
         }
@@ -38,10 +39,10 @@ namespace Eeloo.Evaluator
             if (exp1.AsNumber() == null || exp2.AsNumber() == null)
                 throw new Exception("TO DO");
 
-            long start = exp1.AsNumber(),
-                 stop = exp2.AsNumber();
+            eeNumber start = exp1.AsNumber(),
+                     stop = exp2.AsNumber();
 
-            ICollection<eeObject> rangeObj = getRange(start, stop);
+            ICollection<eeObject> rangeObj = getRange(start, stop, eeNumber.ONE);
 
             eeObject exprList = new eeObject(rangeObj)
             { type = eeObjectType.internal_EXPRLIST };
@@ -58,11 +59,11 @@ namespace Eeloo.Evaluator
             if (exp1.AsNumber() == null || exp2.AsNumber() == null || exp3.AsNumber() == null)
                 throw new Exception("TO DO");
 
-            long start = exp1.AsNumber(),
-                 stop = exp2.AsNumber(),
-                 step = exp3.AsNumber();
+            eeNumber start = exp1.AsNumber(),
+                     stop  = exp2.AsNumber(),
+                     step  = exp3.AsNumber();
 
-            if (step > Math.Abs(start - stop))
+            if (step > eeNumber.AsboluteValue(start - stop))
                 throw new Exception("TO DO");
 
             ICollection<eeObject> rangeObj = getRange(start, stop, step);
