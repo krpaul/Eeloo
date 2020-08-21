@@ -78,7 +78,7 @@ POWER      :   '^' | <<power>>	    ;
 MOD		   :   '%' | <<mod>>		;
 
 RANGE_1	   :   '...' | WS TO WS  ;
-RANGE_2	   :   WS BY WS ;
+RANGE_2	   :   <<count_by>> ;
 
 LBRACK     :   '('      ;
 RBRACK     :   ')'      ;

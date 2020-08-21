@@ -39,3 +39,9 @@ foreach:
     - for every
     - using each
     - using every
+count_by:
+    - by
+    - count by
+    - counting by
+    - skip
+    - skipping

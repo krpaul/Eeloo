@@ -1,63 +1,13 @@
-﻿using System;
+﻿using Eeloo.Objects.ParserObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Eeloo.Objects.ParserObjects;
+using Eeloo.Functions;
 
 namespace Eeloo.Objects
 {
     partial class eeObject
     {
-        private static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> listDefaultMethods 
-            = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
-            {
-                {
-                    "add", // appends new values to the end of the list
-                    (eeObject self, ICollection<eeObject> newVals) => 
-                    {
-                        foreach (eeObject obj in newVals)
-                        {
-                            ((List<eeObject>) self.value).Add(obj);
-                        }
-
-                        var lenAttr = self.attributes["length"];
-                        lenAttr.value = lenAttr.AsNumber() + new eeNumber(newVals.Count());
-
-                        return eeObject.None;
-                    }
-                },
-                {
-                    "remove", // appends new values to the end of the list
-                    (eeObject self, ICollection<eeObject> valsToRem) =>
-                    {
-                        foreach (eeObject obj in valsToRem)
-                        {
-                            ((List<eeObject>) self.value).Remove(obj);
-                        }
-
-                        var lenAttr = self.attributes["length"];
-                        lenAttr.value = lenAttr.AsNumber() - new eeNumber(valsToRem.Count());
-
-                        return eeObject.None;
-                    }
-                },
-                {
-                    "removeAll", // appends new values to the end of the list
-                    (eeObject self, ICollection<eeObject> valsToRem) =>
-                    {
-                        foreach (eeObject obj in valsToRem)
-                        {
-                            ((List<eeObject>) self.value).RemoveAll((o) => o.IsEqualTo(obj));
-                        }
-
-                        var lenAttr = self.attributes["length"];
-                        lenAttr.value = new eeNumber(self.AsList().Count());
-
-                        return eeObject.None;
-                    }
-                },
-            };
-
         /* Note: the eeObject.value for eeListObject must always be a List<eeObject> */
 
         // Constructor passed an internal_EXPRLIST eeObject
@@ -80,7 +30,7 @@ namespace Eeloo.Objects
             var newObj = new eeObject(expressions.ToList())
             {
                 type = eeObjectType.LIST,
-                methods = listDefaultMethods,
+                methods = DefaultMethods.listBuiltInMethods,
                 modifier = modifier,
             };
 
