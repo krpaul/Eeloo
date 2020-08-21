@@ -89,6 +89,7 @@ from_loop: FROM exp RANGE_1 exp (RANGE_2 exp)? USE IDENTIFIER NL lines END ;
 
 repeat_loop: REPEAT exp TIMES NL lines END 
 			| exp TIMES (DO)? NL lines END;
+			| (DO)? exp TIMES NL lines END;
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
