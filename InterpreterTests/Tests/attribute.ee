@@ -1,0 +1,5 @@
+﻿a = list
+a.add(1, 2, 3, 4, 5, "a", "b", "c")
+
+assert length of a is 8
+assert a.length == 8
