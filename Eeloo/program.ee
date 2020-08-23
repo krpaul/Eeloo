@@ -6,5 +6,5 @@ end
 
 a.removeAll(4)
 
-print(a.length)
+print(a as                    string)
 print(a)

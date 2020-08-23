@@ -54,6 +54,7 @@ exp:  MINUS? num     			         #numExp
     | list								 #listExp
 	| MINUS? fn_call					 #functionCallExp
 	| exp DOT IDENTIFIER			     #attributeRefExp
+	| IDENTIFIER OF exp				     #verboseAttributeExp
     | LBRACK exp RBRACK		             #bracketedExp
 	| <assoc=right> exp POWER exp		 #pwrExp
 	| exp opr=(MULTIPLY | DIVIDE | MOD) exp	 #multiplicativeOprExp
@@ -88,7 +89,7 @@ for_stmt: FOR_EACH var (IN | FROM) exp NL lines END ;
 from_loop: FROM exp RANGE_1 exp (RANGE_2 exp)? USE IDENTIFIER NL lines END ;
 
 repeat_loop: REPEAT exp TIMES NL lines END 
-			| exp TIMES (DO)? NL lines END;
+			| exp TIMES (DO)? NL lines END
 			| (DO)? exp TIMES NL lines END;
 
 if_stmt: if_partial else_if_partial* else_partial? END ;

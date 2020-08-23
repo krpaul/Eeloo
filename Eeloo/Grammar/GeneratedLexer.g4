@@ -67,7 +67,8 @@ STR		   : ["].*?["]	;
 NUMBER     : DIGIT+     ;
 
 TO		   :   'to'		;
-AS         :   ' as '   ;
+OF		   : WS 'of' WS ;
+AS         : WS 'as' WS ;
 BY		   :   'by'     ;
 
 EQL        :   '='      ;
