@@ -40,5 +40,9 @@ namespace InterpreterTests
         [Fact]
         public void TestAttribute()
         { Interpreter.Interpret(ReadTestFile("attribute")); }
+
+        [Fact]
+        public void TestFunction()
+        { Interpreter.Interpret(ReadTestFile("function")); }
     }
 }

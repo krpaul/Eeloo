@@ -1,0 +1,33 @@
+﻿function AddAndSquare < num1, num2
+	return (num1 + num2) raised to the 2
+end
+
+function SubtractAndSquare(num1, num2)
+	return (num1 + num2)^2
+end
+
+assert AddAndSquare(1, 6) is 49
+assert AddAndSquare(1.5, 1.5) is 9
+assert SubtractAndSquare(1.5, 1.5) is 0
+
+// test different syntaxes
+define new function add > a, b
+	return a + b
+end
+
+new function subtract < a, b
+	return a -b
+end
+
+define multiply (a, b)
+	return a times b
+end
+
+define function divide (a, b)
+	return a divided by b
+end
+
+assert add(1, 2) is 3
+assert subtract(30, 23) is 7
+assert multiply(20, 20) is 400
+assert divide(50, 5) is 10

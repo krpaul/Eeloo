@@ -42,6 +42,8 @@ IN		   :	'in'		;
 AND		   :	'and'		;
 OR		   :    'or'		;
 FUNCTION   :	'function'	;
+DEFINE     :    'define'    ;
+NEW        :    'new'       ;
 RETURN	   :	'return'    ;
 END        :    'end'       ;
 USE		   :	'use'		; 
@@ -91,4 +93,4 @@ NL		   : [\r]?[\n] ;
 
 WS		   :   (' ' | '\t' )+ -> skip ;
 
-COMMENT	   : NL* 'start comment' .*? 'end comment' NL* -> skip ;
+COMMENT	   : ((NL* 'start comment' .*? 'end comment' NL*) | '//' ~[\r\n]* ) -> skip ;
