@@ -65,13 +65,34 @@ namespace Eeloo.Functions
                     "concatenate",
                     (eeObject self, ICollection<eeObject> strings) =>
                     {
-                        //// Alter value
-                        //foreach (eeObject obj in strings.AsList())
-                        //    self.value += (string) obj.value;
+                        // Alter value
+                        foreach (eeObject obj in strings)
+                            self.value += (string) obj.value;
 
-                        //// As well as return new value
-                        //return eeObject.newStringObject(self.AsString());
-                        return self;
+                        // As well as return new value
+                        return eeObject.newStringObject(self.AsString());
+                    }
+                },
+                {
+                    "uppercase",
+                    (eeObject self, ICollection<eeObject> strings) =>
+                    {
+                        if (strings.Count() > 0)
+                            throw new Exception("This method does not take any arguments");
+
+                        return eeObject.newStringObject(self.AsString().ToUpper());
+
+                    }
+                },
+                {
+                    "lowercase",
+                    (eeObject self, ICollection<eeObject> strings) =>
+                    {
+                        if (strings.Count() > 0)
+                            throw new Exception("This method does not take any arguments");
+
+                        return eeObject.newStringObject(self.AsString().ToLower());
+
                     }
                 },
             };
