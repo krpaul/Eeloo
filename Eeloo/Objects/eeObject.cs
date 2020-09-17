@@ -78,7 +78,7 @@ namespace Eeloo.Objects
                         "[]" // Empty list
                         : $"[{string.Join(", ", (from elem in this.AsList() select elem.ToPrintableString()))}]"; 
                 case eeObjectType.STRING:
-                    return "\"" + this.AsString() + "\""; 
+                    return this.AsString();
                 case eeObjectType.NUMBER:
                     return this.AsNumber().ToString(); 
                 case eeObjectType.BOOL:
