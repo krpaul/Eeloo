@@ -19,7 +19,7 @@ namespace Eeloo.Evaluator
             if (func != null)
             {
                 // Evaluate function's arguments
-                ICollection<eeObject> arguments = Visit(ctx.exps()).AsEXPRLIST();
+                ICollection<eeObject> arguments = ctx.exps() != null ? Visit(ctx.exps()).AsEXPRLIST() : new List<eeObject>();
 
                 return (eeObject) func.DynamicInvoke(arguments);
             }

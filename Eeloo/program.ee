@@ -1,10 +1,19 @@
-﻿a = [1, 2]
+﻿height = ask("enter a number") as number
 
-repeat 30 times
-	a.add(3, 4)
+while (height less than 0) or (height greater than or equal to 24)
+	print("enter a positive integer less than 24")
+	height = ask("enter a number") as number
 end
 
-a.removeAll(4)
+for row in 1...height
+	print(" " * (height - row))
 
-print(a as                    string)
-print(a)
+	print("#" * row)
+
+	print("  ")
+
+	print("#" * row)
+
+	print()
+
+end
