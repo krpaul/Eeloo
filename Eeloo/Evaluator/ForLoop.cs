@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using Eeloo.Errors;
 using System;
 
 namespace Eeloo.Evaluator
@@ -13,7 +14,7 @@ namespace Eeloo.Evaluator
             var enumExp = Visit(ctx.exp()).AsEnumerable();
 
             if (enumExp == null)
-                throw new Exception("TO DO");
+                throw new UniterableValueError(ctx);
 
             foreach (var iteration in enumExp)
             {
