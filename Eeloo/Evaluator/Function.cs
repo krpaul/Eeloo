@@ -2,6 +2,7 @@
 using Eeloo.Functions;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using Eeloo.Errors;
 using System;
 using System.Collections.Generic;
 
@@ -32,7 +33,7 @@ namespace Eeloo.Evaluator
                 return fn.AsFunction().invoke(args);
             }
             else
-            { throw new Exception($"Function with name '{iden}' does not exist"); }
+            { throw new NoFunctionError(ctx, iden); }
         }
 
         // This method actually returns a Dictionary<string, eeObject>, but uses eeObject as a vehicle as to conform to the visitor's uniform return type

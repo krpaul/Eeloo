@@ -5,6 +5,7 @@ using Eeloo.Evaluator;
 using Eeloo.Evaluator.Exceptions;
 using Eeloo.Helpers;
 using Eeloo.Objects.ParserObjects;
+using Eeloo.Errors;
 
 namespace Eeloo.Objects
 {

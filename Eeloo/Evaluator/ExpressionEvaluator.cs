@@ -3,6 +3,7 @@ using Eeloo.Grammar;
 using Eeloo.Objects;
 using Eeloo.Objects.ParserObjects;
 using System;
+using Eeloo.Errors;
 
 namespace Eeloo.Evaluator
 {
@@ -16,7 +17,7 @@ namespace Eeloo.Evaluator
             if (negate && exp.type == eeObjectType.NUMBER)
                 exp = exp.Multiply(eeObject.NegOne());
             else if (negate && exp.type != eeObjectType.NUMBER)
-                throw new Exception($"Cannot negate object of type {eeObjectType.NUMBER}");
+                throw new NegationError(ctx, eeObjectType.NUMBER, true);
 
             return exp;
         }
@@ -29,7 +30,7 @@ namespace Eeloo.Evaluator
             if (negate && exp.type == eeObjectType.NUMBER)
                 exp = exp.Multiply(eeObject.NegOne());
             else if (negate && exp.type != eeObjectType.NUMBER)
-                throw new Exception($"Cannot negate object of type {eeObjectType.NUMBER}");
+                throw new NegationError(ctx, eeObjectType.NUMBER, true);
 
             return exp;
         }

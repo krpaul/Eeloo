@@ -8,7 +8,7 @@ namespace Eeloo.Helpers
 {
     class ObjectTypeHelpers
     {
-        public string ObjectTypeToString(eeObjectType type)
+        public static string ObjectTypeToString(eeObjectType type)
         {
             switch (type)
             {
