@@ -10,28 +10,25 @@ using Antlr4.Runtime;
 
 namespace Eeloo.Errors
 {
-    class Error
+    [Serializable()]
+    abstract class BaseError : Exception
     {
-        protected string err_msg; 
-        public Error(ParserRuleContext error_context)
+        protected string ErrorName,
+                         Message;
+
+        ParserRuleContext Context;
+
+        public BaseError() : base() {}
+        public BaseError(string message) : base(message) { }
+
+        public BaseError(ParserRuleContext error_context, string errName, string message)
+            : base($"{errName} occured on line {error_context.Start.Line} column {error_context.Start.Column}: {message}")
         {
-            err_msg = $"occured on line {error_context.Start.Line} column {error_context.Start.Column}";
+            ErrorName = errName;
+            Context = error_context;
         }
 
-        public void PrependSpecificError(SpecificError err)
-        { err_msg = err.name + err_msg; }
-    }
-
-    abstract class SpecificError : Error
-    {
-        public string name {
-            get ; 
-            set ; 
-        }
-
-        public SpecificError(SpecificError err, ParserRuleContext error_context) : base(error_context)
-        {
-            this.PrependSpecificError(this);
-        }
+        public override string ToString()
+        { return Message; }
     }
 }
