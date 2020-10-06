@@ -6,6 +6,7 @@ using Eeloo.Evaluator.Exceptions;
 using Eeloo.Helpers;
 using Eeloo.Objects.ParserObjects;
 using Eeloo.Errors;
+using Eeloo.Grammar;
 
 namespace Eeloo.Objects
 {
@@ -343,7 +344,7 @@ namespace Eeloo.Objects
         #endregion
 
         #region Operations
-        public eeObject Add(eeObject exp)
+        public eeObject Add(EelooParser.AdditiveOprExpContext context, eeObject exp)
         {
             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING) // string math
                 return StringMathHelpers.Add(this, exp);
@@ -352,10 +353,10 @@ namespace Eeloo.Objects
             else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
                 return eeObject.newNumberObject(this.AsNumber() + exp.AsNumber());
             else
-                throw new Exception($"Cannot add objects of type {type} and {exp.type} together");
+                throw new InvalidOperationError(context, context.opr.Text, type, exp.type);
         }
 
-        public eeObject Subtract(eeObject exp)
+        public eeObject Subtract(EelooParser.AdditiveOprExpContext context, eeObject exp)
         {
             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING) // string math
                 return StringMathHelpers.Subtract(this, exp);
@@ -364,10 +365,11 @@ namespace Eeloo.Objects
             else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
                 return eeObject.newNumberObject(this.AsNumber() - exp.AsNumber());
             else
-                throw new Exception($"Cannot subtract objects of type {type} and {exp.type} together");
+                throw new InvalidOperationError(context, context.opr.Text, type, exp.type);
+
         }
 
-        public eeObject Multiply(eeObject exp)
+        public eeObject Multiply(EelooParser.MultiplicativeOprExpContext context, eeObject exp)
         {
             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING)
                 return StringMathHelpers.Multiply(this, exp);
@@ -376,7 +378,8 @@ namespace Eeloo.Objects
             else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
                 return eeObject.newNumberObject(this.AsNumber() * exp.AsNumber());
             else
-                throw new Exception($"Cannot multiply objects of type {this.type} and {exp.type} together");
+                throw new InvalidOperationError(context, context.opr.Text, type, exp.type);
+
         }
         #endregion
 

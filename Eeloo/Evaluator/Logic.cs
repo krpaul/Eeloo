@@ -3,6 +3,7 @@ using Eeloo.Grammar;
 using Eeloo.Objects;
 using Eeloo.Objects.ParserObjects;
 using System;
+using Eeloo.Errors;
 
 namespace Eeloo.Evaluator
 {
@@ -23,7 +24,7 @@ namespace Eeloo.Evaluator
             if (exp1 == null || exp2 == null)
                 throw new Exception("TO DO");
 
-            return eeObject.newBoolObject((bool)exp1 && (bool)exp2);
+            return eeObject.newBoolObject((bool) exp1 && (bool) exp2);
         }
 
         public override eeObject VisitOrExp([NotNull] EelooParser.OrExpContext ctx)
@@ -32,9 +33,9 @@ namespace Eeloo.Evaluator
                   exp2 = Visit(ctx.exp(1)).AsBool();
 
             if (exp1 == null || exp2 == null)
-                throw new Exception("TO DO");
-
-            return eeObject.newBoolObject((bool)exp1 || (bool)exp2);
+                throw new InvalidOperationError(ctx, "or", eeObjectType.BOOL);
+            
+            return eeObject.newBoolObject((bool) exp1 || (bool) exp2);
         }
 
         public override eeObject VisitNotExp([NotNull] EelooParser.NotExpContext ctx)

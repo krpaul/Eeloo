@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Misc;
+using Eeloo.Errors;
 using Eeloo.Grammar;
 using Eeloo.Objects;
 using Eeloo.Objects.ParserObjects;
@@ -20,9 +21,9 @@ namespace Eeloo.Evaluator
             switch (ctx.opr.Type)
             {
                 case EelooLexer.PLUS:
-                    return exp1.Add(exp2);
+                    return exp1.Add(ctx, exp2);
                 case EelooLexer.MINUS:
-                    return exp1.Subtract(exp2);
+                    return exp1.Subtract(ctx, exp2);
                 default:
                     throw new Exception($"Invalid operation: {ctx.opr.Text}");
             }
@@ -36,7 +37,7 @@ namespace Eeloo.Evaluator
             switch (ctx.opr.Type)
             {
                 case EelooLexer.MULTIPLY:
-                    return exp1.Multiply(exp2);
+                    return exp1.Multiply(ctx, exp2);
                 case EelooLexer.DIVIDE:
                     return eeObject.newNumberObject(exp1.AsNumber() / exp2.AsNumber());
                 case EelooLexer.MOD:
