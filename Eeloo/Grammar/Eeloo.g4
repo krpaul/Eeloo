@@ -10,8 +10,6 @@ lines        : (stmt NL+)+ ;
 stmt: assignment
     | loop
     | if_stmt
-	| fn_call
-	| method_call
 	| return_stmt
 	| fn_def
 	| assert_stmt
@@ -52,6 +50,7 @@ exp:  MINUS? num     			         #numExp
     | string							 #strExp
     | bool_stmt							 #boolExp
     | list								 #listExp
+	| <assoc=right> (exp DOT fn_call)	 #methodCallExp
 	| MINUS? fn_call					 #functionCallExp
 	| exp DOT IDENTIFIER			     #attributeRefExp
 	| IDENTIFIER OF exp				     #verboseAttributeExp
@@ -91,6 +90,8 @@ from_loop: FROM exp RANGE_1 exp (RANGE_2 exp)? USE IDENTIFIER NL lines END ;
 repeat_loop: REPEAT exp TIMES NL lines END 
 			| exp TIMES (DO)? NL lines END
 			| (DO)? exp TIMES NL lines END;
+
+/* End loops */
 
 if_stmt: if_partial else_if_partial* else_partial? END ;
 

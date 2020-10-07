@@ -369,7 +369,7 @@ namespace Eeloo.Objects
 
         }
 
-        public eeObject Multiply(EelooParser.MultiplicativeOprExpContext context, eeObject exp)
+        public eeObject Multiply(Antlr4.Runtime.ParserRuleContext context, eeObject exp)
         {
             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING)
                 return StringMathHelpers.Multiply(this, exp);
@@ -378,7 +378,7 @@ namespace Eeloo.Objects
             else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
                 return eeObject.newNumberObject(this.AsNumber() * exp.AsNumber());
             else
-                throw new InvalidOperationError(context, context.opr.Text, type, exp.type);
+                throw new InvalidOperationError(context, "multiplication", type, exp.type);
 
         }
         #endregion

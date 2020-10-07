@@ -15,7 +15,7 @@ namespace Eeloo.Evaluator
             var exp = Visit(ctx.fn_call());
 
             if (negate && exp.type == eeObjectType.NUMBER)
-                exp = exp.Multiply(eeObject.NegOne());
+                exp = exp.Multiply(ctx, eeObject.NegOne());
             else if (negate && exp.type != eeObjectType.NUMBER)
                 throw new NegationError(ctx, eeObjectType.NUMBER, true);
 
@@ -28,7 +28,7 @@ namespace Eeloo.Evaluator
             var exp = Visit(ctx.var());
 
             if (negate && exp.type == eeObjectType.NUMBER)
-                exp = exp.Multiply(eeObject.NegOne());
+                exp = exp.Multiply(ctx, eeObject.NegOne());
             else if (negate && exp.type != eeObjectType.NUMBER)
                 throw new NegationError(ctx, eeObjectType.NUMBER, true);
 

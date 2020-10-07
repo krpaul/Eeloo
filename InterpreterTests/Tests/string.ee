@@ -12,3 +12,6 @@ assert str - "123" == "abcabc"
 str =  str - "abc"
 
 assert str - "abc" == "123"
+
+str1 = "abcdef"
+assert str1.reverse() is "fedcba"

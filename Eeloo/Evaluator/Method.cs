@@ -18,5 +18,7 @@ namespace Eeloo.Evaluator
 
             return hostObj.CallMethod(methodName, methodParams);
         }
+
+        //public override eeObject VisitMethd
     }
 }

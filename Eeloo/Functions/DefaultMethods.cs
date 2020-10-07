@@ -95,6 +95,17 @@ namespace Eeloo.Functions
 
                     }
                 },
+                {
+                    "reverse",
+                    (eeObject self, ICollection<eeObject> strings) =>
+                    {
+                        if (strings.Count() > 0)
+                            throw new Exception("This method does not take any arguments");
+
+                        return eeObject.newStringObject(self.AsString().Reverse().ToString());
+
+                    }
+                },
             };
 
         public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> numberBuiltInMethods
