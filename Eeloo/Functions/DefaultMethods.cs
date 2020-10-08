@@ -57,6 +57,26 @@ namespace Eeloo.Functions
                         return eeObject.None;
                     }
                 },
+                {
+                    "sum", // appends new values to the end of the list
+                    (eeObject self, ICollection<eeObject> args) =>
+                    {
+                        if (args.Count() > 0)
+                            throw new Exception("This method takes no arguments");
+
+                        eeNumber sum = new eeNumber(0);
+                        foreach (eeObject obj in self.AsList())
+                        {
+                            var n = obj.AsNumber();
+                            if (n == null) throw new Exception("List must have all number types in order to be summed");
+
+                            sum += n;
+                        }
+
+                        return eeObject.newNumberObject(sum);
+                    }
+                },
+
             };
 
         public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> stringBuiltInMethods
