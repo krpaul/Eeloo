@@ -50,7 +50,6 @@ exp:  MINUS? num     			         #numExp
     | string							 #strExp
     | bool_stmt							 #boolExp
     | list								 #listExp
-	| MINUS? fn_call					 #functionCallExp
 	| exp DOT IDENTIFIER			     #attributeRefExp
 	| IDENTIFIER OF exp				     #verboseAttributeExp
     | LBRACK exp RBRACK		             #bracketedExp
@@ -70,6 +69,8 @@ exp:  MINUS? num     			         #numExp
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
 	| NOT exp							 #notExp
+	| exp DOT fn_call					 #methodCallExp
+	| MINUS? fn_call					 #functionCallExp
 	| creator							 #creatorExpression
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;
