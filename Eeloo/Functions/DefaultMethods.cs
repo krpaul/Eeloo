@@ -102,7 +102,10 @@ namespace Eeloo.Functions
                         if (strings.Count() > 0)
                             throw new Exception("This method does not take any arguments");
 
-                        return eeObject.newStringObject(self.AsString().Reverse().ToString());
+                        char[] reversedString = self.AsString().ToCharArray();
+                        Array.Reverse(reversedString);
+
+                        return eeObject.newStringObject(new string(reversedString));
 
                     }
                 },

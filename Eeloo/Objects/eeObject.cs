@@ -388,7 +388,7 @@ namespace Eeloo.Objects
         public eeObject CallMethod(string name, eeObject parameters)
         {
             // Extract the expressions
-            ICollection<eeObject> expressions = parameters.AsEXPRLIST();
+            ICollection<eeObject> expressions = parameters != null ? parameters.AsEXPRLIST() : new List<eeObject>();
 
             // Run the method
             var returnVal = this.methods[name](this, expressions);

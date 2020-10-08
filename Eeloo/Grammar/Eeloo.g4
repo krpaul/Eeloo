@@ -109,8 +109,6 @@ fn_def: fn_def_keyword IDENTIFIER (LBRACK fn_args RBRACK)? NL lines END
 fn_args: fn_arg (COMMA fn_arg)* COMMA? ;
 fn_arg: IDENTIFIER (EQL exp)? ;
 
-method_call: exp DOT fn_call ;
-
 return_stmt: RETURN exp   #expReturn
 		   | RETURN exps  #multiExpReturn
 		   ;
