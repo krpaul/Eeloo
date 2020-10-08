@@ -1,4 +1,6 @@
-﻿define function isPalindrome(num)
+﻿start comment
+
+define function isPalindrome(num)
 	s = (num as string)
 	return s is equal to s.reverse()
 end
@@ -10,3 +12,8 @@ for i in 1..999
 		end
 	end
 end
+
+end comment
+
+a = "12345"
+print(a.reverse())

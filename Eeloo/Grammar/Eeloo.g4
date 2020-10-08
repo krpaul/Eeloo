@@ -50,7 +50,6 @@ exp:  MINUS? num     			         #numExp
     | string							 #strExp
     | bool_stmt							 #boolExp
     | list								 #listExp
-	| <assoc=right> (exp DOT fn_call)	 #methodCallExp
 	| MINUS? fn_call					 #functionCallExp
 	| exp DOT IDENTIFIER			     #attributeRefExp
 	| IDENTIFIER OF exp				     #verboseAttributeExp
