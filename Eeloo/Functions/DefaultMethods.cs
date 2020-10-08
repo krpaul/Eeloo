@@ -28,7 +28,7 @@ namespace Eeloo.Functions
                     }
                 },
                 {
-                    "remove", // appends new values to the end of the list
+                    "remove", // removes first matching value
                     (eeObject self, ICollection<eeObject> valsToRem) =>
                     {
                         foreach (eeObject obj in valsToRem)
@@ -43,7 +43,7 @@ namespace Eeloo.Functions
                     }
                 },
                 {
-                    "removeAll", // appends new values to the end of the list
+                    "removeAll", // removes all matching values
                     (eeObject self, ICollection<eeObject> valsToRem) =>
                     {
                         foreach (eeObject obj in valsToRem)
@@ -58,7 +58,7 @@ namespace Eeloo.Functions
                     }
                 },
                 {
-                    "sum", // appends new values to the end of the list
+                    "sum", // sums the values of the list
                     (eeObject self, ICollection<eeObject> args) =>
                     {
                         if (args.Count() > 0)
@@ -95,9 +95,9 @@ namespace Eeloo.Functions
                 },
                 {
                     "uppercase",
-                    (eeObject self, ICollection<eeObject> strings) =>
+                    (eeObject self, ICollection<eeObject> args) =>
                     {
-                        if (strings.Count() > 0)
+                        if (args.Count() > 0)
                             throw new Exception("This method does not take any arguments");
 
                         return eeObject.newStringObject(self.AsString().ToUpper());
@@ -106,9 +106,9 @@ namespace Eeloo.Functions
                 },
                 {
                     "lowercase",
-                    (eeObject self, ICollection<eeObject> strings) =>
+                    (eeObject self, ICollection<eeObject> args) =>
                     {
-                        if (strings.Count() > 0)
+                        if (args.Count() > 0)
                             throw new Exception("This method does not take any arguments");
 
                         return eeObject.newStringObject(self.AsString().ToLower());
@@ -116,7 +116,7 @@ namespace Eeloo.Functions
                     }
                 },
                 {
-                    "reverse",
+                    "reverse", // reverses a string
                     (eeObject self, ICollection<eeObject> strings) =>
                     {
                         if (strings.Count() > 0)
@@ -127,6 +127,16 @@ namespace Eeloo.Functions
 
                         return eeObject.newStringObject(new string(reversedString));
 
+                    }
+                },
+                {
+                    "slice", // slices a string
+                    (eeObject self, ICollection<eeObject> args) =>
+                    {
+                        if (args.Count() == 0)
+                            throw new Exception("This method takes at least 1 argument");
+                        
+                        return self;
                     }
                 },
             };
