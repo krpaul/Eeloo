@@ -33,7 +33,7 @@ creator: LIST_MODIFIER? LIST_TOK       #listCreator
 
 bool_stmt: TRUE | FALSE ;
 
-list: L_SQ_BRACK exps? R_SQ_BRACK ;
+list: L_SQ_BRACK NL* exps? NL* R_SQ_BRACK ;
 
 string: STR ;
 
@@ -59,7 +59,6 @@ exp:  MINUS? num     			         #numExp
 	| exp opr=(LESS_EQL | GRT_EQL | 
 			   LESS     | GRT     ) exp  #comparisonExp
 	| exp (IS NOT | ISNT) exp			 #inequalityExp
-	| exp (IS | DBL_EQL) exp			 #equalityExp
 	| exp AS (STRING_TOK | LIST_TOK | 
 	          NUMBER_TOK | BOOL_TOK)     #typecastExpression
 	| exp RANGE_1 exp         		     #rangeExp
@@ -71,12 +70,13 @@ exp:  MINUS? num     			         #numExp
 	| NOT exp							 #notExp
 	| exp DOT fn_call					 #methodCallExp
 	| MINUS? fn_call					 #functionCallExp
+	| exp (IS | DBL_EQL) exp			 #equalityExp
 	| creator							 #creatorExpression
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 
-exps: exp (COMMA exp)* COMMA?     #plainExps
-	| LBRACK exps RBRACK	      #brackExps
+exps: exp NL* (COMMA NL* exp)* NL* COMMA?    #plainExps
+	| LBRACK NL* exps NL* RBRACK	         #brackExps
 	;
 
 /* Loops */
