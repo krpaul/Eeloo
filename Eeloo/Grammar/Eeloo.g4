@@ -61,14 +61,15 @@ exp:  MINUS? num     			         #numExp
 	| exp (IS NOT | ISNT) exp			 #inequalityExp
 	| exp AS (STRING_TOK | LIST_TOK | 
 	          NUMBER_TOK | BOOL_TOK)     #typecastExpression
-	| exp RANGE_1 exp         		     #rangeExp
-	| exp RANGE_1 exp RANGE_2 exp		 #rangeExtendedExp 
+	| exp RANGE_1 exp (RANGE_2 exp)?	 #rangeExp
 	| exp IN exp						 #inExp
 	| exp BETWEEN exp AND exp			 #betweenExp					
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
 	| NOT exp							 #notExp
 	| exp DOT fn_call					 #methodCallExp
+	| exp L_SQ_BRACK exp RANGE_1 exp 
+		(RANGE_2 exp)? R_SQ_BRACK	     #arraySlice
 	| MINUS? fn_call					 #functionCallExp
 	| exp (IS | DBL_EQL) exp			 #equalityExp
 	| creator							 #creatorExpression

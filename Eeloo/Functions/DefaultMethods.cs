@@ -76,7 +76,33 @@ namespace Eeloo.Functions
                         return eeObject.newNumberObject(sum);
                     }
                 },
+                {
+                    "slice", // slices the list
+                    (eeObject self, ICollection<eeObject> args) =>
+                    {
+                        var argCount = args.Count();
+                        if (argCount != 2)
+                            throw new Exception("This method takes 2 arguments");
 
+                        List<eeObject> list = self.AsList();
+                        List<eeObject> newList = new List<eeObject>();
+                        bool collect = false; 
+
+                        for (eeNumber i = new eeNumber(0); i < new eeNumber(list.Count()); i += eeNumber.ONE)
+                        {
+                            if (i == args.ElementAt(0).AsNumber())
+                            {
+                                collect = true;
+                            }
+
+                            //if (collect)
+                                //newList.Add(list.ElementAt());
+                        }
+
+                        //list = list.GetRange(args.ElementAt(0).AsNumber(, args[1] - args[0]);
+                        return null;
+                    }
+                },
             };
 
         public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> stringBuiltInMethods
