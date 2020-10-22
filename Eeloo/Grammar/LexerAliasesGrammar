@@ -1,5 +1,4 @@
-﻿
-/* Edit this file for changes to the lexer 
+﻿/* Edit this file for changes to the lexer 
  * All the rules with << >> brackets bounding 
  * a keyword will be replaced with many alias
  * possibilities upon build. Aliases are 
@@ -82,6 +81,8 @@ MOD		   :   '%' | <<mod>>		;
 
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   <<count_by>> ;
+
+EQUALITY   : <<equality>> ;
 
 LBRACK     :   '('      ;
 RBRACK     :   ')'      ;

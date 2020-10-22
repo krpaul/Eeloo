@@ -38,7 +38,7 @@ list: L_SQ_BRACK NL* exps? NL* R_SQ_BRACK ;
 string: STR ;
 
 var: IDENTIFIER								#variable
-   | IDENTIFIER L_SQ_BRACK exp R_SQ_BRACK	#arrayIndex
+   | var (L_SQ_BRACK exp R_SQ_BRACK)+		#arrayIndex
    ;
 
 num: NUMBER				#int
@@ -46,7 +46,7 @@ num: NUMBER				#int
    ;
 
 exp:  MINUS? num     			         #numExp
-	| MINUS? var						         #varExp
+	| MINUS? var						 #varExp
     | string							 #strExp
     | bool_stmt							 #boolExp
     | list								 #listExp
@@ -71,7 +71,7 @@ exp:  MINUS? num     			         #numExp
 	| exp L_SQ_BRACK exp RANGE_1 exp 
 		(RANGE_2 exp)? R_SQ_BRACK	     #arraySlice
 	| MINUS? fn_call					 #functionCallExp
-	| exp (IS | DBL_EQL) exp			 #equalityExp
+	| exp EQUALITY exp					 #equalityExp
 	| creator							 #creatorExpression
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;

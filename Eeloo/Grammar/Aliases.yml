@@ -45,3 +45,8 @@ count_by:
     - counting by
     - skip
     - skipping
+equality:
+    - is
+    - is equal to
+    - equals
+    - ==

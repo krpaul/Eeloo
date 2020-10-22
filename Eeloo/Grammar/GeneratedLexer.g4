@@ -84,6 +84,8 @@ MOD		   :   '%' | WS 'mod' WS | WS 'modulo' WS		;
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   WS 'by' WS | WS 'count' WS 'by' WS | WS 'counting' WS 'by' WS | WS 'skip' WS | WS 'skipping' WS ;
 
+EQUALITY   : WS 'is' WS | WS 'is' WS 'equal' WS 'to' WS | WS 'equals' WS | WS '==' WS ;
+
 LBRACK     :   '('      ;
 RBRACK     :   ')'      ;
 
