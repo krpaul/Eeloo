@@ -108,13 +108,13 @@ namespace Eeloo.Objects.ParserObjects
             if (num1.negative && !num2.negative)
             {
                 num1.negative = false;
-                return num2 - num1;
+                return num2 - num1.Copy();
             }
             // If 2nd num is negative
             else if (num2.negative && !num1.negative)
             {
                 num2.negative = false;
-                return num1 - num2;
+                return num1 - num2.Copy();
             }
             // They're both negative
             else if (num1.negative && num2.negative)
@@ -150,6 +150,9 @@ namespace Eeloo.Objects.ParserObjects
             return num1;
         }
 
+
+        // Warning: Subtraction will destroy the contents of num2 and set the contents of num1 to the result
+        // Make sure to pass a copy of num2 if you are keeping its value
         public static eeNumber operator -(eeNumber num1, eeNumber num2)
         {
             // if first num is negative

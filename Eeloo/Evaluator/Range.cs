@@ -4,32 +4,12 @@ using Eeloo.Objects;
 using Eeloo.Objects.ParserObjects;
 using System;
 using System.Collections.Generic;
+using Eeloo.Helpers;
 
 namespace Eeloo.Evaluator
 {
     partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
-        private ICollection<eeObject> getRange(eeNumber start, eeNumber stop, eeNumber step)
-        {
-            ICollection<eeObject> rangeObj = new List<eeObject>();
-
-            if (start < stop)
-            {
-                for (eeNumber i = start; i <= stop; i += step)
-                    rangeObj.Add(eeObject.newNumberObject(i.Copy()));
-            }
-            else if (stop < start)
-            {
-                for (eeNumber i = start; i >= stop; i -= step)
-                    rangeObj.Add(eeObject.newNumberObject(i.Copy()));
-            }
-            else
-                rangeObj.Add(eeObject.newNumberObject(start.Copy()));
-
-            return rangeObj;
-        }
-
-        
         public override eeObject VisitRangeExp([NotNull] EelooParser.RangeExpContext ctx)
         {
             EelooParser.ExpContext[] exps = ctx.exp();
@@ -45,9 +25,9 @@ namespace Eeloo.Evaluator
             
             ICollection<eeObject> rangeObj;
             if (exps.Length == 2)
-                rangeObj = getRange(start, stop, eeNumber.ONE);
+                rangeObj = RangeGenerator.Generate(start, stop, eeNumber.ONE);
             else
-                rangeObj = getRange(start, stop, Visit(exps[2]).AsNumber());
+                rangeObj = RangeGenerator.Generate(start, stop, Visit(exps[2]).AsNumber());
 
             eeObject exprList = new eeObject(rangeObj)
             { type = eeObjectType.internal_EXPRLIST };
