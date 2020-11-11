@@ -44,8 +44,13 @@ namespace InterpreterTests
         [Fact]
         public void TestFunction()
         { Interpreter.Interpret(ReadTestFile("function")); }
+
         [Fact]
         public void TestRange()
         { Interpreter.Interpret(ReadTestFile("range")); }
+
+        [Fact]
+        public void TestComparison()
+        { Interpreter.Interpret(ReadTestFile("comparison")); }
     }
 }

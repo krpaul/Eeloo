@@ -533,6 +533,12 @@ namespace Eeloo.Objects.ParserObjects
                 // cross multiply & compare
                 return (numerator1 * denom2) > (numerator2 * denom1);
             }
+            // lhs is neg and rhs isn't
+            else if (num1.negative && !num2.negative)
+                return false;
+            // lhs isn't neg and rhs is
+            else if (!num1.negative && num2.negative)
+                return true; 
 
             // if both are whole numbers, compare digits normally.
             byte[] l_bytes = num1.bytes,
