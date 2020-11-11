@@ -24,7 +24,7 @@ namespace Eeloo.Evaluator
                      stop = exp2.AsNumber();
             
             ICollection<eeObject> rangeObj;
-            if (exps.Length == 2)
+            if (exps.Length == 2) // only two numbers provided, assume step is 1
                 rangeObj = RangeGenerator.Generate(start, stop, eeNumber.ONE);
             else
                 rangeObj = RangeGenerator.Generate(start, stop, Visit(exps[2]).AsNumber());
