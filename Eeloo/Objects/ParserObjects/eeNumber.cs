@@ -522,6 +522,8 @@ namespace Eeloo.Objects.ParserObjects
 
         public static bool operator >(eeNumber num1, eeNumber num2)
         {
+            bool flip = false;
+
             // if at least one number is a fraction
             if (num1.IsFrac() || num2.IsFrac())
             {
@@ -538,7 +540,23 @@ namespace Eeloo.Objects.ParserObjects
                 return false;
             // lhs isn't neg and rhs is
             else if (!num1.negative && num2.negative)
-                return true; 
+                return true;
+            // both negative
+            else if (num1.negative && num2.negative)
+            {
+                /* Copy the numbers, compare the positive ones in the inverse order.
+                 * Simply flipping the comparison without altering the numbers creates an infinite loop
+                 * and removing the negative from the original object could cause damage higher up.
+                */
+
+                var num1_copy = num1.Copy();
+                num1_copy.negative = false;
+
+                var num2_copy = num2.Copy();
+                num2_copy.negative = false;
+
+                return num2_copy > num1_copy;
+            }
 
             // if both are whole numbers, compare digits normally.
             byte[] l_bytes = num1.bytes,
