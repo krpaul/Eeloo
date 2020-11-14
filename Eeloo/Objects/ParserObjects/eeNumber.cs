@@ -489,11 +489,6 @@ namespace Eeloo.Objects.ParserObjects
             if (num1.bytes.Length != num2.bytes.Length)
                 return false;
 
-            if (num1.IsFrac() && num2.IsFrac())
-            {
-                int l =5;
-            }
-
             // check negatives
             bool negA = num1.negative,
                  negB = num2.negative;
@@ -636,14 +631,14 @@ namespace Eeloo.Objects.ParserObjects
         /* Removes all preceding zeros from num */
         private void TrimZeros()
         {
-            /* Func which removes all preceding zeros from num.
+            /* Func which removes all preceding zeros from num. (Also fixes a negative 0)
              * We can't use indexing in case the length of the array overflows a long.
              * We also cant use recursion because of maximum recursion depth. 
              * Best solution is a LINQ query             
              */
 
             // Check if func call is uneeded.
-            if (bytes.Length == 1 || bytes[0] != 0)
+            if (bytes.Length == 1 || bytes[0] != 0 || this == eeNumber.ZERO)
                 return;
 
             // SkipWhile each first elem is 0
