@@ -159,7 +159,7 @@ namespace Eeloo.Objects.ParserObjects
             if (num1.negative && !num2.negative)
             {
                 // add them then negate it
-                num2.negative = false;
+                num1.negative = false;
                 var sum = num1 + num2;
                 sum.negative = true;
                 return sum;
@@ -637,16 +637,15 @@ namespace Eeloo.Objects.ParserObjects
              * Best solution is a LINQ query             
              */
 
-            // Check if func call is uneeded.
-            if (bytes.Length == 1 || bytes[0] != 0 || this == eeNumber.ZERO)
-                return;
-
             // SkipWhile each first elem is 0
             bytes = bytes.SkipWhile(x => x == 0).ToArray();
 
             // If it removed all the nums, it's a zero
             if (bytes.Length == 0)
+            {
                 bytes = new byte[1] { 0 };
+                this.negative = false;
+            }
         }
 
         /* Removes all two digits nums from num and carrys over digits */

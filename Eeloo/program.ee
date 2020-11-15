@@ -7,11 +7,8 @@ r6 = -5 to -1
 print(r4 as list)
 print(r5 as list)
 print(r6 as list)
-
+end comment
 
 r7 = -1 to -5
 print(r7 as list)
 
-end comment
-
-print(-1 > -5)
