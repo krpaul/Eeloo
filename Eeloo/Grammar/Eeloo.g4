@@ -37,8 +37,8 @@ list: L_SQ_BRACK NL* exps? NL* R_SQ_BRACK ;
 
 string: STR ;
 
-var: IDENTIFIER								#variable
-   | var (L_SQ_BRACK exp R_SQ_BRACK)		#arrayIndex
+var: IDENTIFIER							 #variable
+   | var (L_SQ_BRACK exp R_SQ_BRACK)	 #arrayIndex
    ;
 
 num: NUMBER				#int
@@ -54,7 +54,8 @@ exp:  MINUS? num     			         #numExp
 	| IDENTIFIER OF exp				     #verboseAttributeExp
     | LBRACK exp RBRACK		             #bracketedExp
 	| <assoc=right> exp POWER exp		 #pwrExp
-	| exp opr=(MULTIPLY | DIVIDE | MOD) exp	 #multiplicativeOprExp
+	| exp opr=(MULTIPLY | DIVIDE 
+			   | MOD) exp				 #multiplicativeOprExp
 	| exp opr=(PLUS | MINUS) exp		 #additiveOprExp
 	| exp opr=(LESS_EQL | GRT_EQL | 
 			   LESS     | GRT     ) exp  #comparisonExp
@@ -88,9 +89,10 @@ for_stmt: FOR_EACH var (IN | FROM) exp NL lines END ;
 
 from_loop: FROM exp RANGE_1 exp (RANGE_2 exp)? USE IDENTIFIER NL lines END ;
 
-repeat_loop: REPEAT exp TIMES NL lines END 
+repeat_loop: REPEAT exp TIMES NL lines END
 			| exp TIMES (DO)? NL lines END
-			| (DO)? exp TIMES NL lines END;
+			| (DO)? exp TIMES NL lines END
+			;
 
 /* End loops */
 
@@ -105,7 +107,7 @@ fn_call: IDENTIFIER NL* LBRACK NL* exps? NL* RBRACK |
 
 fn_def_keyword : DEFINE | (DEFINE? NEW? FUNCTION) ;
 fn_def: fn_def_keyword IDENTIFIER (LBRACK fn_args RBRACK)? NL lines END 
-	  | fn_def_keyword IDENTIFIER ((LESS | GRT) fn_args)? NL lines END
+	  | fn_def_keyword IDENTIFIER (ARROW fn_args)? NL lines END
 	  ;
 
 fn_args: fn_arg (COMMA fn_arg)* COMMA? ;

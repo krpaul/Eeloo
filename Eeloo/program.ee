@@ -1,5 +1,5 @@
-﻿define pr(a, b, c)
-	print(a, b, c)
+﻿define pr <- a, b, c
+	print <- a, b, c
 end
 
 pr <- "a", "b", "c"
