@@ -5,19 +5,19 @@ using Antlr4.Runtime;
 
 namespace Eeloo.Objects.ParserObjects
 {
-    class StackTrace
+    public class CallStack
     {
-        private List<ParserRuleContext> trace = new List<ParserRuleContext>();
+        private List<ParserRuleContext> stack = new List<ParserRuleContext>();
 
         public void AddCall(ParserRuleContext context)
         {
-            trace.Add(context);
+            stack.Add(context);
         }
 
         public override string ToString()
         {
             StringBuilder build = new StringBuilder(); 
-            foreach (var ctx in this.trace)
+            foreach (var ctx in this.stack)
             {
                 build.Append($"Line {ctx.Start.Line} column {ctx.Start.Column} {Environment.NewLine}");
             }
