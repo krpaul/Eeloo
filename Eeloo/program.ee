@@ -1,4 +1,4 @@
-﻿def pr(a, b, c)
+﻿define pr(a, b, c)
 	print(a, b, c)
 end
 
