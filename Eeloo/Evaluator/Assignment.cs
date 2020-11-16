@@ -27,7 +27,7 @@ namespace Eeloo.Evaluator
             if (oldVar == null)
             {
                 // get iden of non null alternative
-                string iden = asVar != null ? asVar.IDENTIFIER().GetText() : asArr.IDENTIFIER().GetText();
+                string iden = asVar != null ? asVar.IDENTIFIER().GetText() : asArr.var().GetText();
 
                 scope.assignVar(iden, assignVal);
 

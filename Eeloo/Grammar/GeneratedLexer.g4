@@ -1,5 +1,4 @@
 lexer grammar GeneratedLexer;
-
 /* Edit this file for changes to the lexer 
  * All the rules with << >> brackets bounding 
  * a keyword will be replaced with many alias
@@ -72,6 +71,8 @@ TO		   :   'to'		;
 OF		   : WS 'of' WS ;
 AS         : WS 'as' WS ;
 BY		   :   'by'     ;
+
+ARROW      :   '<-'     ;
 
 EQL        :   '='      ;
 PLUS       :   '+'      ;

@@ -71,6 +71,8 @@ OF		   : WS 'of' WS ;
 AS         : WS 'as' WS ;
 BY		   :   'by'     ;
 
+ARROW      :   '<-'     ;
+
 EQL        :   '='      ;
 PLUS       :   '+'      ;
 MINUS      :   '-'      ;

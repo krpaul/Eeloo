@@ -38,7 +38,7 @@ list: L_SQ_BRACK NL* exps? NL* R_SQ_BRACK ;
 string: STR ;
 
 var: IDENTIFIER								#variable
-   | var (L_SQ_BRACK exp R_SQ_BRACK)+		#arrayIndex
+   | var (L_SQ_BRACK exp R_SQ_BRACK)		#arrayIndex
    ;
 
 num: NUMBER				#int
@@ -100,7 +100,8 @@ if_partial: IF exp THEN? NL lines ;
 else_if_partial: ELSE IF exp THEN? NL lines ;
 else_partial: ELSE THEN? NL lines;
 
-fn_call: IDENTIFIER NL* LBRACK NL* exps? NL* RBRACK ;
+fn_call: IDENTIFIER NL* LBRACK NL* exps? NL* RBRACK |
+		 IDENTIFIER NL* ARROW NL* exps				;
 
 fn_def_keyword : DEFINE | (DEFINE? NEW? FUNCTION) ;
 fn_def: fn_def_keyword IDENTIFIER (LBRACK fn_args RBRACK)? NL lines END 

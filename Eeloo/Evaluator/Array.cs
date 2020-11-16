@@ -12,7 +12,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitArrayIndex([NotNull] EelooParser.ArrayIndexContext ctx)
         {
             // Get the name of the array variable
-            string iden = ctx.IDENTIFIER().GetText();
+            string iden = ctx.var().GetText();
 
             // Get the value
             var variableVal = scope.resolveVar(iden);
