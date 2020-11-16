@@ -103,6 +103,21 @@ namespace Eeloo.Functions
                         return null;
                     }
                 },
+                {
+                    "reverse", // reverses the values of the list
+                    (eeObject self, ICollection<eeObject> args) =>
+                    {
+                        if (args.Count() > 0)
+                            throw new Exception("This method takes no arguments");
+
+                        var list = self.AsList();
+                        
+                        var rev = list.ToArray();
+                        Array.Reverse(rev);
+
+                        return eeObject.newListObject(rev.ToList());
+                    }
+                },
             };
 
         public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> stringBuiltInMethods

@@ -108,13 +108,13 @@ namespace Eeloo.Objects.ParserObjects
             if (num1.negative && !num2.negative)
             {
                 num1.negative = false;
-                return num2 - num1;
+                return num2 - num1.Copy();
             }
             // If 2nd num is negative
             else if (num2.negative && !num1.negative)
             {
                 num2.negative = false;
-                return num1 - num2;
+                return num1 - num2.Copy();
             }
             // They're both negative
             else if (num1.negative && num2.negative)
@@ -150,13 +150,16 @@ namespace Eeloo.Objects.ParserObjects
             return num1;
         }
 
+
+        // Warning: Subtraction will destroy the contents of num2 and set the contents of num1 to the result
+        // Make sure to pass a copy of num2 if you are keeping its value
         public static eeNumber operator -(eeNumber num1, eeNumber num2)
         {
             // if first num is negative
             if (num1.negative && !num2.negative)
             {
                 // add them then negate it
-                num2.negative = false;
+                num1.negative = false;
                 var sum = num1 + num2;
                 sum.negative = true;
                 return sum;
@@ -486,11 +489,6 @@ namespace Eeloo.Objects.ParserObjects
             if (num1.bytes.Length != num2.bytes.Length)
                 return false;
 
-            if (num1.IsFrac() && num2.IsFrac())
-            {
-                int l =5;
-            }
-
             // check negatives
             bool negA = num1.negative,
                  negB = num2.negative;
@@ -519,6 +517,8 @@ namespace Eeloo.Objects.ParserObjects
 
         public static bool operator >(eeNumber num1, eeNumber num2)
         {
+            bool flip = false;
+
             // if at least one number is a fraction
             if (num1.IsFrac() || num2.IsFrac())
             {
@@ -529,6 +529,28 @@ namespace Eeloo.Objects.ParserObjects
 
                 // cross multiply & compare
                 return (numerator1 * denom2) > (numerator2 * denom1);
+            }
+            // lhs is neg and rhs isn't
+            else if (num1.negative && !num2.negative)
+                return false;
+            // lhs isn't neg and rhs is
+            else if (!num1.negative && num2.negative)
+                return true;
+            // both negative
+            else if (num1.negative && num2.negative)
+            {
+                /* Copy the numbers, compare the positive ones in the inverse order.
+                 * Simply flipping the comparison without altering the numbers creates an infinite loop
+                 * and removing the negative from the original object could cause damage higher up.
+                */
+
+                var num1_copy = num1.Copy();
+                num1_copy.negative = false;
+
+                var num2_copy = num2.Copy();
+                num2_copy.negative = false;
+
+                return num2_copy > num1_copy;
             }
 
             // if both are whole numbers, compare digits normally.
@@ -609,22 +631,21 @@ namespace Eeloo.Objects.ParserObjects
         /* Removes all preceding zeros from num */
         private void TrimZeros()
         {
-            /* Func which removes all preceding zeros from num.
+            /* Func which removes all preceding zeros from num. (Also fixes a negative 0)
              * We can't use indexing in case the length of the array overflows a long.
              * We also cant use recursion because of maximum recursion depth. 
              * Best solution is a LINQ query             
              */
-
-            // Check if func call is uneeded.
-            if (bytes.Length == 1 || bytes[0] != 0)
-                return;
 
             // SkipWhile each first elem is 0
             bytes = bytes.SkipWhile(x => x == 0).ToArray();
 
             // If it removed all the nums, it's a zero
             if (bytes.Length == 0)
+            {
                 bytes = new byte[1] { 0 };
+                this.negative = false;
+            }
         }
 
         /* Removes all two digits nums from num and carrys over digits */
