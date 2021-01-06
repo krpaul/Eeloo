@@ -20,7 +20,9 @@ namespace Eeloo.Functions
                 { new List<string>() { "output", "print", "say"  },  
                     new FnSignature(BuiltInFunctions.Output)},
                 { new List<string>() { "input", "query", "ask" }, 
-                    new FnSignature(BuiltInFunctions.Input)}
+                    new FnSignature(BuiltInFunctions.Input)},
+                { new List<string>() { "time", "getTime", "getUnixTime" },
+                    new FnSignature(BuiltInFunctions.Time)}
             };
 
         public static Delegate ResolveFunc(string name)

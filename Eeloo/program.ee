@@ -1,5 +1,1 @@
-﻿define pr <- a, b, c
-	print <- a, b, c
-end
-
-pr <- "a", "b", "c"
+﻿print <- time()
