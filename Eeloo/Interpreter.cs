@@ -21,8 +21,8 @@ namespace Eeloo
     { 
         public static EvalVisitor visitor;
         public static string filename = "";
+        public static CallStack globalStack = new CallStack();
 
-        
         public static void Main(string[] args) // passing filenames to read
         {
             //var a = new eeList(eeObject.newStringObject("first obj"));

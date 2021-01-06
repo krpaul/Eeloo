@@ -410,23 +410,23 @@ namespace Eeloo.Objects
             switch (this.type)
             {
                 case eeObjectType.NUMBER:
-                    var num = AsNumber();
+                    eeNumber num = AsNumber();
                     switch (modifier)
                     {
                         case "negative":
-                            if (num > 0)
+                            if (num > eeNumber.ZERO)
                                 valid = false;
                             break;
                         case "positive":
-                            if (num < 0)
+                            if (num < eeNumber.ZERO)
                                 valid = false;
                             break;
                         case "even":
-                            if (num % 2 != 0)
+                            if (num % eeNumber.TWO != eeNumber.ZERO)
                                 valid = false;
                             break;
                         case "odd":
-                            if (num % 2 != 1)
+                            if (num % eeNumber.TWO != eeNumber.ONE)
                                 valid = false;
                             break;
                         default:
