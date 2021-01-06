@@ -854,6 +854,36 @@ namespace Eeloo.Objects.ParserObjects
             return copy;
         }
 
+        // return this number as a list of true and false
+        // false -> 0, true -> 1
+        public List<bool> Binary()
+        {
+            var bin = new List<bool>();
+            var quo = this.Copy();
+            quo.denominator = null;
+
+            while (quo > ONE)
+            {
+                eeNumber rem;
+                quo = quo.IntegerDivision(eeNumber.TWO, out rem);
+
+                if (rem == ONE)
+                    bin.Add(true);
+                else if (rem == ZERO)
+                    bin.Add(false);
+                else throw new Exception();
+            }
+
+            if (quo == ONE)
+                bin.Add(true);
+            else if (quo == ZERO)
+                bin.Add(false);
+            else throw new Exception();
+
+            bin.Reverse();
+            return bin;
+        }
+
         #endregion
     }
 }

@@ -185,7 +185,25 @@ namespace Eeloo.Functions
         public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> numberBuiltInMethods
             = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
             {
+                {
+                    "binary", // appends new values to the end of the list
+                    (eeObject self, ICollection<eeObject> args) =>
+                    {
+                        if (args.Count() > 0)
+                            throw new Exception("This method takes no arguments");
 
+                        var bin = new List<eeObject>();
+
+                        foreach (bool b in self.AsNumber().Binary())
+                        {
+                            bin.Add(
+                                eeObject.newNumberObject(b ? eeNumber.ONE.Copy() : eeNumber.ZERO.Copy())
+                            );
+                        }
+                        
+                        return eeObject.newListObject(bin);
+                    }
+                },
             };
     }
 }
