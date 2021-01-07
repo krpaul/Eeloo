@@ -25,19 +25,13 @@ namespace Eeloo
 
         public static void Main(string[] args) // passing filenames to read
         {
-            //var a = new eeList(eeObject.newStringObject("first obj"));
-            //for (eeNumber i = new eeNumber(21); i < new eeNumber(500); i += eeNumber.ONE)
-            //{
-            //    a.Append(eeObject.newNumberObject(i));
-            //}
-
-            //Console.WriteLine(a.ToString());
-            //return;
             // Get file text
             string input = File.ReadAllText(args[0]);
             filename = args[0].Split('/').Last();
 
             Interpret(input);
+
+            Console.WriteLine(new eeNumber(1610054060000).GCF(new eeNumber(1000000)));
         }
 
         public static void Interpret(string input)

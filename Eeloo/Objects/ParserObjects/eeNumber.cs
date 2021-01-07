@@ -924,20 +924,21 @@ namespace Eeloo.Objects.ParserObjects
 
             return num;
         }
+        
+        // GCF with Euclid's algorithm
+        public eeNumber GCF(eeNumber prod2)
+        {
+            var prod1 = this.Copy();
+            while (prod1 != ZERO && prod2 != ZERO)
+            {
+                if (prod1 > prod2)
+                    prod1 %= prod2;
+                else
+                    prod2 %= prod1;
+            }
 
-        //public eeNumber GCF(eeNumber prod2)
-        //{
-        //    var prod1 = this.Copy();
-        //    while (prod1 != ZERO && prod2 != ZERO)
-        //    {
-        //        if (prod1 > prod2)
-        //            prod1 %= prod2;
-        //        else
-        //            prod2 %= prod1;
-        //    }
-
-        //    return prod1 | prod2;
-        //}
+            return prod1 | prod2;
+        }
 
         #endregion
     }
