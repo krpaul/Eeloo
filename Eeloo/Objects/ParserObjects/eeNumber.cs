@@ -47,6 +47,9 @@ namespace Eeloo.Objects.ParserObjects
             bytes = num.ToString().ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray();
         }
 
+        public eeNumber(ulong num)
+        { bytes = num.ToString().ToCharArray().Select(x => byte.Parse(x.ToString())).ToArray(); }
+
         public eeNumber(string num)
         {
             if (num.StartsWith("-")) // If it's negative
@@ -474,6 +477,29 @@ namespace Eeloo.Objects.ParserObjects
             return rem;
         }
 
+        public static eeNumber operator |(eeNumber num1, eeNumber num2)
+        {
+            List<bool> bin1 = num1.ToBinary(),
+                       bin2 = num2.ToBinary();
+
+            while (bin1.Count() != bin2.Count())
+            {
+                if (bin1.Count() > bin2.Count())
+                    bin2.Insert(0, false);
+                else
+                    bin1.Insert(0, false);
+            }
+
+            bool[] newBin = new bool[bin1.Count()];
+
+            for (int i = 0; i < bin1.Count(); i++)
+            {
+                newBin[i] = bin1[i] | bin2[i];
+            }
+
+            return FromBinary(newBin);
+        }
+
         public static bool operator ==(eeNumber num1, eeNumber num2)
         {
             // check if they're null first
@@ -591,6 +617,7 @@ namespace Eeloo.Objects.ParserObjects
 
         public static bool operator >=(eeNumber num1, eeNumber num2)
         { return num1 == num2 || num1 > num2; }
+
 
         public bool IsEven()
         { return this.bytes[0] % 2 == 0; }
@@ -856,7 +883,7 @@ namespace Eeloo.Objects.ParserObjects
 
         // return this number as a list of true and false
         // false -> 0, true -> 1
-        public List<bool> Binary()
+        public List<bool> ToBinary()
         {
             var bin = new List<bool>();
             var quo = this.Copy();
@@ -883,6 +910,34 @@ namespace Eeloo.Objects.ParserObjects
             bin.Reverse();
             return bin;
         }
+
+        private static eeNumber FromBinary(bool[] bin)
+        {
+            var num = new eeNumber(0);
+            for (int idx = 0; idx < bin.Length; idx++)
+            {
+                if (bin[idx])
+                {
+                    num += new eeNumber((ulong) Math.Pow(2, bin.Length - idx - 1));
+                }
+            }
+
+            return num;
+        }
+
+        //public eeNumber GCF(eeNumber prod2)
+        //{
+        //    var prod1 = this.Copy();
+        //    while (prod1 != ZERO && prod2 != ZERO)
+        //    {
+        //        if (prod1 > prod2)
+        //            prod1 %= prod2;
+        //        else
+        //            prod2 %= prod1;
+        //    }
+
+        //    return prod1 | prod2;
+        //}
 
         #endregion
     }

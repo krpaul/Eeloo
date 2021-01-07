@@ -194,7 +194,7 @@ namespace Eeloo.Functions
 
                         var bin = new List<eeObject>();
 
-                        foreach (bool b in self.AsNumber().Binary())
+                        foreach (bool b in self.AsNumber().ToBinary())
                         {
                             bin.Add(
                                 eeObject.newNumberObject(b ? eeNumber.ONE.Copy() : eeNumber.ZERO.Copy())
