@@ -398,10 +398,8 @@ namespace Eeloo.Objects.ParserObjects
                 // check if right is a factor of left
                 if (num1 > num2)
                 {
-                    eeNumber i;
-                    for (i = new eeNumber(1); (i * num2) < num1; i += ONE) ;
-                    if ((i * num2) == num1)
-                        return i;
+                    var m = num1 % num2;
+                    if (m == ZERO) return num1 % num2;
                 }
 
                 num1.denominator = num2;
@@ -725,19 +723,8 @@ namespace Eeloo.Objects.ParserObjects
             if (this == ZERO || denom == ONE) // if the numerator is zero or denom is 1, return as-is (without denom)
                 return;
 
-            /* Iterate from 0 to the smaller number out of numerator/denominator. 
-             * Then use the GCD to simplify
-             */
-            var smaller = this > denom ? denom : this;
-            eeNumber gcd = new eeNumber(1);
-            for (eeNumber i = new eeNumber(1); i < smaller; i += ONE)
-            {
-                this.IntegerDivision(i, out eeNumber rem1);
-                denom.IntegerDivision(i, out eeNumber rem2);
-
-                if ((rem1 == ZERO) && (rem2 == ZERO))
-                    gcd.bytes = i.bytes;
-            }
+            // use the GCD to simplify
+            eeNumber gcd = this.GCF(denom);
 
             if (gcd == ONE) // no change needed
                 this.denominator = denom;
@@ -925,7 +912,7 @@ namespace Eeloo.Objects.ParserObjects
             return num;
         }
         
-        // GCF with Euclid's algorithm
+        // Greatest Common Factor using Euclid's algorithm
         public eeNumber GCF(eeNumber prod2)
         {
             var prod1 = this.Copy();

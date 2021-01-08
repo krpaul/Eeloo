@@ -12,9 +12,8 @@ namespace Eeloo.Functions
         public static eeObject Time(ICollection<eeObject> args)
         {
             var utime = ((long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalMilliseconds) * 1000;
-            var tmp = new eeNumber(utime) / new eeNumber(1000000) ;
             return eeObject.newNumberObject(
-                tmp
+                new eeNumber(utime) / new eeNumber(1000000)
             );
         }
     }

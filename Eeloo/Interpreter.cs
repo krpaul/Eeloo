@@ -30,8 +30,6 @@ namespace Eeloo
             filename = args[0].Split('/').Last();
 
             Interpret(input);
-
-            Console.WriteLine(new eeNumber(1610054060000).GCF(new eeNumber(1000000)));
         }
 
         public static void Interpret(string input)

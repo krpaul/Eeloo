@@ -1,1 +1,6 @@
-﻿print <- 7429347982.binary()
+﻿t1 = time()
+print("a")
+t2 = time()
+
+print <- (t1 - t2)
+print <- t2
