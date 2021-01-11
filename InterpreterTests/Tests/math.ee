@@ -14,3 +14,6 @@ assert 9/5 == 18/10
 assert 9/-5 is -18/10
 assert -9/5 isn't 18/10
 assert -9/-5 is 18/10
+
+assert 2.89432924 - 1.342700000 is 1.55162924
+assert 4/2 - 1/2 is 3/2

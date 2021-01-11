@@ -158,6 +158,23 @@ namespace Eeloo.Objects.ParserObjects
         // Make sure to pass a copy of num2 if you are keeping its value
         public static eeNumber operator -(eeNumber num1, eeNumber num2)
         {
+            // If either number is a fraction, cross multiply
+            if (num1.IsFrac() || num2.IsFrac())
+            {
+                eeNumber frac1 = num1.PopDenominator(),
+                         frac2 = num2.PopDenominator();
+
+                num1 *= frac2;
+                num2 *= frac1;
+
+                var ret = (num1 - num2) / (frac1 * frac2);
+
+                ret.TrimZeros();
+                ret.Simplify();
+
+                return ret;
+            }
+
             // if first num is negative
             if (num1.negative && !num2.negative)
             {
