@@ -1,4 +1,4 @@
-﻿function AddAndSquare < num1, num2
+﻿function AddAndSquare <- num1, num2
 	return (num1 + num2) raised to the 2
 end
 
@@ -11,11 +11,11 @@ assert AddAndSquare(1.5, 1.5) is 9
 assert SubtractAndSquare(1.5, 1.5) is 0
 
 // test different syntaxes
-define new function add > a, b
+define new function add <- a, b
 	return a + b
 end
 
-new function subtract < a, b
+new function subtract <- a, b
 	return a -b
 end
 
