@@ -173,8 +173,11 @@ namespace Eeloo.Objects.ParserObjects
 
         // Warning: Subtraction will destroy the contents of num2 and set the contents of num1 to the result
         // Make sure to pass a copy of num2 if you are keeping its value
-        public static eeNumber operator -(eeNumber num1, eeNumber num2)
+        public static eeNumber operator -(eeNumber num1_orig, eeNumber num2_orig)
         {
+            eeNumber num1 = num1_orig.Copy(),
+                     num2 = num2_orig.Copy();
+
             // If either number is a fraction, cross multiply
             if (num1.IsFrac() || num2.IsFrac())
             {
