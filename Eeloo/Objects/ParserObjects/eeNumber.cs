@@ -513,29 +513,6 @@ namespace Eeloo.Objects.ParserObjects
             return rem;
         }
 
-        public static eeNumber operator |(eeNumber num1, eeNumber num2)
-        {
-            List<bool> bin1 = num1.ToBinary(),
-                       bin2 = num2.ToBinary();
-
-            while (bin1.Count() != bin2.Count())
-            {
-                if (bin1.Count() > bin2.Count())
-                    bin2.Insert(0, false);
-                else
-                    bin1.Insert(0, false);
-            }
-
-            bool[] newBin = new bool[bin1.Count()];
-
-            for (int i = 0; i < bin1.Count(); i++)
-            {
-                newBin[i] = bin1[i] | bin2[i];
-            }
-
-            return FromBinary(newBin);
-        }
-
         public static bool operator ==(eeNumber num1, eeNumber num2)
         {
             // check if they're null first
@@ -660,6 +637,52 @@ namespace Eeloo.Objects.ParserObjects
 
         public bool IsOdd()
         { return !this.IsEven(); }
+
+        #region Bitwise
+
+        public static eeNumber operator |(eeNumber num1, eeNumber num2)
+        {
+            List<bool> bin1 = num1.ToBinary(),
+                       bin2 = num2.ToBinary();
+
+            while (bin1.Count() != bin2.Count())
+            {
+                if (bin1.Count() > bin2.Count())
+                    bin2.Insert(0, false);
+                else
+                    bin1.Insert(0, false);
+            }
+
+            bool[] newBin = new bool[bin1.Count()];
+
+            for (int i = 0; i < bin1.Count(); i++)
+                newBin[i] = bin1[i] | bin2[i];
+
+            return FromBinary(newBin);
+        }
+
+        public static eeNumber operator &(eeNumber num1, eeNumber num2)
+        {
+            List<bool> bin1 = num1.ToBinary(),
+                       bin2 = num2.ToBinary();
+
+            while (bin1.Count() != bin2.Count())
+            {
+                if (bin1.Count() > bin2.Count())
+                    bin2.Insert(0, false);
+                else
+                    bin1.Insert(0, false);
+            }
+
+            bool[] newBin = new bool[bin1.Count()];
+
+            for (int i = 0; i < bin1.Count(); i++)
+                newBin[i] = bin1[i] & bin2[i];
+
+            return FromBinary(newBin);
+        }
+
+        #endregion
 
         #endregion
 
