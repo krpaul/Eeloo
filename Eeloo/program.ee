@@ -1,1 +1,16 @@
-﻿print <- 2.89432924 + 1.342700000
+﻿start comment
+
+t1 = time()
+print <- t1
+for i from 10 to 15
+	if i is 13
+		print <- t1, time(), t1 - time()
+	end
+end
+
+end comment
+
+t1 = time()
+repeat 100 times
+	print <- t1, time(), t1-time()
+end

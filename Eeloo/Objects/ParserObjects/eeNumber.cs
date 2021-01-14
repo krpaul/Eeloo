@@ -192,8 +192,11 @@ namespace Eeloo.Objects.ParserObjects
                 return ret;
             }
 
+            // if the two nums are the same
+            if (num1 == num2)
+                return ZERO.Copy();
             // if first num is negative
-            if (num1.negative && !num2.negative)
+            else if (num1.negative && !num2.negative)
             {
                 // add them then negate it
                 num1.negative = false;
@@ -487,13 +490,11 @@ namespace Eeloo.Objects.ParserObjects
             return result;
         }
 
-        public static eeNumber AsboluteValue(eeNumber num)
+        public eeNumber AbsoluteValue()
         {
-            if (num >= ZERO) return num;
-            else { 
-                num.negative = false;
-                return num;
-            }
+            var cpy = this.Copy();
+            cpy.negative = false;
+            return cpy;
         }
 
         public static eeNumber operator %(eeNumber num1, eeNumber num2)
@@ -749,6 +750,10 @@ namespace Eeloo.Objects.ParserObjects
             }
         }
 
+        /* Note: 
+         * We cannot use +, - (non-integer), or / operators in this function or it will cause an infinite recursion loop 
+         * We use the IntergerDivision function as a replacement for /
+         */
         private void Simplify()
         {
             if (this.IsInt()) return;
@@ -757,18 +762,18 @@ namespace Eeloo.Objects.ParserObjects
             if (this == ZERO || denom == ONE) // if the numerator is zero or denom is 1, return as-is (without denom)
                 return;
 
-            // use the GCD to simplify
-            eeNumber gcd = this.GCF(denom);
+            // use the GCF to simplify
+            eeNumber gcf = this.GCF(denom);
 
-            if (gcd == ONE) // no change needed
+            if (gcf == ONE) // no change needed
                 this.denominator = denom;
             else
             {
-                var newObj = this.IntegerDivision(gcd, out _);
+                var newObj = this.IntegerDivision(gcf, out _);
                 this.bytes = newObj.bytes;
 
-                if (this.denominator != gcd) // if denom won't be 1
-                    this.denominator = denom.IntegerDivision(gcd, out _);
+                if (this.denominator != gcf) // if denom won't be 1
+                    this.denominator = denom.IntegerDivision(gcf, out _);
             }
         }
 
@@ -796,7 +801,7 @@ namespace Eeloo.Objects.ParserObjects
         private eeNumber IntegerDivision(eeNumber divisor, out eeNumber mod)
         {
             // base case
-            if (this < divisor)
+            if (this.AbsoluteValue() < divisor.AbsoluteValue())
             {
                 mod = this;
                 return new eeNumber(0);
