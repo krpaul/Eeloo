@@ -29,7 +29,9 @@ namespace Eeloo
             string input = File.ReadAllText(args[0]);
             filename = args[0].Split('/').Last();
 
-            Interpret(input);
+            //Interpret(input);
+
+            Console.WriteLine(new eeNumber(10) << 3);
         }
 
         public static void Interpret(string input)

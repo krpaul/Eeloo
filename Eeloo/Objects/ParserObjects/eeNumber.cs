@@ -682,6 +682,59 @@ namespace Eeloo.Objects.ParserObjects
             return FromBinary(newBin);
         }
 
+        /* Left shift
+         * https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Rotate_left_logically.svg/225px-Rotate_left_logically.svg.png
+         * 
+         * Remove most right-hand digit and append zero to the left side. 
+         */
+
+        public static eeNumber operator <<(eeNumber num1, int num2)
+        { return LShift(num1, new eeNumber(num2)); }
+
+        public static eeNumber LShift(eeNumber num1, eeNumber num2)
+        {
+            if (num1.IsFrac() || num2.IsFrac())
+                throw new Exception("Cannot shift a non-int or by a non-int");
+
+            List<bool> bin1 = num1.ToBinary();
+
+            // trim the tail
+            for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
+                bin1.RemoveAt(bin1.Count() - 1);
+
+            // add to the front
+            for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
+                bin1.Add(false);
+
+            return FromBinary(bin1.ToArray());
+        }
+
+        /* Right shift
+         * https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Rotate_right_logically.svg/225px-Rotate_right_logically.svg.png
+         * 
+         * Remove most left-hand digit and append zero to the right side. 
+         */
+
+        public static eeNumber RShift(eeNumber num1, eeNumber num2)
+        {
+            return ZERO;
+
+            if (num1.IsFrac() || num2.IsFrac())
+                throw new Exception("Cannot shift a non-int or by a non-int");
+
+            List<bool> bin1 = num1.ToBinary();
+
+            // trim the tail
+            for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
+                bin1.RemoveAt(bin1.Count() - 1);
+
+            // add to the front
+            for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
+                bin1.Add(false);
+
+            return FromBinary(bin1.ToArray());
+        }
+
         #endregion
 
         #endregion
@@ -933,8 +986,15 @@ namespace Eeloo.Objects.ParserObjects
             return copy;
         }
 
-        // return this number as a list of true and false
-        // false -> 0, true -> 1
+        /* Returns this number as a list of bools
+         * false -> 0, true -> 1
+         * 
+         * It returns it in order such that index [0] is the most left-hand digit 
+         * of the binary representation and the last index is the most right-hand
+         * digit of the binary representation.
+         * 
+         * Ex: 11 as binary is [True, False, True, True]
+         */
         public List<bool> ToBinary()
         {
             var bin = new List<bool>();
