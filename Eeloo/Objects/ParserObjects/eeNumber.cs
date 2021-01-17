@@ -699,8 +699,8 @@ namespace Eeloo.Objects.ParserObjects
             List<bool> bin1 = num1.ToBinary();
 
             // trim the tail
-            for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
-                bin1.RemoveAt(bin1.Count() - 1);
+            //for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
+            //    bin1.RemoveAt(bin1.Count() - 1);
 
             // add to the front
             for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
@@ -715,22 +715,18 @@ namespace Eeloo.Objects.ParserObjects
          * Remove most left-hand digit and append zero to the right side. 
          */
 
+        public static eeNumber operator >>(eeNumber num1, int num2)
+        { return RShift(num1, new eeNumber(num2)); }
+
         public static eeNumber RShift(eeNumber num1, eeNumber num2)
         {
-            return ZERO;
-
             if (num1.IsFrac() || num2.IsFrac())
                 throw new Exception("Cannot shift a non-int or by a non-int");
 
             List<bool> bin1 = num1.ToBinary();
 
-            // trim the tail
             for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
                 bin1.RemoveAt(bin1.Count() - 1);
-
-            // add to the front
-            for (eeNumber i = ZERO.Copy(); i < num2; i += ONE)
-                bin1.Add(false);
 
             return FromBinary(bin1.ToArray());
         }

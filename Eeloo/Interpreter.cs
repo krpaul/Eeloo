@@ -31,7 +31,7 @@ namespace Eeloo
 
             //Interpret(input);
 
-            Console.WriteLine(new eeNumber(10) << 3);
+            Console.WriteLine(new eeNumber(20) >> 1);
         }
 
         public static void Interpret(string input)
