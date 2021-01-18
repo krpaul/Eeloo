@@ -205,6 +205,18 @@ namespace Eeloo.Functions
                     }
                 },
                 {
+                    "digits", // returns a list of digits of this num
+                    (eeObject self, ICollection<eeObject> args) =>
+                    {
+                        if (args.Count() > 0)
+                            throw new Exception("This method takes no arguments");
+
+                        return eeObject.newListObject(
+                            ((((List<eeNumber>)(((eeNumber)self.AsNumber()).Digits())).Select(num => eeObject.newNumberObject(num)))).ToList()
+                        );
+                    }
+                },
+                {
                     "factorial", // returns the factorial of this num
                     (eeObject self, ICollection<eeObject> args) =>
                     {

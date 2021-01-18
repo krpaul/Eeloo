@@ -1,2 +1,2 @@
-﻿print <- 35!
-print <- 35.factorial()
+﻿fact = 100!
+print <- fact.digits().sum()

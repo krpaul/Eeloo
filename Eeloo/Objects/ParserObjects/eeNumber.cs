@@ -1052,6 +1052,15 @@ namespace Eeloo.Objects.ParserObjects
             return prod1 | prod2;
         }
 
+        public List<eeNumber> Digits()
+        {
+            var list = new List<eeNumber>();
+            foreach (byte b in this.bytes)
+                list.Add(new eeNumber(b));
+
+            return list;
+        }
+
         #endregion
     }
 }
