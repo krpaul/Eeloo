@@ -57,6 +57,7 @@ exp:  MINUS? num     			         #numExp
 	| exp opr=(MULTIPLY | DIVIDE 
 			   | MOD) exp				 #multiplicativeOprExp
 	| exp opr=(PLUS | MINUS) exp		 #additiveOprExp
+	| exp FACTORIAL    					 #factorialExp
 	| exp opr=(LESS_EQL | GRT_EQL | 
 			   LESS     | GRT     ) exp  #comparisonExp
 	| exp (IS NOT | ISNT) exp			 #inequalityExp

@@ -186,7 +186,7 @@ namespace Eeloo.Functions
             = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
             {
                 {
-                    "binary", // appends new values to the end of the list
+                    "binary", // returns the binary representation of this num
                     (eeObject self, ICollection<eeObject> args) =>
                     {
                         if (args.Count() > 0)
@@ -202,6 +202,16 @@ namespace Eeloo.Functions
                         }
                         
                         return eeObject.newListObject(bin);
+                    }
+                },
+                {
+                    "factorial", // returns the factorial of this num
+                    (eeObject self, ICollection<eeObject> args) =>
+                    {
+                        if (args.Count() > 0)
+                            throw new Exception("This method takes no arguments");
+
+                        return eeObject.newNumberObject(self.AsNumber().Factorial());
                     }
                 },
             };

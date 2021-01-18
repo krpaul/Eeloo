@@ -31,8 +31,8 @@ namespace Eeloo.Objects.ParserObjects
 
         // static often-used nums
         public static readonly eeNumber ZERO = new eeNumber(0),
-                                        ONE  = new eeNumber(1),
-                                        TWO  = new eeNumber(2);
+                                        ONE = new eeNumber(1),
+                                        TWO = new eeNumber(2);
 
         #region Constructors
 
@@ -93,10 +93,10 @@ namespace Eeloo.Objects.ParserObjects
             var bytes = new List<byte>();
             foreach (var num in nums)
             {
-                foreach(byte b in num.bytes)
+                foreach (byte b in num.bytes)
                     bytes.Add(b);
             }
-            this.bytes = bytes.ToArray();         
+            this.bytes = bytes.ToArray();
         }
 
         #endregion
@@ -159,7 +159,7 @@ namespace Eeloo.Objects.ParserObjects
             int i;
             for (i = 0; i < rhs.Length; i++)
             {
-                byte digitSum = (byte) (rhs[i] + lhs[i]);
+                byte digitSum = (byte)(rhs[i] + lhs[i]);
                 lhs[i] = digitSum;
             }
 
@@ -280,7 +280,7 @@ namespace Eeloo.Objects.ParserObjects
                     carry = false;
                 }
             }
-            
+
             // Put it in order again
             l_bytes = l_bytes.Reverse().ToArray();
 
@@ -368,7 +368,7 @@ namespace Eeloo.Objects.ParserObjects
 
                         if (digitProduct > 9)
                         {
-                            carry = (byte) (digitProduct / 10);
+                            carry = (byte)(digitProduct / 10);
                             digitProduct %= 10;
                         }
 
@@ -453,7 +453,7 @@ namespace Eeloo.Objects.ParserObjects
             {
                 eeNumber numerator = num1 * num2.denominator;
                 eeNumber denominator = num2;
-                
+
                 var newNum = numerator / denominator;
                 newNum.negative = negate;
                 return newNum;
@@ -511,7 +511,7 @@ namespace Eeloo.Objects.ParserObjects
             bool nullA = object.Equals(num1, null),
                  nullB = object.Equals(num2, null)
                  ;
-        
+
             if (nullA && nullB) // both null -> true
                 return true;
             else if (nullA ^ nullB) // only one null -> false
@@ -533,7 +533,7 @@ namespace Eeloo.Objects.ParserObjects
             for (int i = 0; i < l_bytes.Length; i++)
             {
                 if (l_bytes[i] != r_bytes[i])
-                    return false; 
+                    return false;
             }
 
             // true if both integers or fracitons
@@ -590,7 +590,7 @@ namespace Eeloo.Objects.ParserObjects
 
             // If lhs has more digits
             if (l_bytes.Length > r_bytes.Length)
-                return true; 
+                return true;
             // If rhs has more digits
             else if (l_bytes.Length < r_bytes.Length)
                 return false;
@@ -721,6 +721,20 @@ namespace Eeloo.Objects.ParserObjects
                 bin1.RemoveAt(bin1.Count() - 1);
 
             return FromBinary(bin1.ToArray());
+        }
+
+        public eeNumber Factorial()
+        {
+            if (this < ZERO)
+                throw new Exception();
+            else if (this == ZERO)
+                return ONE.Copy();
+
+            var sum = ONE.Copy();
+            for (eeNumber i = this.Copy(); i > ZERO; i -= ONE)
+                sum *= i;
+
+            return sum;
         }
 
         #endregion

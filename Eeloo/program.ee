@@ -1,10 +1,2 @@
-﻿sum = 0
-t1 = time()
-for every i from 0 to 1000
-	print <- i ^ i 
-	// sum = sum + (i ^ i)
-end
-
-print <- i
-print <- sum 
-print <- time() - t1
+﻿print <- 35!
+print <- 35.factorial()

@@ -80,6 +80,18 @@ namespace Eeloo.Evaluator
         public override eeObject VisitBracketedExp([NotNull] EelooParser.BracketedExpContext ctx)
         { return Visit(ctx.exp()); }
 
+        public override eeObject VisitFactorialExp([NotNull] EelooParser.FactorialExpContext ctx)
+        {
+            var num = Visit(ctx.exp());
+
+            if (num.type != eeObjectType.NUMBER)
+                throw new Exception();
+
+            eeNumber fact = num.AsNumber().Factorial();
+
+            return eeObject.newNumberObject(fact);
+        }
+
         //public override eeObject VisitNegationExp([NotNull] EelooParser.NegationExpContext ctx)
         //{
         //    var num = Visit(ctx.exp()).AsNumber();

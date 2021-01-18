@@ -80,6 +80,7 @@ DIVIDE     :   '/' | <<divide>>     ;
 MULTIPLY   :   '*' | <<multiply>>   ;
 POWER      :   '^' | <<power>>	    ; 
 MOD		   :   '%' | <<mod>>		;
+FACTORIAL  :   '!' ;
 
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   <<count_by>> ;

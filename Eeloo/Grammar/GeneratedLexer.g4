@@ -81,6 +81,7 @@ DIVIDE     :   '/' | WS 'over' WS | WS 'divided' WS 'by' WS     ;
 MULTIPLY   :   '*' | WS 'times' WS | WS 'multiplied' WS 'by' WS   ;
 POWER      :   '^' | WS 'to' WS 'the' WS 'power' WS 'of' WS | WS 'raised' WS 'to' WS 'the' WS | WS 'to' WS 'the' WS	    ; 
 MOD		   :   '%' | WS 'mod' WS | WS 'modulo' WS		;
+FACTORIAL  :   '!' ;
 
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   WS 'by' WS | WS 'count' WS 'by' WS | WS 'counting' WS 'by' WS | WS 'skip' WS | WS 'skipping' WS ;
