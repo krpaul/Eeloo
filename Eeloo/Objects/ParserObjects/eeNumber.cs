@@ -472,25 +472,17 @@ namespace Eeloo.Objects.ParserObjects
             }
         }
 
-        /* https://bisqwit.iki.fi/story/howto/bitmath/#OptimizationForConstantExponents */
+        /* https://stackoverflow.com/a/11419400/9628054 */
         public static eeNumber Power(eeNumber base_, eeNumber exp)
         {
-            var result = new eeNumber(1);
-            while (exp > ONE)
+            var y = ONE.Copy();
+            while (true)
             {
-                if (exp.IsOdd()) // A is odd?
-                {
-                    result = result * base_;
-                }
-                base_ = base_ * base_;
-                exp = exp.IntegerDivision(TWO, out _); // right-shift, i.e. divide by 2, round down
+                if ((exp & ONE) != ZERO) y *= base_;
+                exp >>= 1;
+                if (exp == ZERO) return y;
+                base_ *= base_;
             }
-            if (exp > ZERO)
-            {
-                result = result * base_;
-            }
-
-            return result;
         }
 
         public eeNumber AbsoluteValue()
@@ -1025,9 +1017,7 @@ namespace Eeloo.Objects.ParserObjects
             for (int idx = 0; idx < bin.Length; idx++)
             {
                 if (bin[idx])
-                {
                     num += new eeNumber((ulong) Math.Pow(2, bin.Length - idx - 1));
-                }
             }
 
             return num;

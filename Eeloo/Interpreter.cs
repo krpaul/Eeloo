@@ -15,6 +15,8 @@ using Eeloo.Evaluator;
 using Eeloo.Evaluator.Exceptions;
 using Eeloo.Grammar;
 
+using System.Diagnostics;
+
 namespace Eeloo
 {
     public class Interpreter
@@ -29,9 +31,7 @@ namespace Eeloo
             string input = File.ReadAllText(args[0]);
             filename = args[0].Split('/').Last();
 
-            //Interpret(input);
-
-            Console.WriteLine(new eeNumber(20) >> 1);
+            Interpret(input);
         }
 
         public static void Interpret(string input)

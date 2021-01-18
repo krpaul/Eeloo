@@ -1,7 +1,10 @@
-﻿t1 = time()
-print <- t1
-for i from 10 to 15
-	if i is 13
-		print <- t1, time(), t1 - time()
-	end
+﻿sum = 0
+t1 = time()
+for every i from 0 to 1000
+	print <- i ^ i 
+	// sum = sum + (i ^ i)
 end
+
+print <- i
+print <- sum 
+print <- time() - t1
