@@ -12,8 +12,8 @@ namespace Eeloo.Errors
 {
     class NoFunctionError : BaseError
     {
-        public NoFunctionError(ParserRuleContext error_context, string fnName) 
-            : base(error_context, "NoFunctionError", $"Function with name {fnName} does not exist.")
+        public NoFunctionError(string fnName) 
+            : base("NoFunctionError", $"Function with name {fnName} does not exist.")
         {}
     }
 }

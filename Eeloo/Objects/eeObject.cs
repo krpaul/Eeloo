@@ -344,7 +344,7 @@ namespace Eeloo.Objects
         #endregion
 
         #region Operations
-        public eeObject Add(Antlr4.Runtime.ParserRuleContext context, eeObject exp)
+        public eeObject Add(eeObject exp)
         {
             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING) // string math
                 return StringMathHelpers.Add(this, exp);
@@ -353,10 +353,10 @@ namespace Eeloo.Objects
             else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
                 return eeObject.newNumberObject(this.AsNumber() + exp.AsNumber());
             else
-                throw new InvalidOperationError(context, "addition", type, exp.type);
+                throw new InvalidOperationError("addition", type, exp.type);
         }
 
-        public eeObject Subtract(Antlr4.Runtime.ParserRuleContext context, eeObject exp)
+        public eeObject Subtract(eeObject exp)
         {
             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING) // string math
                 return StringMathHelpers.Subtract(this, exp);
@@ -365,11 +365,11 @@ namespace Eeloo.Objects
             else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
                 return eeObject.newNumberObject(this.AsNumber() - exp.AsNumber());
             else
-                throw new InvalidOperationError(context, "subtraction", type, exp.type);
+                throw new InvalidOperationError("subtraction", type, exp.type);
 
         }
 
-        public eeObject Multiply(Antlr4.Runtime.ParserRuleContext context, eeObject exp)
+        public eeObject Multiply(eeObject exp)
         {
             if (this.type == eeObjectType.STRING || exp.type == eeObjectType.STRING)
                 return StringMathHelpers.Multiply(this, exp);
@@ -378,14 +378,14 @@ namespace Eeloo.Objects
             else if (this.type == eeObjectType.NUMBER && exp.type == eeObjectType.NUMBER) // regular arithmetic
                 return eeObject.newNumberObject(this.AsNumber() * exp.AsNumber());
             else
-                throw new InvalidOperationError(context, "multiplication", type, exp.type);
+                throw new InvalidOperationError("multiplication", type, exp.type);
 
         }
 
-        public eeObject Divide(Antlr4.Runtime.ParserRuleContext context, eeObject exp)
+        public eeObject Divide(eeObject exp)
         {
-            if (this.type != eeObjectType.NUMBER && exp.type != eeObjectType.NUMBER)
-                throw new InvalidOperationError(context, "division", type, exp.type);
+            if (this.type != eeObjectType.NUMBER || exp.type != eeObjectType.NUMBER)
+                throw new InvalidOperationError("division", type, exp.type);
 
             return eeObject.newNumberObject(this.AsNumber() / exp.AsNumber());
         }

@@ -9,8 +9,8 @@ namespace Eeloo.Errors
 {
     class InvalidOperationError : BaseError
     {
-        public InvalidOperationError(ParserRuleContext error_context, string operation, params eeObjectType[] type)
-            : base(error_context, "InvalidOperationError", $"Cannot perform {operation} on type(s) {ConcatTypes(type)}.")
+        public InvalidOperationError(string operation, params eeObjectType[] type)
+            : base("InvalidOperationError", $"Cannot perform {operation} on type(s) {ConcatTypes(type)}.")
         { }
 
         private static string ConcatTypes(eeObjectType[] types)

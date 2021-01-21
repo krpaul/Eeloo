@@ -14,7 +14,7 @@ namespace Eeloo.Evaluator
             var enumExp = Visit(ctx.exp()).AsEnumerable();
 
             if (enumExp == null)
-                throw new UniterableValueError(ctx);
+                throw new UniterableValueError();
 
             foreach (var iteration in enumExp)
             {

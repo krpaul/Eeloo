@@ -93,16 +93,16 @@ namespace Eeloo.Evaluator
                         switch (opr)
                         {
                             case "+=":
-                                oldVar.OverrideNew(oldVar.Add(ctx, exp));
+                                oldVar.OverrideNew(oldVar.Add(exp));
                                 break;
                             case "-=":
-                                oldVar.OverrideNew(oldVar.Subtract(ctx, exp));
+                                oldVar.OverrideNew(oldVar.Subtract(exp));
                                 break;
                             case "*=":
-                                oldVar.OverrideNew(oldVar.Multiply(ctx, exp));
+                                oldVar.OverrideNew(oldVar.Multiply(exp));
                                 break;
                             case "/=":
-                                oldVar.OverrideNew(oldVar.Divide(ctx, exp));
+                                oldVar.OverrideNew(oldVar.Divide(exp));
                                 break;
                             default: throw new Exception();
                         }
@@ -118,16 +118,16 @@ namespace Eeloo.Evaluator
                     switch (opr)
                     {
                         case "+=":
-                            oldVar.CopyFrom(oldVar.Add(ctx, exp), true);
+                            oldVar.CopyFrom(oldVar.Add(exp), true);
                             break;
                         case "-=":
-                            oldVar.CopyFrom(oldVar.Subtract(ctx, exp), true);
+                            oldVar.CopyFrom(oldVar.Subtract(exp), true);
                             break;
                         case "*=":
-                            oldVar.CopyFrom(oldVar.Multiply(ctx, exp), true);
+                            oldVar.CopyFrom(oldVar.Multiply(exp), true);
                             break;
                         case "/=":
-                            oldVar.CopyFrom(oldVar.Divide(ctx, exp), true);
+                            oldVar.CopyFrom(oldVar.Divide(exp), true);
                             break;
                         default: throw new Exception();
                     }

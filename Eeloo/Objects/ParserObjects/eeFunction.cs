@@ -24,7 +24,7 @@ namespace Eeloo.Objects.ParserObjects
             this.codeblock = codeblock;
             
             // Create scope
-            this.scope = new Scope(Interpreter.visitor.scope);
+            this.scope = new Scope(Interpreter.visitor.scope, Interpreter.visitor.scope.scopeCtx);
 
             // Assign each argument to a variable in the scope
             foreach (var arg in defaultArgs)

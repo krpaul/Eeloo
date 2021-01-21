@@ -36,7 +36,7 @@ namespace Eeloo.Evaluator
                 return fn.AsFunction().invoke(args);
             }
             else
-            { throw new NoFunctionError(ctx, iden); }
+            { throw new NoFunctionError(iden); }
         }
 
         // This method actually returns a Dictionary<string, eeObject>, but uses eeObject as a vehicle as to conform to the visitor's uniform return type

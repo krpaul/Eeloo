@@ -39,7 +39,7 @@ namespace Eeloo.Evaluator
                   exp2 = Visit(ctx.exp(1)).AsBool();
 
             if (exp1 == null || exp2 == null)
-                throw new InvalidOperationError(ctx, "or", eeObjectType.BOOL);
+                throw new InvalidOperationError("or", eeObjectType.BOOL);
             
             return eeObject.newBoolObject((bool) exp1 || (bool) exp2);
         }

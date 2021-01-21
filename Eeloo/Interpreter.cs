@@ -12,7 +12,7 @@ using Eeloo.Objects;
 using Eeloo.Objects.ParserObjects;
 using Eeloo.Functions;
 using Eeloo.Evaluator;
-using Eeloo.Evaluator.Exceptions;
+using Eeloo.Errors;
 using Eeloo.Grammar;
 
 using System.Diagnostics;
@@ -52,13 +52,13 @@ namespace Eeloo
 
                 // Create parser and feed it tokens
                 var parser = new EelooParser(tokens);
-                parser.AddErrorListener(new ThrowingErrorListener());
+                parser.AddErrorListener(new SyntaxErrorListener());
 
                 // Top Level Rule
                 var tree = parser.program();
 
                 // Create global scope object
-                Scope globalScope = new Scope(null);
+                Scope globalScope = new Scope(null, null);
 
                 // List of builtins
                 var builtIns = (

@@ -24,9 +24,9 @@ namespace Eeloo.Evaluator
             switch (ctx.opr.Type)
             {
                 case EelooLexer.PLUS:
-                    return exp1.Add(ctx, exp2);
+                    return exp1.Add(exp2);
                 case EelooLexer.MINUS:
-                    return exp1.Subtract(ctx, exp2);
+                    return exp1.Subtract(exp2);
                 default:
                     throw new Exception($"Invalid operation: {ctx.opr.Text}");
             }
@@ -43,9 +43,9 @@ namespace Eeloo.Evaluator
             switch (ctx.opr.Type)
             {
                 case EelooLexer.MULTIPLY:
-                    return exp1.Multiply(ctx, exp2);
+                    return exp1.Multiply(exp2);
                 case EelooLexer.DIVIDE:
-                    return exp1.Divide(ctx, exp2);
+                    return exp1.Divide(exp2);
                 case EelooLexer.MOD:
                     return eeObject.newNumberObject(exp1.AsNumber() % exp2.AsNumber());
                 default:

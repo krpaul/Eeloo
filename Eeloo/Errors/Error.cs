@@ -21,11 +21,11 @@ namespace Eeloo.Errors
         public BaseError() : base() {}
         public BaseError(string message) : base(message) { }
 
-        public BaseError(ParserRuleContext error_context, string errName, string message)
-            : base($"{errName} occured on line {error_context.Start.Line} column {error_context.Start.Column}: {message}")
+        public BaseError(string errName, string message)
+            : base($"{errName} occured on line {Interpreter.visitor.scope.scopeCtx.Start.Line} column {Interpreter.visitor.scope.scopeCtx.Start.Column}: {message}")
         {
             ErrorName = errName;
-            Context = error_context;
+            Context = Interpreter.visitor.scope.scopeCtx;
         }
 
         public override string ToString()
