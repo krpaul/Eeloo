@@ -10,7 +10,10 @@ namespace Eeloo.Evaluator
     partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
         public override eeObject VisitFunctionCallExp([NotNull] EelooParser.FunctionCallExpContext ctx)
-        { 
+        {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             bool negate = ctx.MINUS() != null;
             var exp = Visit(ctx.fn_call());
 
@@ -24,6 +27,9 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitVarExp([NotNull] EelooParser.VarExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             bool negate = ctx.MINUS() != null;
             var exp = Visit(ctx.var());
 
@@ -36,9 +42,19 @@ namespace Eeloo.Evaluator
         }
 
         public override eeObject VisitStrExp([NotNull] EelooParser.StrExpContext ctx)
-        { return Visit(ctx.@string()); }
+        {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
+            return Visit(ctx.@string()); 
+        }
 
         public override eeObject VisitListExp([NotNull] EelooParser.ListExpContext ctx)
-        { return Visit(ctx.list()); }
+        {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
+            return Visit(ctx.list()); 
+        }
     }
 }

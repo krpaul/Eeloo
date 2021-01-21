@@ -20,6 +20,9 @@ namespace Eeloo.Evaluator
         // when passed one expressions
         public override eeObject VisitExpReturn([NotNull] EelooParser.ExpReturnContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             // get the object
             var obj = Visit(ctx.exp());
 
@@ -32,6 +35,9 @@ namespace Eeloo.Evaluator
         // When passed a list of expressions
         public override eeObject VisitMultiExpReturn([NotNull] EelooParser.MultiExpReturnContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             // get the expression list
             var exprs = Visit(ctx.exps());
 

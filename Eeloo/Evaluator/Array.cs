@@ -11,6 +11,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitArrayIndex([NotNull] EelooParser.ArrayIndexContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             // Get the name of the array variable
             string iden = ctx.var().GetText();
 
@@ -74,6 +77,9 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitArraySlice([NotNull] EelooParser.ArraySliceContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             EelooParser.ExpContext[] exps = ctx.exp();
             
             eeObject exp1 = Visit(exps[1]),

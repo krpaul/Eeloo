@@ -9,6 +9,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitPlainExps([NotNull] EelooParser.PlainExpsContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             ICollection<eeObject> rawListObj = new List<eeObject>();
 
             foreach (var exp in ctx.exp())
@@ -23,6 +26,11 @@ namespace Eeloo.Evaluator
         }
 
         public override eeObject VisitBrackExps([NotNull] EelooParser.BrackExpsContext ctx)
-        { return Visit(ctx.exps()); }
+        {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
+            return Visit(ctx.exps()); 
+        }
     }
 }

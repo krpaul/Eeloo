@@ -10,6 +10,9 @@ namespace Eeloo.Evaluator
         /* Asserts that an expression is true. Otherwise throw an error */
         public override eeObject VisitAssert_stmt([NotNull] EelooParser.Assert_stmtContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             var bool_exp = Visit(ctx.exp());
 
             // make sure it's true

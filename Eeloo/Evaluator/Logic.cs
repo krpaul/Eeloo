@@ -11,6 +11,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitAndExp([NotNull] EelooParser.AndExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             eeObject obj1 = Visit(ctx.exp(0)),
                      obj2 = Visit(ctx.exp(1));
 
@@ -29,6 +32,9 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitOrExp([NotNull] EelooParser.OrExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             bool? exp1 = Visit(ctx.exp(0)).AsBool(),
                   exp2 = Visit(ctx.exp(1)).AsBool();
 
@@ -40,6 +46,9 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitNotExp([NotNull] EelooParser.NotExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             return eeObject.newBoolObject(!Visit(ctx.exp()).AsBool());
         }
     }

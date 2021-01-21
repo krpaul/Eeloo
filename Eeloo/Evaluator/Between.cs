@@ -11,6 +11,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitBetweenExp([NotNull] EelooParser.BetweenExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             var exps = ctx.exp();
 
             var toCheck = Visit(exps[0]);

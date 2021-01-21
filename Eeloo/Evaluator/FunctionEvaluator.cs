@@ -21,6 +21,9 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitFn_def([NotNull] EelooParser.Fn_defContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             ArgList args = ctx.fn_args() != null ?
                 (ArgList)Interpreter.visitor.Visit(ctx.fn_args()).value : 
                 new ArgList()

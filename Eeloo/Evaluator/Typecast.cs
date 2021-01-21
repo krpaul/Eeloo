@@ -9,6 +9,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitTypecastExpression([NotNull] EelooParser.TypecastExpressionContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             var obj = Visit(ctx.exp());
             if (ctx.STRING_TOK() != null) {
                 return eeObject.newStringObject(obj.ToPrintableString());

@@ -9,11 +9,17 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitBoolExp([NotNull] EelooParser.BoolExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             return Visit(ctx.bool_stmt());
         }
 
         public override eeObject VisitPrefixedInlineBool([NotNull] EelooParser.PrefixedInlineBoolContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             var boolExp = Visit(ctx.exp());
 
             if (boolExp.type != eeObjectType.BOOL)

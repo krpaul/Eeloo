@@ -10,6 +10,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitNumExp([NotNull] EelooParser.NumExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             bool negate = ctx.MINUS() != null;
             var num = Visit(ctx.num());
 
@@ -21,11 +24,17 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitInt([NotNull] EelooParser.IntContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             return eeObject.newNumberObject(new eeNumber(ctx.NUMBER().GetText()));
         }
 
         public override eeObject VisitDec([NotNull] EelooParser.DecContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             return eeObject.newNumberObject(new eeNumber($"{ctx.NUMBER(0).GetText()}.{ctx.NUMBER(1).GetText()}"));
         }
     }

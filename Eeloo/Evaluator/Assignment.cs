@@ -15,6 +15,9 @@ namespace Eeloo.Evaluator
          */
         public override eeObject VisitRegAssign([NotNull] EelooParser.RegAssignContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             // Get value of right hand side
             eeObject assignVal = Visit(ctx.exp());
 
@@ -63,6 +66,9 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitAugAssign([NotNull] EelooParser.AugAssignContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             var oldVar = Visit(ctx.var());
             var exp = Visit(ctx.exp());
             var opr = ctx.opr.Text;

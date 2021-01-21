@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Eeloo.Grammar;
 
+using Antlr4.Runtime;
+
 namespace Eeloo.Objects
 {
     public class Scope
@@ -11,9 +13,12 @@ namespace Eeloo.Objects
         Dictionary<string, eeObject> scopeVars 
             = new Dictionary<string, eeObject>();
 
-        public Scope(Scope parent)
+        public ParserRuleContext scopeCtx;
+
+        public Scope(Scope parent, ParserRuleContext ctx)
         {
             this.parent = parent;
+            this.scopeCtx = ctx;
         }
 
         public void assignVar(string name, eeObject val)

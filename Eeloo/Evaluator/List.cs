@@ -9,6 +9,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitList([NotNull] EelooParser.ListContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             var e = ctx.exps();
             eeObject listObj;
             if (e != null)

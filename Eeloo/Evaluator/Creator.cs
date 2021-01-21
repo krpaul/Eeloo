@@ -9,6 +9,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitListCreator([NotNull] EelooParser.ListCreatorContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             var modNode = ctx.LIST_MODIFIER();
             string modifier = modNode == null ? null : modNode.GetText(); 
             return eeObject.newListObject((eeObject) null, modifier);

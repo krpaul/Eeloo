@@ -11,6 +11,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitVariable([NotNull] EelooParser.VariableContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             // Get the name of the variable
             string iden = ctx.IDENTIFIER().GetText();
 

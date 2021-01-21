@@ -8,6 +8,9 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitEqualityExp([NotNull] EelooParser.EqualityExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             // Get both expressions
             eeObject obj1 = Visit(ctx.exp(0)),
                      obj2 = Visit(ctx.exp(1));
@@ -18,6 +21,9 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitInequalityExp([NotNull] EelooParser.InequalityExpContext ctx)
         {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
             // Get both expressions
             eeObject obj1 = Visit(ctx.exp(0)),
                     obj2 = Visit(ctx.exp(1));
