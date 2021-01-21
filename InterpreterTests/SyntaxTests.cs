@@ -52,5 +52,9 @@ namespace InterpreterTests
         [Fact]
         public void TestComparison()
         { Interpreter.Interpret(ReadTestFile("comparison")); }
+
+        [Fact]
+        public void TestAssignment()
+        { Interpreter.Interpret(ReadTestFile("assignment")); }
     }
 }

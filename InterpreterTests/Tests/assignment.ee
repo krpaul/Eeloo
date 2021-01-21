@@ -1,0 +1,16 @@
+﻿x = 20
+x += 5
+
+assert x is 25
+
+x -= 20
+
+assert x is 5
+
+x *= 10
+
+assert x is 10
+
+x /= 3
+
+assert x is 10/3
