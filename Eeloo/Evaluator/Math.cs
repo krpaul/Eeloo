@@ -39,7 +39,7 @@ namespace Eeloo.Evaluator
                 case EelooLexer.MULTIPLY:
                     return exp1.Multiply(ctx, exp2);
                 case EelooLexer.DIVIDE:
-                    return eeObject.newNumberObject(exp1.AsNumber() / exp2.AsNumber());
+                    return exp1.Divide(ctx, exp2);
                 case EelooLexer.MOD:
                     return eeObject.newNumberObject(exp1.AsNumber() % exp2.AsNumber());
                 default:

@@ -1038,9 +1038,11 @@ namespace Eeloo.Objects.ParserObjects
         }
         
         // Greatest Common Factor using Euclid's algorithm
-        public eeNumber GCF(eeNumber prod2)
+        public eeNumber GCF(eeNumber prod2_orig)
         {
-            var prod1 = this.Copy();
+            var prod1 = this.Copy().AbsoluteValue();
+            var prod2 = prod2_orig.Copy().AbsoluteValue();
+
             while (prod1 != ZERO && prod2 != ZERO)
             {
                 if (prod1 > prod2)
