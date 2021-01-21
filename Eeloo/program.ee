@@ -1,2 +1,4 @@
-﻿fact = 100!
-print <- fact.digits().sum()
+﻿x = 10
+x += 10
+
+print <- x

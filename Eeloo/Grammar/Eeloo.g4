@@ -22,7 +22,14 @@ loop: while_stmt
 	| repeat_loop
 	;
 
-assignment: var EQL exp	;
+assignment: var EQL exp #regAssign
+		  | var opr=(
+				ADD_EQL
+				| SUB_EQL 
+				| MULT_EQL
+				| DIV_EQL)
+		  exp			#augAssign
+		  ;
 
 assert_stmt: ASSERT WS? exp ;
 

@@ -75,6 +75,11 @@ BY		   :   'by'     ;
 ARROW      :   '<-' ;
 
 EQL        :   '='      ;
+ADD_EQL    :   '+='     ;
+SUB_EQL    :   '-='     ;
+MULT_EQL   :   '*='     ;
+DIV_EQL    :   '/='     ; 
+
 PLUS       :   '+'      ;
 MINUS      :   '-'      ;
 DIVIDE     :   '/' | WS 'over' WS | WS 'divided' WS 'by' WS     ;
