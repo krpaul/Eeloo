@@ -291,8 +291,11 @@ namespace Eeloo.Objects.ParserObjects
             return num1;
         }
 
-        public static eeNumber operator *(eeNumber num1, eeNumber num2)
+        public static eeNumber operator *(eeNumber num1_orig, eeNumber num2_orig)
         {
+            eeNumber num1 = num1_orig.Copy(),
+                     num2 = num2_orig.Copy();
+            
             // if either num is 0, return 0
             if (num1 == ZERO || num2 == ZERO)
                 return new eeNumber(0);

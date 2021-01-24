@@ -1,10 +1,6 @@
-﻿using System;
+﻿using Eeloo.Objects;
+using System;
 using System.Collections.Generic;
-using System.Text;
-
-using Eeloo.Evaluator.Exceptions;
-using System.Linq;
-using Eeloo.Objects;
 
 
 namespace Eeloo.Functions
