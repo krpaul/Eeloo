@@ -31,7 +31,12 @@ namespace Eeloo
             string input = File.ReadAllText(args[0]);
             filename = args[0].Split('/').Last();
 
-            Interpret(input);
+            var a = new eeNumber(123456);
+
+            Console.WriteLine(a / new eeNumber(100000000));
+            Console.WriteLine(a / new eeNumber(100000));
+
+            //Interpret(input);
         }
 
         public static void Interpret(string input)

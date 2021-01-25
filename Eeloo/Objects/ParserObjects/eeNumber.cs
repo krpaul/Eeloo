@@ -398,12 +398,15 @@ namespace Eeloo.Objects.ParserObjects
             return final;
         }
 
-        public static eeNumber operator /(eeNumber num1, eeNumber num2)
+        public static eeNumber operator /(eeNumber num1_orig, eeNumber num2_orig)
         {
             /* eeNumbers do not perform traditional division. That is only done
              * when the number needs to be approximated for a text representation.
              * For divison, we always keep the fractional form for arbitrary accuracy.
              */
+
+            eeNumber num1 = num1_orig.Copy(),
+                     num2 = num2_orig.Copy();
 
             bool negate = false;
             /* first, account for negatives */
@@ -846,6 +849,13 @@ namespace Eeloo.Objects.ParserObjects
             if (this == ZERO || denom == ONE) // if the numerator is zero or denom is 1, return as-is (without denom)
                 return;
 
+            // if the denominator is a power of 10, leave it as is, as it's easier to deal with.
+            else if (denom.IsPowerOf10()) 
+            {
+                this.denominator = denom;
+                return;
+            }
+
             // use the GCF to simplify
             eeNumber gcf = this.GCF(denom);
 
@@ -1064,6 +1074,20 @@ namespace Eeloo.Objects.ParserObjects
                 list.Add(new eeNumber(b));
 
             return list;
+        }
+
+        public bool IsPowerOf10()
+        {
+            if (this.bytes[0] != 1)
+                return false;
+
+            for (long i = 1; i < this.bytes.Length; i++)
+            {
+                if (this.bytes[i] != 0)
+                    return false;
+            }
+
+            return true;
         }
 
         #endregion
