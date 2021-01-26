@@ -33,10 +33,7 @@ namespace Eeloo
 
             var a = new eeNumber(123456);
 
-            Console.WriteLine(a / new eeNumber(100000000));
-            Console.WriteLine(a / new eeNumber(100000));
-
-            //Interpret(input);
+            Interpret(input);
         }
 
         public static void Interpret(string input)

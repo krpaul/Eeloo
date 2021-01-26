@@ -1,4 +1,1 @@
-﻿a = 3.433
-i = 2
-
-print <- a / 100
+﻿print <- 100 is not less than 101
