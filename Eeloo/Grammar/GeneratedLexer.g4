@@ -12,11 +12,11 @@ fragment DIGIT          : [0-9] ;
 
 
 DBL_EQL    :   '==' ;
-GRT_EQL    :   '>=' | (IS WS)? (WS 'greater' WS 'than' WS 'or' WS 'equal' WS 'to' WS) ;
-LESS_EQL   :   '<=' | (IS WS)? (WS 'less' WS 'than' WS 'or' WS 'equal' WS 'to' WS) ;
+GRT_EQL    :   '>=' | WS 'greater' WS 'than' WS 'or' WS 'equal' WS 'to' WS | WS 'is' WS 'greater' WS 'than' WS 'or' WS 'equal' WS 'to' WS ;
+LESS_EQL   :   '<=' | WS 'less' WS 'than' WS 'or' WS 'equal' WS 'to' WS | WS 'is' WS 'less' WS 'than' WS 'or' WS 'equal' WS 'to' WS ;
 NOT_EQL    :   '!=' ;
-LESS       :   '<'  | (IS WS)?  (WS 'less' WS 'than' WS) ;
-GRT        :   '>'  | (IS WS)?  (WS 'greater' WS 'than' WS) ;
+LESS       :   '<'  | WS 'less' WS 'than' WS | WS 'is' WS 'less' WS 'than' WS ;
+GRT        :   '>'  | WS 'greater' WS 'than' WS | WS 'is' WS 'greater' WS 'than' WS ;
 
 L_SQ_BRACK :    '['         ;
 R_SQ_BRACK :    ']'         ;

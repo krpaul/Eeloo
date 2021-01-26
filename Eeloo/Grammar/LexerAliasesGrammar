@@ -11,11 +11,11 @@ fragment DIGIT          : [0-9] ;
 
 
 DBL_EQL    :   '==' ;
-GRT_EQL    :   '>=' | (IS WS)? (<<greater_or_equal>>) ;
-LESS_EQL   :   '<=' | (IS WS)? (<<less_or_equal>>) ;
+GRT_EQL    :   '>=' | <<greater_or_equal>> ;
+LESS_EQL   :   '<=' | <<less_or_equal>> ;
 NOT_EQL    :   '!=' ;
-LESS       :   '<'  | (IS WS)?  (<<less>>) ;
-GRT        :   '>'  | (IS WS)?  (<<greater>>) ;
+LESS       :   '<'  | <<less>> ;
+GRT        :   '>'  | <<greater>> ;
 
 L_SQ_BRACK :    '['         ;
 R_SQ_BRACK :    ']'         ;
