@@ -1,22 +1,18 @@
 lexer grammar GeneratedLexer;
-/* Edit this file for changes to the lexer 
- * All the rules with << >> brackets bounding 
- * a keyword will be replaced with many alias
- * possibilities upon build. Aliases are 
- * specified in the Aliases.yml file.
-*/
+
 
 fragment LOWERCASE_LTR  : [a-z] ;
 fragment UPPERCASE_LTR  : [A-Z] ;
 fragment DIGIT          : [0-9] ;
 
+fragment COMPARISON_PREFIX : WS ('is' | ISNT | IS WS NOT) ;
+GRT_EQL    :   COMPARISON_PREFIX? (WS 'greater' WS 'or' WS 'equal' WS 'to' WS | WS 'greater' WS 'than' WS 'or' WS 'equal' WS 'to' WS | WS '>=' WS) ;
+LESS_EQL   :   COMPARISON_PREFIX? (WS 'less' WS 'or' WS 'equal' WS 'to' WS | WS 'less' WS 'than' WS 'or' WS 'equal' WS 'to' WS | WS '<=' WS) ;
+LESS       :   COMPARISON_PREFIX? (WS 'less' WS 'than' WS | WS 'less' WS | WS '<' WS) ;
+GRT        :   COMPARISON_PREFIX? (WS 'greater' WS 'than' WS | WS 'greater' WS | WS '>' WS) ;
 
 DBL_EQL    :   '==' ;
-GRT_EQL    :   '>=' | WS 'greater' WS 'than' WS 'or' WS 'equal' WS 'to' WS | WS 'is' WS 'greater' WS 'than' WS 'or' WS 'equal' WS 'to' WS ;
-LESS_EQL   :   '<=' | WS 'less' WS 'than' WS 'or' WS 'equal' WS 'to' WS | WS 'is' WS 'less' WS 'than' WS 'or' WS 'equal' WS 'to' WS ;
 NOT_EQL    :   '!=' ;
-LESS       :   '<'  | WS 'less' WS 'than' WS | WS 'is' WS 'less' WS 'than' WS ;
-GRT        :   '>'  | WS 'greater' WS 'than' WS | WS 'is' WS 'greater' WS 'than' WS ;
 
 L_SQ_BRACK :    '['         ;
 R_SQ_BRACK :    ']'         ;
@@ -46,6 +42,8 @@ NEW        :    'new'       ;
 RETURN	   :	'return'    ;
 END        :    'end'       ;
 USE		   :	'use'		; 
+THAN	   :	'than'		;
+TOK_LESS   :    'less'		;
 ASSERT     :    WS? 'assert' WS? | WS? 'assert' WS 'that' WS? | WS? 'make' WS 'sure' WS? | WS? 'make' WS 'sure' WS 'that' WS? | WS? 'make' WS 'sure' WS 'of' WS? | WS? 'force' WS 'check' WS?  ;
 BETWEEN	   :	WS 'between' WS | WS 'is' WS 'between' WS | WS 'in' WS 'range' WS 'of' WS | WS 'in' WS 'the' WS 'range' WS 'of' WS	;
 
@@ -103,3 +101,47 @@ NL		   : [\r]?[\n] ;
 WS		   :   (' ' | '\t' )+ -> skip ;
 
 COMMENT	   : ((NL* 'start comment' .*? 'end comment' NL*) | '//' ~[\r\n]* ) -> skip ;
+
+
+/* Auto-generated tokens */
+AUTOTOKEN_0000 : 'greater' ;
+AUTOTOKEN_0001 : 'or' ;
+AUTOTOKEN_0002 : 'equal' ;
+AUTOTOKEN_0003 : 'to' ;
+AUTOTOKEN_0004 : 'than' ;
+AUTOTOKEN_0005 : '>=' ;
+AUTOTOKEN_0006 : 'less' ;
+AUTOTOKEN_0007 : '<=' ;
+AUTOTOKEN_0008 : '<' ;
+AUTOTOKEN_0009 : '>' ;
+AUTOTOKEN_0010 : 'for' ;
+AUTOTOKEN_0011 : 'each' ;
+AUTOTOKEN_0012 : 'every' ;
+AUTOTOKEN_0013 : 'using' ;
+AUTOTOKEN_0014 : 'assert' ;
+AUTOTOKEN_0015 : 'that' ;
+AUTOTOKEN_0016 : 'make' ;
+AUTOTOKEN_0017 : 'sure' ;
+AUTOTOKEN_0018 : 'of' ;
+AUTOTOKEN_0019 : 'force' ;
+AUTOTOKEN_0020 : 'check' ;
+AUTOTOKEN_0021 : 'between' ;
+AUTOTOKEN_0022 : 'is' ;
+AUTOTOKEN_0023 : 'in' ;
+AUTOTOKEN_0024 : 'range' ;
+AUTOTOKEN_0025 : 'the' ;
+AUTOTOKEN_0026 : 'over' ;
+AUTOTOKEN_0027 : 'divided' ;
+AUTOTOKEN_0028 : 'by' ;
+AUTOTOKEN_0029 : 'times' ;
+AUTOTOKEN_0030 : 'multiplied' ;
+AUTOTOKEN_0031 : 'power' ;
+AUTOTOKEN_0032 : 'raised' ;
+AUTOTOKEN_0033 : 'mod' ;
+AUTOTOKEN_0034 : 'modulo' ;
+AUTOTOKEN_0035 : 'count' ;
+AUTOTOKEN_0036 : 'counting' ;
+AUTOTOKEN_0037 : 'skip' ;
+AUTOTOKEN_0038 : 'skipping' ;
+AUTOTOKEN_0039 : 'equals' ;
+AUTOTOKEN_0040 : '==' ;

@@ -8,7 +8,7 @@ namespace AliasGenerator
 {
     class ConstructLexer
     {
-        public const string FOLDERPREFIX = "./Grammar/";
+        public const string FOLDERPREFIX = "C:/Users/krpau/CSProjects/Eeloo/Eeloo/Grammar/";
         static void Main()
         {
             string grammar = File.ReadAllText(FOLDERPREFIX + "LexerAliasesGrammar");
@@ -19,8 +19,17 @@ namespace AliasGenerator
             var aliasDict = deserializer.Deserialize<Dictionary<string, List<string>>>(aliases);
 
             Regex rx = new Regex(@"\<\<\w+\>\>");
+            Regex comments_rx = new Regex(@"(?s)\/\*.*?\*\/");
 
             MatchCollection matches = rx.Matches(grammar);
+            MatchCollection comments = comments_rx.Matches(grammar);
+
+            string nl = Environment.NewLine;
+
+            grammar += nl + nl + "/* Auto-generated tokens */" + nl;
+            int i = 0;
+
+            List<string> tokens = new List<string>();
 
             // Replace each
             foreach (Match match in matches)
@@ -44,6 +53,22 @@ namespace AliasGenerator
                         "WS?" : // Optional whitespace
                         "WS" ; // Mandatory whitespace
 
+                foreach (string alias in al)
+                {
+                    foreach (string word in alias.Split(' '))
+                    {
+                        if (tokens.Contains(word))
+                            continue;
+
+                        var tokenLabel = $"AUTOTOKEN_{i:D4}";
+                        grammar += $"{tokenLabel} : '{word}' ;";
+                        grammar += Environment.NewLine;
+                        
+                        i++;
+                        tokens.Add(word);
+                    }
+                }
+
                 string expanded = string.Join(" | ",
                     from syn in al
                     select 
@@ -54,6 +79,10 @@ namespace AliasGenerator
 
                 grammar = grammar.Replace(match.Value, expanded);
             }
+
+            // delete comments
+            foreach (Match match in comments)
+                grammar = grammar.Replace(match.Value, "");
 
             grammar = "lexer grammar GeneratedLexer;" + Environment.NewLine + grammar;
             File.WriteAllText(FOLDERPREFIX + "GeneratedLexer.g4", grammar);
