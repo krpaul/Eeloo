@@ -31,8 +31,6 @@ namespace Eeloo
             string input = File.ReadAllText(args[0]);
             filename = args[0].Split('/').Last();
 
-            var a = new eeNumber(123456);
-
             Interpret(input);
         }
 
@@ -84,10 +82,10 @@ namespace Eeloo
                 // Visit tree
                 evalVisitor.Visit(tree);
             }
-            //catch (Exception e)
-            //{
-            //    throw e;
-            //}
+            catch (Exception e)
+            {
+                throw e;
+            }
             finally { }
         }
     }
