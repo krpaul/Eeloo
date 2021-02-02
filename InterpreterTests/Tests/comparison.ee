@@ -1,6 +1,22 @@
-﻿assert that 1 > -1
+﻿assert 1 > -1
+assert 1 >= 1
+assert 43 < 212.2
+assert 2 <= 2
+
+assert 1 is > -1
+assert 1 is >= 1
+assert 43 is < 212.2
+assert 2 is <= 2
+
 assert that 10 is not less than 1
 assert 0! is greater than 0
+assert 0 greater than -1
+assert 1 is not less than -100
+assert 1 is less than or equal to 1
+assert 1 is greater or equal to 1
+assert 100 is >= 100
+assert 543 greater than 3
+assert 543 less or equal to 542
 assert 1/8 > -1
 assert 1/3 > 1/2
 assert 5/7 > 3/7

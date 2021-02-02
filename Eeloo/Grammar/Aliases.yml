@@ -1,15 +1,19 @@
 ﻿greater:
     - greater than
-    - is greater than
+    - greater
+    - ">"
 less:
     - less than
-    - is less than
+    - less
+    - "<"
 greater_or_equal:
+    - greater or equal to
     - greater than or equal to
-    - is greater than or equal to
+    - ">="
 less_or_equal:
+    - less or equal to
     - less than or equal to
-    - is less than or equal to
+    - "<="
 power: 
     - to the power of
     - raised to the

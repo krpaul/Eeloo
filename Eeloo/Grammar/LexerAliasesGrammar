@@ -9,13 +9,14 @@ fragment LOWERCASE_LTR  : [a-z] ;
 fragment UPPERCASE_LTR  : [A-Z] ;
 fragment DIGIT          : [0-9] ;
 
+fragment COMPARISON_PREFIX : WS ('is' | ISNT | IS WS NOT) ;
+GRT_EQL    :   COMPARISON_PREFIX? (<<greater_or_equal>>) ;
+LESS_EQL   :   COMPARISON_PREFIX? (<<less_or_equal>>) ;
+LESS       :   COMPARISON_PREFIX? (<<less>>) ;
+GRT        :   COMPARISON_PREFIX? (<<greater>>) ;
 
 DBL_EQL    :   '==' ;
-GRT_EQL    :   '>=' | <<greater_or_equal>> ;
-LESS_EQL   :   '<=' | <<less_or_equal>> ;
 NOT_EQL    :   '!=' ;
-LESS       :   '<'  | <<less>> ;
-GRT        :   '>'  | <<greater>> ;
 
 L_SQ_BRACK :    '['         ;
 R_SQ_BRACK :    ']'         ;
@@ -45,6 +46,8 @@ NEW        :    'new'       ;
 RETURN	   :	'return'    ;
 END        :    'end'       ;
 USE		   :	'use'		; 
+THAN	   :	'than'		;
+TOK_LESS   :    'less'		;
 ASSERT     :    <<assert>>  ;
 BETWEEN	   :	<<between>>	;
 
