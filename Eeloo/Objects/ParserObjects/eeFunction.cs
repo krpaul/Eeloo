@@ -71,5 +71,16 @@ namespace Eeloo.Objects.ParserObjects
             Otherwise, return the actual return value */
             return returnVal == null ? eeObject.None : returnVal;
         }
+
+
+        // returns the name of the arguments for this function
+        public string getArgNames()
+        {
+            string ret = "";
+            foreach (string s in this.argNames)
+                ret += $"{s}, ";
+
+            return ret.TrimEnd(',', ' ');
+        }   
     }
 }

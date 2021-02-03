@@ -86,7 +86,7 @@ namespace Eeloo.Objects
                     return this.AsBool() ? "true" : "false";
                 case eeObjectType.FUNCTION:
                     eeFunction func = this.AsFunction();
-                    return $"Function \"{func.name}\", Arguments: {func.argNames.ToString()}";
+                    return $"<function object {func.name}; {func.getArgNames()}>";
                 default:
                     throw new Exception("default case for ToPrintableString");
             }

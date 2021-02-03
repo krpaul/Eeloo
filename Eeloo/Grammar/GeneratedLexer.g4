@@ -5,7 +5,7 @@ fragment LOWERCASE_LTR  : [a-z] ;
 fragment UPPERCASE_LTR  : [A-Z] ;
 fragment DIGIT          : [0-9] ;
 
-fragment COMPARISON_PREFIX : WS ('is' | ISNT | IS WS NOT) ;
+fragment COMPARISON_PREFIX : WS (IS | ISNT | IS WS NOT) ;
 GRT_EQL    :   COMPARISON_PREFIX? (WS 'greater' WS 'or' WS 'equal' WS 'to' WS | WS 'greater' WS 'than' WS 'or' WS 'equal' WS 'to' WS | WS '>=' WS) ;
 LESS_EQL   :   COMPARISON_PREFIX? (WS 'less' WS 'or' WS 'equal' WS 'to' WS | WS 'less' WS 'than' WS 'or' WS 'equal' WS 'to' WS | WS '<=' WS) ;
 LESS       :   COMPARISON_PREFIX? (WS 'less' WS 'than' WS | WS 'less' WS | WS '<' WS) ;
@@ -100,7 +100,7 @@ NL		   : [\r]?[\n] ;
 
 WS		   :   (' ' | '\t' )+ -> skip ;
 
-COMMENT	   : ((NL* 'start comment' .*? 'end comment' NL*) | '//' ~[\r\n]* ) -> skip ;
+COMMENT	   : (('start comment' NL .*? NL 'end comment') | '//' ~[\r\n]* ) -> skip ;
 
 
 /* Auto-generated tokens */

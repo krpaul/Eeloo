@@ -9,7 +9,7 @@ fragment LOWERCASE_LTR  : [a-z] ;
 fragment UPPERCASE_LTR  : [A-Z] ;
 fragment DIGIT          : [0-9] ;
 
-fragment COMPARISON_PREFIX : WS ('is' | ISNT | IS WS NOT) ;
+fragment COMPARISON_PREFIX : WS (IS | ISNT | IS WS NOT) ;
 GRT_EQL    :   COMPARISON_PREFIX? (<<greater_or_equal>>) ;
 LESS_EQL   :   COMPARISON_PREFIX? (<<less_or_equal>>) ;
 LESS       :   COMPARISON_PREFIX? (<<less>>) ;
@@ -104,4 +104,4 @@ NL		   : [\r]?[\n] ;
 
 WS		   :   (' ' | '\t' )+ -> skip ;
 
-COMMENT	   : ((NL* 'start comment' .*? 'end comment' NL*) | '//' ~[\r\n]* ) -> skip ;
+COMMENT	   : (('start comment' NL .*? NL 'end comment') | '//' ~[\r\n]* ) -> skip ;
