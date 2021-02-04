@@ -10,6 +10,8 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitFor_stmt([NotNull] EelooParser.For_stmtContext ctx)
         {
+            var scope = new Scope(Interpreter.currentScope, ctx);
+
             var iterVar = ctx.var().GetText();
             var enumExp = Visit(ctx.exp()).AsEnumerable();
 
@@ -21,9 +23,13 @@ namespace Eeloo.Evaluator
                 scope.assignVar(iterVar, iteration);
                 var codeblock = Visit(ctx.lines());
                 if (codeblock != null)
+                {
+                    Scope.unScope(scope);
                     return codeblock;
+                }
             }
 
+            Scope.unScope(scope);
             return eeObject.None;
         }
     }

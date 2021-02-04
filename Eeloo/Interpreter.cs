@@ -24,6 +24,7 @@ namespace Eeloo
         public static EvalVisitor visitor;
         public static string filename = "";
         public static CallStack globalStack = new CallStack();
+        public static Scope currentScope = new Scope(null, null);
 
         public static void Main(string[] args) // passing filenames to read
         {
@@ -57,9 +58,6 @@ namespace Eeloo
                 // Top Level Rule
                 var tree = parser.program();
 
-                // Create global scope object
-                Scope globalScope = new Scope(null, null);
-
                 // List of builtins
                 var builtIns = (
                     from fn in typeof(BuiltInFunctions).GetMethods()
@@ -68,7 +66,7 @@ namespace Eeloo
                 ).Distinct();
 
                 // Create visitor object
-                EvalVisitor evalVisitor = new EvalVisitor(globalScope, builtIns);
+                EvalVisitor evalVisitor = new EvalVisitor(currentScope, builtIns);
 
                 // Give public access to the visitor and the global scope
                 Interpreter.visitor = evalVisitor;

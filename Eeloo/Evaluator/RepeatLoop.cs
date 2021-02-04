@@ -14,16 +14,22 @@ namespace Eeloo.Evaluator
             if (count.type != eeObjectType.NUMBER || count.AsNumber() < eeNumber.ONE)
                 throw new Exception("Cannot repeat a non-positive integer number of times.");
 
+
+            var scope = new Scope(Interpreter.currentScope, ctx);
             for (eeNumber i = new eeNumber(0); i < count.AsNumber(); i += eeNumber.ONE)
             {
                 var codeblock = Visit(ctx.lines());
 
                 // If there is a return statement inside the loop
                 if (codeblock != null)
+                {
+                    Scope.unScope(scope);
                     return codeblock;
+                }
             }
 
-            return null;
+            Scope.unScope(scope);
+            return eeObject.None;
         }
     }
 }

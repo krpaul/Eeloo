@@ -27,7 +27,11 @@ namespace Eeloo.Evaluator
                 // Evaluate function's arguments
                 ICollection<eeObject> arguments = ctx.exps() != null ? Visit(ctx.exps()).AsEXPRLIST() : new List<eeObject>();
 
-                return (eeObject) func.DynamicInvoke(arguments);
+                var scope = new Scope(Interpreter.currentScope, ctx);
+                var result = (eeObject) func.DynamicInvoke(arguments);
+                Scope.unScope(scope);
+                
+                return result;
             }
 
             // Check if function is user-defined 
@@ -35,7 +39,12 @@ namespace Eeloo.Evaluator
             if (fn != null && fn.type == eeObjectType.FUNCTION)
             {
                 ICollection<eeObject> args = ctx.exps() != null ? Visit(ctx.exps()).AsEXPRLIST() : null;
-                return fn.AsFunction().invoke(args);
+
+                var scope = new Scope(Interpreter.currentScope, ctx);
+                var result = fn.AsFunction().invoke(args);
+                Scope.unScope(scope);
+
+                return result;
             }
             else
             { throw new NoFunctionError(iden); }

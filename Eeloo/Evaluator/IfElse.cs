@@ -10,7 +10,11 @@ namespace Eeloo.Evaluator
         {
             if (Visit(ctx.exp()).AsBool())
             {
-                return Visit(ctx.lines()) ?? eeObject.None;
+                var scope = new Scope(Interpreter.currentScope, ctx);
+                var result = Visit(ctx.lines()) ?? eeObject.None;
+                Scope.unScope(scope);
+
+                return result;
             }
 
             return eeObject.None;
@@ -20,7 +24,11 @@ namespace Eeloo.Evaluator
         {
             if (Visit(ctx.exp()).AsBool())
             {
-                return Visit(ctx.lines()) ?? eeObject.None;
+                var scope = new Scope(Interpreter.currentScope, ctx);
+                var result = Visit(ctx.lines()) ?? eeObject.None;
+                Scope.unScope(scope);
+
+                return result;
             }
 
             return eeObject.None;
@@ -28,7 +36,11 @@ namespace Eeloo.Evaluator
 
         public override eeObject VisitElse_partial([NotNull] EelooParser.Else_partialContext ctx)
         {
-            return Visit(ctx.lines()) ?? eeObject.None;
+            var scope = new Scope(Interpreter.currentScope, ctx);
+            var result = Visit(ctx.lines()) ?? eeObject.None;
+            Scope.unScope(scope);
+
+            return result;
         }
 
         public override eeObject VisitIf_stmt([NotNull] EelooParser.If_stmtContext ctx)

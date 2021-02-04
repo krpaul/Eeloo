@@ -10,6 +10,7 @@ namespace Eeloo.Evaluator
         {
             bool until = ctx.UNTIL() != null;
 
+            var scope = new Scope(Interpreter.currentScope, ctx);
             while (
                 until == false ? // If this is a while loop
                 Visit(ctx.exp()).AsBool() // While condition true
@@ -20,9 +21,13 @@ namespace Eeloo.Evaluator
 
                 // If there is a return statement inside the loop
                 if (codeblock != null)
+                {
+                    Scope.unScope(scope);
                     return codeblock;
+                }
             }
 
+            Scope.unScope(scope);
             return eeObject.None;
         }
     }

@@ -19,7 +19,21 @@ namespace Eeloo.Objects
         {
             this.parent = parent;
             this.scopeCtx = ctx;
+
+            // set the current scope
+            Interpreter.currentScope = this;
         }
+
+        // puts the scope back up to the parent
+        public static void unScope(Scope scopeObj)
+        {
+            if (scopeObj.parent == null)
+                throw new Exception("Internal Error: Cannot unscope the top-most scope");
+
+            // set the current scope to the parent
+            Interpreter.currentScope = scopeObj.parent;
+        }
+
 
         public void assignVar(string name, eeObject val)
         {

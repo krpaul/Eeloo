@@ -9,8 +9,10 @@ namespace Eeloo.Evaluator
     {
         public override eeObject VisitFrom_loop([NotNull] EelooParser.From_loopContext ctx)
         {
+            var scope = new Scope(Interpreter.currentScope, ctx);
+
             eeObject start = Visit(ctx.exp(0)),
-                     stop = Visit(ctx.exp(1));
+                     stop  = Visit(ctx.exp(1));
 
             eeNumber step  = ctx.RANGE_2() != null 
                         ? Visit(ctx.exp(2)).AsNumber()
@@ -38,9 +40,13 @@ namespace Eeloo.Evaluator
                 scope.assignVar(iterVar, iter);
                 var codeblock = Visit(ctx.lines());
                 if (codeblock != null)
+                {
+                    Scope.unScope(scope);
                     return codeblock;
+                }
             }
 
+            Scope.unScope(scope);
             return eeObject.None;
         }
     }
