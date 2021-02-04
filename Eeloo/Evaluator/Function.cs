@@ -8,6 +8,8 @@ using System.Collections.Generic;
 
 namespace Eeloo.Evaluator
 {
+    using ArgList = Dictionary<string, eeObject>;
+
     public partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
         public override eeObject VisitFn_call([NotNull] EelooParser.Fn_callContext ctx)
@@ -68,7 +70,27 @@ namespace Eeloo.Evaluator
             };
         }
 
-        public override eeObject VisitFn_def([NotNull] EelooParser.Fn_defContext context)
-        { return null; } // Do nothing as this visitor is defined in FunctionEvaluator
+
+        public override eeObject VisitFn_def([NotNull] EelooParser.Fn_defContext ctx)
+        {
+            // add this to scope
+            scope.scopeCtx = ctx;
+
+            ArgList args = ctx.fn_args() != null ?
+                (ArgList)Interpreter.visitor.Visit(ctx.fn_args()).value :
+                new ArgList()
+                ;
+
+            scope.assignVar(
+                ctx.IDENTIFIER().GetText(),
+                eeObject.newFunctionObject(
+                    ctx.IDENTIFIER().GetText(),
+                    args,
+                    ctx.lines()
+                )
+            );
+
+            return null;
+        }
     }
 }

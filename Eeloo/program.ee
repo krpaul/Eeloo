@@ -1,1 +1,9 @@
-﻿print <- 100 is greater or equal to 101
+﻿z = 1
+
+if z is 1
+	define function testA(param1, param2)
+		return param1 + param2
+	end
+end
+
+print <- testA("b", "a")
