@@ -10,7 +10,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitBoolExp([NotNull] EelooParser.BoolExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             return Visit(ctx.bool_stmt());
         }
@@ -18,7 +18,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitPrefixedInlineBool([NotNull] EelooParser.PrefixedInlineBoolContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             var boolExp = Visit(ctx.exp());
 

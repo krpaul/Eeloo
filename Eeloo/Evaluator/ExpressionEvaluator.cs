@@ -12,7 +12,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitFunctionCallExp([NotNull] EelooParser.FunctionCallExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             bool negate = ctx.MINUS() != null;
             var exp = Visit(ctx.fn_call());
@@ -28,7 +28,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitVarExp([NotNull] EelooParser.VarExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             bool negate = ctx.MINUS() != null;
             var exp = Visit(ctx.var());
@@ -44,7 +44,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitStrExp([NotNull] EelooParser.StrExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             return Visit(ctx.@string()); 
         }
@@ -52,7 +52,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitListExp([NotNull] EelooParser.ListExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             return Visit(ctx.list()); 
         }

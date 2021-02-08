@@ -10,7 +10,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitTypecastExpression([NotNull] EelooParser.TypecastExpressionContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             var obj = Visit(ctx.exp());
             if (ctx.STRING_TOK() != null) {

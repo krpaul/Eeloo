@@ -24,7 +24,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitMethodCallExp([NotNull] EelooParser.MethodCallExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             var hostObj = Visit(ctx.exp());
             string methodName = ctx.fn_call().IDENTIFIER().GetText();

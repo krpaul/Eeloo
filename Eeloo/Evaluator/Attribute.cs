@@ -11,7 +11,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitAttributeRefExp([NotNull] EelooParser.AttributeRefExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             return Visit(ctx.exp()).GetAttribute(ctx.IDENTIFIER().GetText());
         }
@@ -19,7 +19,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitVerboseAttributeExp([NotNull] EelooParser.VerboseAttributeExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             string iden = ctx.IDENTIFIER().GetText();
             eeObject obj = Visit(ctx.exp());

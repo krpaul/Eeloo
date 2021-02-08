@@ -10,7 +10,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitPlainExps([NotNull] EelooParser.PlainExpsContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             ICollection<eeObject> rawListObj = new List<eeObject>();
 
@@ -28,7 +28,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitBrackExps([NotNull] EelooParser.BrackExpsContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             return Visit(ctx.exps()); 
         }

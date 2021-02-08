@@ -58,15 +58,8 @@ namespace Eeloo
                 // Top Level Rule
                 var tree = parser.program();
 
-                // List of builtins
-                var builtIns = (
-                    from fn in typeof(BuiltInFunctions).GetMethods()
-                    where char.IsLower(fn.Name[0])
-                    select fn.Name
-                ).Distinct();
-
                 // Create visitor object
-                EvalVisitor evalVisitor = new EvalVisitor(currentScope, builtIns);
+                EvalVisitor evalVisitor = new EvalVisitor();
 
                 // Give public access to the visitor and the global scope
                 Interpreter.visitor = evalVisitor;

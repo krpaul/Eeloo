@@ -23,9 +23,6 @@ namespace Eeloo.Objects.ParserObjects
             this.name = name;
             this.codeblock = codeblock;
             
-            // Create scope
-            this.scope = new Scope(Interpreter.visitor.scope, Interpreter.visitor.scope.scopeCtx);
-
             // Assign each argument to a variable in the scope
             foreach (var arg in defaultArgs)
             {
@@ -57,14 +54,8 @@ namespace Eeloo.Objects.ParserObjects
                     scope.assignVar(this.argNames[i], args.ElementAt(i));
             }
 
-            // Reassign the scope while the function is running
-            Interpreter.visitor.scope = this.scope;
-
             // Execute the function and remember the return value
             var returnVal = Interpreter.visitor.Visit(this.codeblock);
-                                    
-            // Exit the scope
-            Interpreter.visitor.scope = Interpreter.visitor.scope.parent;
 
             /* Return the return value
             If Lines return nothing, add an implicit None obj

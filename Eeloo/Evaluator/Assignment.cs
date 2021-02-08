@@ -16,7 +16,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitRegAssign([NotNull] EelooParser.RegAssignContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             // Get value of right hand side
             eeObject assignVal = Visit(ctx.exp());
@@ -34,7 +34,7 @@ namespace Eeloo.Evaluator
                 // get iden of non null alternative
                 string iden = asVar != null ? asVar.IDENTIFIER().GetText() : asArr.var().GetText();
 
-                scope.assignVar(iden, assignVal);
+                Interpreter.currentScope.assignVar(iden, assignVal);
 
                 return eeObject.None;
             }
@@ -52,7 +52,7 @@ namespace Eeloo.Evaluator
                     else // if different types
                     {
                         // Just override the old object
-                        scope.assignVar(asVar.IDENTIFIER().GetText(), newVar);
+                        Interpreter.currentScope.assignVar(asVar.IDENTIFIER().GetText(), newVar);
                     }
                 }
                 else if (asArr != null) // is a list item
@@ -67,7 +67,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitAugAssign([NotNull] EelooParser.AugAssignContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             var oldVar = Visit(ctx.var());
             var exp = Visit(ctx.exp());
@@ -110,7 +110,7 @@ namespace Eeloo.Evaluator
                     else // if different types
                     {
                         // Just override the old object
-                        scope.assignVar(asVar.IDENTIFIER().GetText(), newVar);
+                        Interpreter.currentScope.assignVar(asVar.IDENTIFIER().GetText(), newVar);
                     }
                 }
                 else if (asArr != null) // is a list item

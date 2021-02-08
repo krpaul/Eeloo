@@ -12,13 +12,13 @@ namespace Eeloo.Evaluator
         public override eeObject VisitArrayIndex([NotNull] EelooParser.ArrayIndexContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             // Get the name of the array variable
             string iden = ctx.var().GetText();
 
             // Get the value
-            var variableVal = scope.resolveVar(iden);
+            var variableVal = Interpreter.currentScope.resolveVar(iden);
 
             // if it doesnt exist
             if (variableVal == null)
@@ -78,7 +78,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitArraySlice([NotNull] EelooParser.ArraySliceContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             EelooParser.ExpContext[] exps = ctx.exp();
             

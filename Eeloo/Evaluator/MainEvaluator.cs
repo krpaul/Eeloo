@@ -8,16 +8,6 @@ namespace Eeloo.Evaluator
 {
     public partial class EvalVisitor : EelooBaseVisitor<eeObject>
     {
-        public Scope scope;
-
-        public EvalVisitor(Scope scope, IEnumerable<string> functions)
-        {
-            this.scope = scope;
-
-            // Scan through and look for all function definitions
-            //var functionEval = new FunctionEvaluator(this.scope);
-        }
-
         public override eeObject VisitLines([NotNull] EelooParser.LinesContext ctx)
         {
             var stmtArr = ctx.stmt();

@@ -22,10 +22,10 @@ namespace Eeloo.Errors
         public BaseError(string message) : base(message) { }
 
         public BaseError(string errName, string message)
-            : base($"{errName} occured on line {Interpreter.visitor.scope.scopeCtx.Start.Line} column {Interpreter.visitor.scope.scopeCtx.Start.Column}: {message}")
+            : base($"{errName} occured on line {Interpreter.currentScope.scopeCtx.Start.Line} column {Interpreter.currentScope.scopeCtx.Start.Column}: {message}")
         {
             ErrorName = errName;
-            Context = Interpreter.visitor.scope.scopeCtx;
+            Context = Interpreter.currentScope.scopeCtx;
         }
 
         public override string ToString()

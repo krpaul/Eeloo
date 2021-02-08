@@ -12,7 +12,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitBetweenExp([NotNull] EelooParser.BetweenExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             var exps = ctx.exp();
 

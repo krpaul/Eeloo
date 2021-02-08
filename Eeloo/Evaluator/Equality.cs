@@ -9,7 +9,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitEqualityExp([NotNull] EelooParser.EqualityExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             // Get both expressions
             eeObject obj1 = Visit(ctx.exp(0)),
@@ -22,7 +22,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitInequalityExp([NotNull] EelooParser.InequalityExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             // Get both expressions
             eeObject obj1 = Visit(ctx.exp(0)),

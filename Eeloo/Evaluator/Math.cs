@@ -16,7 +16,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitAdditiveOprExp([NotNull] EelooParser.AdditiveOprExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
@@ -35,7 +35,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitMultiplicativeOprExp([NotNull] EelooParser.MultiplicativeOprExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
@@ -56,7 +56,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitComparisonExp([NotNull] EelooParser.ComparisonExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             eeObject obj1 = Visit(ctx.exp(0)),
                      obj2 = Visit(ctx.exp(1));
@@ -79,7 +79,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitPwrExp([NotNull] EelooParser.PwrExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             eeObject exp1 = Visit(ctx.exp(0)),
                      exp2 = Visit(ctx.exp(1));
@@ -92,7 +92,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitBracketedExp([NotNull] EelooParser.BracketedExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             return Visit(ctx.exp()); 
         }
@@ -100,7 +100,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitFactorialExp([NotNull] EelooParser.FactorialExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             var num = Visit(ctx.exp());
 

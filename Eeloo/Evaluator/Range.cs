@@ -13,7 +13,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitRangeExp([NotNull] EelooParser.RangeExpContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             EelooParser.ExpContext[] exps = ctx.exp();
             

@@ -15,7 +15,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitFn_call([NotNull] EelooParser.Fn_callContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             // Get function's name
             string iden = ctx.IDENTIFIER().GetText();
@@ -35,7 +35,7 @@ namespace Eeloo.Evaluator
             }
 
             // Check if function is user-defined 
-            var fn = scope.resolveVar(iden);
+            var fn = Interpreter.currentScope.resolveVar(iden);
             if (fn != null && fn.type == eeObjectType.FUNCTION)
             {
                 ICollection<eeObject> args = ctx.exps() != null ? Visit(ctx.exps()).AsEXPRLIST() : null;
@@ -54,11 +54,11 @@ namespace Eeloo.Evaluator
         public override eeObject VisitFn_args([NotNull] EelooParser.Fn_argsContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             // key is argument name, value is the default value if one is provided
-            Dictionary<string, eeObject> arguments
-                = new Dictionary<string, eeObject>();
+            ArgList arguments
+                = new ArgList();
 
             var args = ctx.fn_arg();
 
@@ -83,14 +83,14 @@ namespace Eeloo.Evaluator
         public override eeObject VisitFn_def([NotNull] EelooParser.Fn_defContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             ArgList args = ctx.fn_args() != null ?
                 (ArgList)Interpreter.visitor.Visit(ctx.fn_args()).value :
                 new ArgList()
                 ;
 
-            scope.assignVar(
+            Interpreter.currentScope.assignVar(
                 ctx.IDENTIFIER().GetText(),
                 eeObject.newFunctionObject(
                     ctx.IDENTIFIER().GetText(),

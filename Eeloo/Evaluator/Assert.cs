@@ -11,7 +11,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitAssert_stmt([NotNull] EelooParser.Assert_stmtContext ctx)
         {
             // add this to scope
-            scope.scopeCtx = ctx;
+            Interpreter.currentScope.scopeCtx = ctx;
 
             var bool_exp = Visit(ctx.exp());
 
