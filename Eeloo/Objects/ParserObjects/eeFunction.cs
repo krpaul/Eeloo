@@ -26,6 +26,8 @@ namespace Eeloo.Objects.ParserObjects
             // Assign each argument to a variable in the scope
             foreach (var arg in defaultArgs)
             {
+                if (arg.Value == null) continue;
+
                 scope.assignVar(
                     arg.Key,  // argument name      
                     arg.Value // default value
