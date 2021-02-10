@@ -1,11 +1,7 @@
-﻿using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime;
+﻿using Eeloo.Errors;
 using System;
-using System.Runtime.CompilerServices;
-using Xunit;
-using System.Xml;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Eeloo.Objects.ParserObjects
 {
@@ -407,6 +403,9 @@ namespace Eeloo.Objects.ParserObjects
 
             eeNumber num1 = num1_orig.Copy(),
                      num2 = num2_orig.Copy();
+
+            if (num2 == ZERO)
+                throw new DivisionByZeroError(num1);
 
             bool negate = false;
             /* first, account for negatives */
