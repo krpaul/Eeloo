@@ -16,7 +16,10 @@ namespace Eeloo.Errors
             string tokenMsg = offendingSymbol.InputStream.GetText(interval);
 
             // Make message more friendly
-            msg = msg.Replace("NL", "New Line");
+            msg = msg
+                .Replace(" expecting", ", expecting")
+                .Replace("NL", "a new line")
+                .Replace("mismatched input", "unexpected keyword");
 
             throw new Exception($"Line {line} Column {charPositionInLine}: {msg}");
        }

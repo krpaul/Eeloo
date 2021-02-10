@@ -4,6 +4,8 @@ if z is 1
 	define function testA(param1, param2)
 		return param1 + param2
 	end
+
+	print testA("v", "vw")
 end
 
 print <- testA("b", "a")
