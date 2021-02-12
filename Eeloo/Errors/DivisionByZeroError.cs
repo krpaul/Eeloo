@@ -6,7 +6,7 @@ namespace Eeloo.Errors
     class DivisionByZeroError : BaseError
     {
         public DivisionByZeroError(eeNumber num1)
-            : base("NegationError", $"Cannot divide number {num1} by 0.")
+            : base("DivisionByZeroError", $"Cannot divide number {num1} by 0.")
         { }
     }
 }
