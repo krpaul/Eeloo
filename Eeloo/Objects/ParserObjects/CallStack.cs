@@ -41,6 +41,7 @@ namespace Eeloo.Objects.ParserObjects
         {
 
             StringBuilder build = new StringBuilder();
+            build.Append($"* (body) {Environment.NewLine}");
             var cnt = this.stack.Count;
             for (int i = cnt - 1; i >= 0; i--)
             {
