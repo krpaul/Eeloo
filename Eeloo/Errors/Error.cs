@@ -25,7 +25,7 @@ namespace Eeloo.Errors
             : base(
                 $"{errName} occured on line {Interpreter.currentScope.scopeCtx.Start.Line} column {Interpreter.currentScope.scopeCtx.Start.Column}: {message}"
                 + Environment.NewLine + Environment.NewLine +
-                "Function Traceback:"
+                "Function Traceback (in sequential order):"
                 + Environment.NewLine
                 + Interpreter.globalStack.ToString()
             )

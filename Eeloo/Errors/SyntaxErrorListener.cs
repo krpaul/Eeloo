@@ -19,6 +19,7 @@ namespace Eeloo.Errors
             msg = msg
                 .Replace(" expecting", ", expecting")
                 .Replace("NL", "a new line")
+                .Replace("missing IDENTIFIER", "missing a keyword or variable name")
                 .Replace("mismatched input", "unexpected keyword");
 
             throw new Exception(

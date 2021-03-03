@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using System;
 using Antlr4.Runtime;
 using System.Linq;
 
@@ -38,9 +39,14 @@ namespace Eeloo.Objects.ParserObjects
 
         public override string ToString()
         {
-            StringBuilder build = new StringBuilder(); 
-            foreach (var call in this.stack)
-                build.Append(call.ToString());
+
+            StringBuilder build = new StringBuilder();
+            var cnt = this.stack.Count;
+            for (int i = cnt - 1; i >= 0; i--)
+            {
+                var call = stack.ElementAt(i);
+                build.Append($"{String.Concat(Enumerable.Repeat("  ", cnt - i))}» " + call.ToString() + Environment.NewLine);
+            }
 
             return build.ToString();
         }

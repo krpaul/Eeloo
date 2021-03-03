@@ -1,33 +1,26 @@
-﻿function AddAndSquare <- num1, num2
-	return (num1 + num2) raised to the 2
+﻿function a
+	print <- "called a function: a"
+	"3" / 33
 end
 
-function SubtractAndSquare(num1, num2)
-	return (num1 + num2)^2
+function b
+	a()
+	print <- "called a function: b"
 end
 
-assert AddAndSquare(1, 6) is 49
-assert AddAndSquare(1.5, 1.5) is 9
-assert SubtractAndSquare(1.5, 1.5) is 0
-
-// test different syntaxes
-define new function add <- a, b
-	return a + b
+function c
+	b()
+	print <- "called a function: c"
 end
 
-new function subtract <- a, b
-	return a -b
+function d
+	c()
+	print <- "called a function: d"
 end
 
-define multiply (a, b)
-	return a times b
+function e
+	d()
+	print <- "called a function: e"
 end
 
-define function divide (a, b)
-	return a divided by b
-end
-
-assert add(1, 2) is 3
-assert subtract(30, 23) is 7
-assert multiply(20, 20) is 400
-assert divide(50, 5) is 10
+e()
