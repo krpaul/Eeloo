@@ -1,4 +1,4 @@
-﻿function a
+﻿function a()
 	print <- "called a function: a"
 	"3" / 33
 end

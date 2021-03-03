@@ -122,7 +122,7 @@ fn_call: IDENTIFIER NL* LBRACK NL* exps? NL* RBRACK |
 		 IDENTIFIER NL* ARROW NL* exps				;
 
 fn_def_keyword : DEFINE | (DEFINE? NEW? FUNCTION) ;
-fn_def: fn_def_keyword IDENTIFIER (LBRACK fn_args RBRACK)? NL lines END 
+fn_def: fn_def_keyword IDENTIFIER (LBRACK fn_args? RBRACK)? NL lines END 
 	  | fn_def_keyword IDENTIFIER (ARROW fn_args)? NL lines END
 	  ;
 
