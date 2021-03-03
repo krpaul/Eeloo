@@ -6,7 +6,7 @@ namespace Eeloo.Errors
 {
     public class SyntaxErrorListener : BaseErrorListener
     {
-       public override void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
+        public override void SyntaxError(IRecognizer recognizer, IToken offendingSymbol, int line, int charPositionInLine, string msg, RecognitionException e)
        {
             var a = offendingSymbol.StartIndex;
             var b = offendingSymbol.StopIndex;
@@ -21,7 +21,10 @@ namespace Eeloo.Errors
                 .Replace("NL", "a new line")
                 .Replace("mismatched input", "unexpected keyword");
 
-            throw new Exception($"Line {line} Column {charPositionInLine}: {msg}");
+            throw new Exception(
+                $"Line {line} Column {charPositionInLine}: {msg}"
+                
+            );
        }
     }
 }

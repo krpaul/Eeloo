@@ -11,6 +11,7 @@ namespace Eeloo.Evaluator
             if (Visit(ctx.exp()).AsBool())
             {
                 var scope = new Scope(Interpreter.currentScope, ctx);
+                scope.ScopeThis();
                 var result = Visit(ctx.lines()) ?? eeObject.None;
                 Scope.unScope(scope);
 
@@ -25,6 +26,7 @@ namespace Eeloo.Evaluator
             if (Visit(ctx.exp()).AsBool())
             {
                 var scope = new Scope(Interpreter.currentScope, ctx);
+                scope.ScopeThis();
                 var result = Visit(ctx.lines()) ?? eeObject.None;
                 Scope.unScope(scope);
 
@@ -37,6 +39,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitElse_partial([NotNull] EelooParser.Else_partialContext ctx)
         {
             var scope = new Scope(Interpreter.currentScope, ctx);
+            scope.ScopeThis();
             var result = Visit(ctx.lines()) ?? eeObject.None;
             Scope.unScope(scope);
 

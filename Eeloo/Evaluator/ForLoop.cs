@@ -11,6 +11,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitFor_stmt([NotNull] EelooParser.For_stmtContext ctx)
         {
             var scope = new Scope(Interpreter.currentScope, ctx);
+            scope.ScopeThis();
 
             var iterVar = ctx.var().GetText();
             var enumExp = Visit(ctx.exp()).AsEnumerable();

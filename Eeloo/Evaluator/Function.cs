@@ -39,9 +39,14 @@ namespace Eeloo.Evaluator
             if (fn != null && fn.type == eeObjectType.FUNCTION)
             {
                 ICollection<eeObject> args = ctx.exps() != null ? Visit(ctx.exps()).AsEXPRLIST() : null;
+                var funcObj = fn.AsFunction();
 
                 var scope = new Scope(Interpreter.currentScope, ctx);
-                var result = fn.AsFunction().invoke(args);
+                Interpreter.globalStack.AddCall(ctx, funcObj);
+                
+                var result = funcObj.invoke(args);
+
+                Interpreter.globalStack.RemoveCall(funcObj);
                 Scope.unScope(scope);
 
                 return result;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Eeloo.Grammar;
+using Eeloo.Objects.ParserObjects;
 
 using Antlr4.Runtime;
 
@@ -10,19 +11,20 @@ namespace Eeloo.Objects
     public class Scope
     {
         public Scope parent;
+        public ParserRuleContext scopeCtx;
+
         Dictionary<string, eeObject> scopeVars 
             = new Dictionary<string, eeObject>();
-
-        public ParserRuleContext scopeCtx;
 
         public Scope(Scope parent, ParserRuleContext ctx)
         {
             this.parent = parent;
             this.scopeCtx = ctx;
-
-            // set the current scope
-            Interpreter.currentScope = this;
         }
+        
+        // sets current scope to this scope
+        public void ScopeThis()
+        { Interpreter.currentScope = this; }
 
         // puts the scope back up to the parent
         public static void unScope(Scope scopeObj)

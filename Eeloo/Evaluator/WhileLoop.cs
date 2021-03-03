@@ -11,6 +11,8 @@ namespace Eeloo.Evaluator
             bool until = ctx.UNTIL() != null;
 
             var scope = new Scope(Interpreter.currentScope, ctx);
+            scope.ScopeThis();
+
             while (
                 until == false ? // If this is a while loop
                 Visit(ctx.exp()).AsBool() // While condition true

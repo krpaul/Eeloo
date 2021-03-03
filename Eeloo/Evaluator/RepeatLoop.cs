@@ -16,6 +16,7 @@ namespace Eeloo.Evaluator
 
 
             var scope = new Scope(Interpreter.currentScope, ctx);
+            scope.ScopeThis();
             for (eeNumber i = new eeNumber(0); i < count.AsNumber(); i += eeNumber.ONE)
             {
                 var codeblock = Visit(ctx.lines());

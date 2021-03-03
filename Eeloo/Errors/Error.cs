@@ -22,7 +22,13 @@ namespace Eeloo.Errors
         public BaseError(string message) : base(message) { }
 
         public BaseError(string errName, string message)
-            : base($"{errName} occured on line {Interpreter.currentScope.scopeCtx.Start.Line} column {Interpreter.currentScope.scopeCtx.Start.Column}: {message}")
+            : base(
+                $"{errName} occured on line {Interpreter.currentScope.scopeCtx.Start.Line} column {Interpreter.currentScope.scopeCtx.Start.Column}: {message}"
+                + Environment.NewLine + Environment.NewLine +
+                "Function Traceback:"
+                + Environment.NewLine
+                + Interpreter.globalStack.ToString()
+            )
         {
             ErrorName = errName;
             Context = Interpreter.currentScope.scopeCtx;

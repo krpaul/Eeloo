@@ -10,6 +10,7 @@ namespace Eeloo.Evaluator
         public override eeObject VisitFrom_loop([NotNull] EelooParser.From_loopContext ctx)
         {
             var scope = new Scope(Interpreter.currentScope, ctx);
+            scope.ScopeThis();
 
             eeObject start = Visit(ctx.exp(0)),
                      stop  = Visit(ctx.exp(1));

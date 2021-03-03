@@ -1,4 +1,5 @@
 ﻿using Eeloo.Grammar;
+using Eeloo.Errors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,15 +23,14 @@ namespace Eeloo.Objects.ParserObjects
         {
             this.name = name;
             this.codeblock = codeblock;
+            this.scope = new Scope(null, codeblock);
             
             // Assign each argument to a variable in the scope
             foreach (var arg in defaultArgs)
             {
-                if (arg.Value == null) continue;
-
                 scope.assignVar(
                     arg.Key,  // argument name      
-                    arg.Value // default value
+                    arg.Value
                 );
 
                 argNames.Add(arg.Key);
@@ -39,6 +39,9 @@ namespace Eeloo.Objects.ParserObjects
 
         public eeObject invoke(ICollection<eeObject> args)
         {
+            // scope to this
+            this.scope.parent = Interpreter.currentScope;
+            Interpreter.currentScope = this.scope;
 
             // Assign each positional argument
             if (args != null)
@@ -49,7 +52,7 @@ namespace Eeloo.Objects.ParserObjects
 
                 if (argCount != thisCount)
                 {
-                    throw new Exception($"This function takes {thisCount} argument(s) but was given {argCount} argument(s)");
+                    throw new ArgumentMismatchError(this, thisCount, argCount);
                 }
 
                 for (int i = 0; i < args.Count(); i++)
@@ -58,6 +61,9 @@ namespace Eeloo.Objects.ParserObjects
 
             // Execute the function and remember the return value
             var returnVal = Interpreter.visitor.Visit(this.codeblock);
+
+            // unscope
+            Interpreter.currentScope = this.scope.parent;
 
             /* Return the return value
             If Lines return nothing, add an implicit None obj

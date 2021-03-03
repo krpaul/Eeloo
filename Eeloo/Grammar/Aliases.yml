@@ -58,3 +58,9 @@ equality:
     - is equal to
     - equals
     - ==
+try:
+    - try
+catch:
+    - catch
+finally:
+    - finally

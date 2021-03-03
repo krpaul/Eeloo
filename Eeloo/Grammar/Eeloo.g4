@@ -104,11 +104,19 @@ repeat_loop: REPEAT exp TIMES NL lines END
 
 /* End loops */
 
+/* If statement construction */
 if_stmt: if_partial else_if_partial* else_partial? END ;
 
 if_partial: IF exp THEN? NL lines ;
 else_if_partial: ELSE IF exp THEN? NL lines ;
 else_partial: ELSE THEN? NL lines;
+
+/* Try-catch statement construction */
+try_stmt: try_partial catch_partial* finally_partial?;
+
+try_partial: TRY NL lines ;
+catch_partial: CATCH exp NL lines ;
+finally_partial: FINALLY lines ;
 
 fn_call: IDENTIFIER NL* LBRACK NL* exps? NL* RBRACK |
 		 IDENTIFIER NL* ARROW NL* exps				;
