@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Antlr4.Runtime;
+﻿using Eeloo.Helpers;
 using Eeloo.Objects;
-using Eeloo.Helpers;
 
 namespace Eeloo.Errors
 {

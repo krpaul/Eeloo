@@ -1,10 +1,6 @@
-﻿using System;
+﻿using Antlr4.Runtime;
+using Eeloo.Errors;
 using System.Collections.Generic;
-using System.Text;
-using Eeloo.Grammar;
-using Eeloo.Objects.ParserObjects;
-
-using Antlr4.Runtime;
 
 namespace Eeloo.Objects
 {
@@ -30,7 +26,7 @@ namespace Eeloo.Objects
         public static void unScope(Scope scopeObj)
         {
             if (scopeObj.parent == null)
-                throw new Exception("Internal Error: Cannot unscope the top-most scope");
+                throw new InternalError("Cannot unscope the top-most scope.");
 
             // set the current scope to the parent
             Interpreter.currentScope = scopeObj.parent;

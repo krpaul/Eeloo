@@ -1,1 +1,26 @@
-﻿3 / 0
+﻿function a()
+	print <- "called a function: a"
+	"3" / 33
+end
+
+function b
+	a()
+	print <- "called a function: b"
+end
+
+function c
+	b()
+	print <- "called a function: c"
+end
+
+function d
+	c()
+	print <- "called a function: d"
+end
+
+function e
+	d()
+	print <- "called a function: e"
+end
+
+e()
