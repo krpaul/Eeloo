@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using Eeloo.Errors;
 using System;
 
 namespace Eeloo.Evaluator
@@ -33,7 +34,7 @@ namespace Eeloo.Evaluator
             var methodParams = passedParams != null ? Visit(passedParams) : null;
 
             if (!hostObj.methods.ContainsKey(methodName))
-                throw new Exception($"Method {methodName} does not exist");
+                throw new NoMethodError(methodName, hostObj.type);
 
             return hostObj.CallMethod(methodName, methodParams);
         }

@@ -1,26 +1,7 @@
-﻿function a()
-	print <- "called a function: a"
-	"3" / 33
+﻿t1 = time()
+for i from 0 to 10^4
+	if i mod 1000 is 0
+		print <- time() - t1
+		t1 = time()
+	end
 end
-
-function b
-	a()
-	print <- "called a function: b"
-end
-
-function c
-	b()
-	print <- "called a function: c"
-end
-
-function d
-	c()
-	print <- "called a function: d"
-end
-
-function e
-	d()
-	print <- "called a function: e"
-end
-
-e()

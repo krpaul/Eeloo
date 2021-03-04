@@ -1,6 +1,4 @@
-﻿using Antlr4.Runtime;
-
-namespace Eeloo.Errors
+﻿namespace Eeloo.Errors
 {
     class UniterableValueError : BaseError
     {
