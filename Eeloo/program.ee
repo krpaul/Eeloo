@@ -1,1 +1,16 @@
-﻿3 / 0
+﻿new function isPalindrome(x)
+	return ((x as string).reverse() is x as string)
+end
+
+sum = 0
+for i from 1 to 10^6 -1
+	if isPalindrome(i) or isPalindrome(i.binary())
+		sum = sum + i
+	end
+
+	if i mod 1000 is 0
+		print <- i
+	end
+end
+
+print <- sum

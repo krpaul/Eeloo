@@ -13,15 +13,15 @@ namespace Eeloo.Helpers
             switch (type)
             {
                 case eeObjectType.BOOL:
-                    return "Boolean";
+                    return "BOOLEAN";
                 case eeObjectType.FUNCTION:
-                    return "Function";
+                    return "FUNCTION";
                 case eeObjectType.LIST:
-                    return "List";
+                    return "LIST";
                 case eeObjectType.NUMBER:
-                    return "Number";
+                    return "NUMBER";
                 case eeObjectType.STRING:
-                    return "String";
+                    return "STRING";
                 default:
                     return "<internal type>";
             }
