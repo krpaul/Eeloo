@@ -21,7 +21,10 @@ namespace Eeloo.Errors
                 .Replace("NL", "a new line")
                 .Replace("missing IDENTIFIER", "missing a keyword or variable name")
                 .Replace("no viable alternative at input", "unexpected symbol or keyword")
-                .Replace("mismatched input", "unexpected keyword");
+                .Replace("mismatched input", "unexpected keyword")
+                .Replace("unexpected keyword '\r\n'", "unexpected newline")
+                .Replace("unexpected keyword '\n'", "unexpected newline")
+                ;
 
             throw new Exception(
                 $"Line {line} Column {charPositionInLine}: {msg}"
