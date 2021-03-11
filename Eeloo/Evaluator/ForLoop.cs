@@ -24,7 +24,9 @@ namespace Eeloo.Evaluator
                 scope.assignVar(iterVar, iteration);
                 var codeblock = Visit(ctx.lines());
 
-                if (codeblock != null)
+                if (codeblock != null && codeblock.type == eeObjectType.internal_CONTINUE_STMT)
+                    continue;
+                else if (codeblock != null)
                 {
                     Scope.unScope(scope);
                     return codeblock;

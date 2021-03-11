@@ -27,6 +27,7 @@ EXIT       :    'exit'      ;
 WHILE      :    'while'     ;
 UNTIL	   :    'until'		;
 FOR_EACH   :    <<foreach>>	;
+CONTINUE   :	<<cont>>	;
 FROM	   :	'from'		;
 REPEAT	   :    'repeat'    ;
 TIMES	   :    'times'     ;

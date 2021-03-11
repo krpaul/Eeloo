@@ -13,6 +13,7 @@ stmt: assignment
 	| return_stmt
 	| fn_def
 	| assert_stmt
+	| continue_stmt
 	| exp
     ;
 
@@ -101,6 +102,8 @@ repeat_loop: REPEAT exp TIMES NL lines END
 			| exp TIMES (DO)? NL lines END
 			| (DO)? exp TIMES NL lines END
 			;
+
+continue_stmt: CONTINUE ;
 
 /* End loops */
 

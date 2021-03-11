@@ -47,6 +47,14 @@ foreach:
     - for every
     - using each
     - using every
+cont:
+    - __OptionalBoundingWhitespace__ # this flag is used for statments' aliases
+    - continue
+    - continue loop
+    - next
+    - next in loop
+    - skip 
+
 count_by:
     - by
     - count by
