@@ -25,11 +25,9 @@ namespace Eeloo.Evaluator
 
             // get the object
             var obj = Visit(ctx.exp());
-
-            // wrap it in a return object
-            eeObject ret = new eeObject(obj) { type = eeObjectType.internal_RETURN_VALUE };
-
-            return ret;
+            
+            // return it
+            return obj;
         }
 
         // When passed a list of expressions
@@ -44,10 +42,10 @@ namespace Eeloo.Evaluator
             // make it a list
             var obj = eeObject.newListObject(exprs);
 
-            // wrap it in a return object
-            eeObject ret = new eeObject(obj) { type = eeObjectType.internal_RETURN_VALUE };
+            // mark it as a return object
+            obj.isReturnValue = true;
 
-            return ret;
+            return obj;
         }
     }
 }
