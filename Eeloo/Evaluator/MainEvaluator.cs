@@ -16,16 +16,18 @@ namespace Eeloo.Evaluator
             {
                 var val = Visit(stmt);
 
-                if (val == null)
+                /* val might be equal to eeObject.None, because expressions like 
+                 * function calls and that will return eeObjects and not null. However, stmts 
+                 * will return null instead. We can't pass down eeObject.None as a return value
+                 * so we'll have to treat it like a null and skip it.
+                 */
+
+                if (val == null || val == eeObject.None)
                     continue;
 
-                // If it's a return value
-                if (val.type == eeObjectType.internal_RETURN_VALUE)
-                {
-                    // return it
-                    return (eeObject) val.value;
-                }
+                return val;
             }
+
             return null;
         }
 
