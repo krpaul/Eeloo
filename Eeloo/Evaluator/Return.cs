@@ -42,9 +42,6 @@ namespace Eeloo.Evaluator
             // make it a list
             var obj = eeObject.newListObject(exprs);
 
-            // mark it as a return object
-            obj.isReturnValue = true;
-
             return obj;
         }
     }
