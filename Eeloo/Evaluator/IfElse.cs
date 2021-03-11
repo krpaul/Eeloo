@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime.Misc;
 using Eeloo.Grammar;
 using Eeloo.Objects;
+using System;
 
 namespace Eeloo.Evaluator
 {
@@ -12,13 +13,14 @@ namespace Eeloo.Evaluator
             {
                 var scope = new Scope(Interpreter.currentScope, ctx);
                 scope.ScopeThis();
-                var result = Visit(ctx.lines()) ?? eeObject.None;
+                var result = Visit(ctx.lines());
                 Scope.unScope(scope);
 
-                return result;
+                if (result != null)
+                    return result;
             }
 
-            return eeObject.None;
+            return null;
         }
 
         public override eeObject VisitElse_if_partial([NotNull] EelooParser.Else_if_partialContext ctx)
@@ -27,20 +29,21 @@ namespace Eeloo.Evaluator
             {
                 var scope = new Scope(Interpreter.currentScope, ctx);
                 scope.ScopeThis();
-                var result = Visit(ctx.lines()) ?? eeObject.None;
+                var result = Visit(ctx.lines()) ?? null;
                 Scope.unScope(scope);
 
-                return result;
+                if (result != null)
+                    return result;
             }
 
-            return eeObject.None;
+            return null;
         }
 
         public override eeObject VisitElse_partial([NotNull] EelooParser.Else_partialContext ctx)
         {
             var scope = new Scope(Interpreter.currentScope, ctx);
             scope.ScopeThis();
-            var result = Visit(ctx.lines()) ?? eeObject.None;
+            var result = Visit(ctx.lines());
             Scope.unScope(scope);
 
             return result;
@@ -66,7 +69,10 @@ namespace Eeloo.Evaluator
 
             // Otherwise, execute and return the else statment or null if there isn't one;
             var elsestmt = ctx.else_partial();
-            return elsestmt != null ? Visit(elsestmt) : eeObject.None;
+            if (elsestmt != null)
+                return Visit(elsestmt);
+
+            return null;
         }
     }
 }
