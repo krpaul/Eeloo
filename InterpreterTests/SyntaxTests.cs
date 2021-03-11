@@ -56,5 +56,9 @@ namespace InterpreterTests
         [Fact]
         public void TestAssignment()
         { Interpreter.Interpret(ReadTestFile("assignment")); }
+
+        [Fact]
+        public void TestContinue()
+        { Interpreter.Interpret(ReadTestFile("continue")); }
     }
 }

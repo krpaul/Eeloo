@@ -50,10 +50,12 @@ foreach:
 cont:
     - __OptionalBoundingWhitespace__ # this flag is used for statments' aliases
     - continue
-    - continue loop
-    - next
-    - next in loop
     - skip 
+    - next
+    - continue loop
+    - next in loop
+    - next iteration
+    - go to next iteration
 
 count_by:
     - by
