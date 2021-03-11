@@ -12,9 +12,10 @@ namespace Eeloo.Objects
     public enum eeObjectType
     {
         // Internal types (used only in the language's parser implementation) are negative-valued
+        internal_NONE_OBJ      = -4,
         internal_CONTINUE_STMT = -3,
-        internal_FN_ARG_LIST = -2,
-        internal_EXPRLIST = -1, 
+        internal_FN_ARG_LIST   = -2,
+        internal_EXPRLIST      = -1, 
         NUMBER = 1,  // Avoiding 0 as first value since type's default value will take 0 and we'll know if we forgot to assign it somwhere in the case of a 0
         STRING,
         BOOL,
@@ -53,9 +54,6 @@ namespace Eeloo.Objects
 
         /* Some static values */
 
-        // For none values
-        public static eeObject NONE = new eeObject();
-
         // For empty strings and iterables (equivalent to eeObject.NONE essentially, but is more precise)
         public static eeObject EMPTY = new eeObject();
 
@@ -86,6 +84,8 @@ namespace Eeloo.Objects
                 case eeObjectType.FUNCTION:
                     eeFunction func = this.AsFunction();
                     return $"<function object {func.name}; {func.getArgNames()}>";
+                case eeObjectType.internal_NONE_OBJ:
+                    return "<none>";
                 default:
                     throw new Exception("default case for ToPrintableString");
             }
