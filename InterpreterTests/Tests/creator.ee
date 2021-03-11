@@ -1,0 +1,7 @@
+﻿l = new list
+s = new string
+n = new number
+
+assert l == []
+assert s is ""
+assert n is 0

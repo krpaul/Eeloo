@@ -82,7 +82,7 @@ exp:  MINUS? num     			         #numExp
 		(RANGE_2 exp)? R_SQ_BRACK	     #arraySlice
 	| MINUS? fn_call					 #functionCallExp
 	| exp EQUALITY exp					 #equalityExp
-	| creator							 #creatorExpression
+	| NEW? creator						 #creatorExpression
 	| IF exp						     #prefixedInlineBool /* must be last */
     ;
 
