@@ -1,7 +1,12 @@
-﻿t1 = time()
-for i from 0 to 10^4
-	if i mod 1000 is 0
-		print <- time() - t1
-		t1 = time()
+﻿define new function testLoop()
+	for i from 0 to 10
+		print <- i
+
+		if i is 5
+			return i
+		end
 	end
 end
+
+a = testLoop()
+print <- a
