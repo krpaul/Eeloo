@@ -23,6 +23,7 @@ namespace Eeloo.Evaluator
             {
                 scope.assignVar(iterVar, iteration);
                 var codeblock = Visit(ctx.lines());
+
                 if (codeblock != null)
                 {
                     Scope.unScope(scope);
@@ -31,7 +32,7 @@ namespace Eeloo.Evaluator
             }
 
             Scope.unScope(scope);
-            return eeObject.None;
+            return null;
         }
     }
 }
