@@ -112,10 +112,25 @@ namespace Eeloo.Evaluator
             return eeObject.newNumberObject(fact);
         }
 
-        //public override eeObject VisitNegationExp([NotNull] EelooParser.NegationExpContext ctx)
-        //{
-        //    var num = Visit(ctx.exp()).AsNumber();
-        //    return eeObject.newNumberObject(num * new eeNumber(-1)); 
-        //}
+        public override eeObject VisitSinglePwrExp([NotNull] EelooParser.SinglePwrExpContext ctx)
+        {
+            // add this to scope
+            Interpreter.currentScope.scopeCtx = ctx;
+
+            var num = Visit(ctx.exp());
+
+            if (num.type != eeObjectType.NUMBER)
+                throw new InvalidOperationError(ctx.opr.Text, num.type);
+
+            switch (ctx.opr.Type)
+            {
+                case EelooLexer.SQUARED:
+                    return eeObject.newNumberObject(eeNumber.Power(num.AsNumber(), eeNumber.TWO));
+                case EelooLexer.CUBED:
+                    return eeObject.newNumberObject(eeNumber.Power(num.AsNumber(), eeNumber.THREE));
+                default:
+                    throw new InternalError($"SinglePwrExp got unknown value {ctx.opr.Text}");
+            }
+        }
     }
 }

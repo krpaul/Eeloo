@@ -90,6 +90,9 @@ POWER      :   '^' | WS 'to' WS 'the' WS 'power' WS 'of' WS | WS 'raised' WS 'to
 MOD		   :   '%' | WS 'mod' WS | WS 'modulo' WS		;
 FACTORIAL  :   '!' ;
 
+SQUARED	   : WS 'squared' WS?  ;
+CUBED	   : WS 'cubed' WS?    ;
+
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   WS 'by' WS | WS 'count' WS 'by' WS | WS 'counting' WS 'by' WS | WS 'skip' WS | WS 'skipping' WS ;
 

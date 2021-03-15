@@ -28,7 +28,8 @@ namespace Eeloo.Objects.ParserObjects
         // static often-used nums
         public static readonly eeNumber ZERO = new eeNumber(0),
                                         ONE = new eeNumber(1),
-                                        TWO = new eeNumber(2);
+                                        TWO = new eeNumber(2),
+                                        THREE = new eeNumber(3);
 
         #region Constructors
 

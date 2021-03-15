@@ -94,6 +94,9 @@ POWER      :   '^' | <<power>>	    ;
 MOD		   :   '%' | <<mod>>		;
 FACTORIAL  :   '!' ;
 
+SQUARED	   : WS 'squared' WS?  ;
+CUBED	   : WS 'cubed' WS?    ;
+
 RANGE_1	   :   '...' | WS TO WS  ;
 RANGE_2	   :   <<count_by>> ;
 
