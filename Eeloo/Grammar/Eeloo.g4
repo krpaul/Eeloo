@@ -60,7 +60,6 @@ exp:  MINUS? num     			         #numExp
     | list								 #listExp
 	| exp DOT IDENTIFIER			     #attributeRefExp
 	| IDENTIFIER OF exp				     #verboseAttributeExp
-    | LBRACK exp RBRACK		             #bracketedExp
 	| <assoc=right> exp POWER exp		 #pwrExp
 	| exp opr=(MULTIPLY | DIVIDE 
 			   | MOD) exp				 #multiplicativeOprExp
@@ -69,6 +68,8 @@ exp:  MINUS? num     			         #numExp
 	| exp opr=(LESS_EQL | GRT_EQL | 
 			   LESS     | GRT     ) exp  #comparisonExp
 	| exp (IS NOT | ISNT) exp			 #inequalityExp
+	| <assoc=right> exp 
+		opr=(SQUARED | CUBED)			 #singlePwrExp
 	| exp AS (STRING_TOK | LIST_TOK | 
 	          NUMBER_TOK | BOOL_TOK)     #typecastExpression
 	| exp RANGE_1 exp (RANGE_2 exp)?	 #rangeExp
@@ -83,7 +84,8 @@ exp:  MINUS? num     			         #numExp
 	| MINUS? fn_call					 #functionCallExp
 	| exp EQUALITY exp					 #equalityExp
 	| NEW? creator						 #creatorExpression
-	| IF exp						     #prefixedInlineBool /* must be last */
+	| IF exp						     #prefixedInlineBool /* must be 2nd last */
+    | LBRACK exp RBRACK		             #bracketedExp       /* must be last */
     ;
 
 exps: exp NL* (COMMA NL* exp)* NL* COMMA?    #plainExps
