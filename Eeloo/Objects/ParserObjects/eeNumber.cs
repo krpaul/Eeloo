@@ -16,7 +16,7 @@ namespace Eeloo.Objects.ParserObjects
      * with a multiple of 10.
      *  // Decimal numbers can only have a denominator which is a multiple of 10 because 
      * 
-     * When an eeNumber is cast to string, a decimal approximation will be calculated. (In the future this approximation will be cached.
+     * When an eeNumber is cast to string, a decimal approximation will be calculated. (In the future this approximation will be cached)
      */
     {
         private byte[] bytes;
@@ -629,13 +629,6 @@ namespace Eeloo.Objects.ParserObjects
         public static bool operator >=(eeNumber num1, eeNumber num2)
         { return num1 == num2 || num1 > num2; }
 
-
-        public bool IsEven()
-        { return this.bytes[0] % 2 == 0; }
-
-        public bool IsOdd()
-        { return !this.IsEven(); }
-
         #region Bitwise
 
         public static eeNumber operator |(eeNumber num1, eeNumber num2)
@@ -879,6 +872,12 @@ namespace Eeloo.Objects.ParserObjects
 
         public bool IsZero()
         { return this == ZERO;  }
+
+        public bool IsEven()
+        { return this.bytes[bytes.Length - 1] % 2 == 0; }
+
+        public bool IsOdd()
+        { return !this.IsEven();  }
 
         // removes the denominator of this number and returns it
         private eeNumber PopDenominator()
