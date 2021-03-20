@@ -1,3 +1,6 @@
+![logo_semifinal](https://user-images.githubusercontent.com/34616839/111853980-aceafd80-88e2-11eb-9c3a-ad107056536c.png)
+
+
 # The Eeloo Language
 Eeloo aims to be a high-level, abstract, and human-readable programming language. This language experiments with how efficient having multiple ways to express an idea is. Currently, it is most syntactically similar with Ruby with elements from Python.
 
