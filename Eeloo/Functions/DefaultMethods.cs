@@ -76,6 +76,26 @@ namespace Eeloo.Functions
                         return eeObject.newNumberObject(sum);
                     }
                 },
+                { 
+                    "average", // get the average value of the list
+                    (eeObject self, ICollection<eeObject> args) =>
+                    {
+                        if (args.Count() > 0)
+                            throw new Exception("This method takes no arguments");
+
+                        eeNumber sum = new eeNumber(0);
+                        var l = self.AsList();
+                        foreach (eeObject obj in l)
+                        {
+                            var n = obj.AsNumber();
+                            if (n == null) throw new Exception("List must have all number types in order to be averaged");
+
+                            sum += n;
+                        }
+
+                        return eeObject.newNumberObject(sum / new eeNumber(l.Count()));
+                    }
+                },
                 {
                     "slice", // slices the list
                     (eeObject self, ICollection<eeObject> args) =>
