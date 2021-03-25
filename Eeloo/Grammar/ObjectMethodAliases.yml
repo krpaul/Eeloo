@@ -1,0 +1,64 @@
+﻿### This file defines Aliases and Grammar for the default methods defined in Functions/DefaultMethods.cs ###
+
+## Format ##
+
+# under a method's id, named aliases will be defined for it
+# any of these aliases can be used in object.<method>() format unless attribute "allowStandardSyntax: false" is present directly under that specific alias
+# 
+# Either under an id or under a specific alias, we can specific a "- keywords:  " attribute or a "grammar: " attribute. This will then be applied either to only that specific alias or to all aliases under that id.
+# the 'keywords' attribute will require a list of keywords (of, to, from, etc.) which can only be used in the format of '<method> <keyword> object' (ex. 'average of myList')
+# if 'keywords' is not present, only standard format will be allowed.
+# the 'grammar' attribute will allow us to change this default format by giving our own grammar statement.
+
+List:
+    add:
+        - 'add'
+        - 'append'
+
+        - keywords:  
+            - 'to'
+        - requireBrackets: false
+
+    remove:
+        - 'remove'
+        - 'delete'
+
+        - keywords:  
+            - 'from'
+        - requireBrackets: false
+
+    removeAll:
+        - 'removeAll'
+        - 'remove all':
+            - allowStandardSyntax: false
+    sum: 
+        - 'sum'
+        - 'summation'
+        - 'sum total'
+
+        - keywords:  
+            - 'of'
+
+    average:
+        - 'average'
+        - 'avg'
+        - keywords: 
+            - 'of'
+    
+    slice: 
+        - 'slice'
+        - 'partition'
+    reverse:
+        - 'reverse'
+
+String:
+    concatenate:
+    uppercase:
+    lowercase:
+    reverse:
+    slice:
+
+Number:
+    binary:
+    digits:
+    factorial:		
