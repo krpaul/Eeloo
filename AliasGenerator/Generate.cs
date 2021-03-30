@@ -3,18 +3,32 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using YamlDotNet.Serialization;
 
 namespace AliasGenerator
 {
+    using YObjType = Dictionary<string, Dictionary<string, List<object>>>;
+
+    // these are the various types that the `object` in the above type can represent:
+    using ModAlias = Dictionary<string, string>; // string 1 is alias name, string 2 is property name, string 3 is property value.
+    using KWList = List<string>;
+    using Property = Dictionary<string, string>;
+
     class ConstructLexer
     {
         public const string FOLDERPREFIX = "./Grammar/";
+        public readonly static List<string> AllowedProperties = new List<string>() { "allowStandardSyntax", "requireBrackets", } ;
+        readonly static Deserializer deserializer = new Deserializer();
+        readonly static Newtonsoft.Json.JsonSerializer js = new Newtonsoft.Json.JsonSerializer();
+
         static void Main()
         {
+            List<string> tokensFromMethodAliases;
+            ParseMethodAliases(out tokensFromMethodAliases); return;
+
             string grammar = File.ReadAllText(FOLDERPREFIX + "LexerAliasesGrammar");
             string aliases = File.ReadAllText(FOLDERPREFIX + "Aliases.yml");
 
-            var deserializer = new YamlDotNet.Serialization.Deserializer();
 
             var aliasDict = deserializer.Deserialize<Dictionary<string, List<string>>>(aliases);
 
@@ -87,5 +101,21 @@ namespace AliasGenerator
             grammar = "lexer grammar GeneratedLexer;" + Environment.NewLine + grammar;
             File.WriteAllText(FOLDERPREFIX + "GeneratedLexer.g4", grammar);
         }
+        
+        static void ParseMethodAliases(out List<string> neededTokens)
+        {
+            var methodAliases = File.ReadAllText("../../../../Eeloo/Grammar/ObjectMethodAliases.yml");
+            Dictionary<string, Dictionary<string, List<object>>> aliasDict = deserializer.Deserialize<YObjType>(methodAliases);
+            neededTokens = new List<string>();
+
+            var w = new StringWriter();
+            js.Serialize(w, aliasDict);
+            string jsonText = w.ToString();
+
+            Console.WriteLine(jsonText);
+            Console.WriteLine(aliasDict);
+        }
     }
 }
+
+// Dictionary<string, List<string>>
