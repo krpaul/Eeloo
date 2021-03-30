@@ -3,62 +3,84 @@
 ## Format ##
 
 # under a method's id, named aliases will be defined for it
-# any of these aliases can be used in object.<method>() format unless attribute "allowStandardSyntax: false" is present directly under that specific alias
+# any of these aliases can be used as object.<method>() (standard syntax) unless attribute "allowStandardSyntax: false" is present directly under that specific alias
 # 
 # Either under an id or under a specific alias, we can specific a "- keywords:  " attribute or a "grammar: " attribute. This will then be applied either to only that specific alias or to all aliases under that id.
 # the 'keywords' attribute will require a list of keywords (of, to, from, etc.) which can only be used in the format of '<method> <keyword> object' (ex. 'average of myList')
 # if 'keywords' is not present, only standard format will be allowed.
 # the 'grammar' attribute will allow us to change this default format by giving our own grammar statement.
 
+# aliases -> specifies which aliases the method can be used under
+# keywords -> specifies which keyword the method can be used with in expanded syntax format (eg. sum of myList,  'of' would be a keyword)
+# generalProperties -> specifies properaties that apply to all aliases 
+    ## Flags: 
+        # DontRequireBrackets: specifies that the expanded syntax format does not need brackets to be called
+        # DontAllowStandardSyntax: specifies that all provided aliases cannot be used with standard syntax
+
 List:
     add:
-        - 'add'
-        - 'append'
+        aliases: 
+            - 'add'
+            - 'append'
 
-        - keywords:  
+        keywords:  
             - 'to'
-        - requireBrackets: false
+        
+        generalProperties:
+            - 'DontRequireBrackets'
 
     remove:
-        - 'remove'
-        - 'delete'
+        aliases:
+            - 'remove'
+            - 'delete'
 
-        - keywords:  
+        keywords:  
             - 'from'
-        - requireBrackets: false
+    
+        generalProperties:
+            - 'DontRequireBrackets'
 
     removeAll:
-        - 'removeAll'
-        - 'remove all':
-            - allowStandardSyntax: false
+        aliases: 
+            - 'removeAll'
+            - '__NoStandardSyntax__' # this flag specifies that all aliases that come after it will not be permitted to use standard syntax, only expanded syntax
+            - 'remove all'
+    
     sum: 
-        - 'sum'
-        - 'summation'
-        - 'sum total'
+        aliases: 
+            - 'sum'
+            - 'summation'
+            - 'sum total'
 
-        - keywords:  
+        keywords:  
             - 'of'
 
     average:
-        - 'average'
-        - 'avg'
-        - keywords: 
+        aliases:
+            - 'average'
+            - 'avg'
+
+        keywords: 
             - 'of'
     
     slice: 
-        - 'slice'
-        - 'partition'
-    reverse:
-        - 'reverse'
+        aliases:
+            - 'slice'
+            - 'partition'
 
-String:
-    concatenate:
-    uppercase:
-    lowercase:
     reverse:
-    slice:
+        aliases:
+            - 'reverse'
 
-Number:
-    binary:
-    digits:
-    factorial:		
+
+#String:
+#    concatenate:
+#    uppercase:
+#    lowercase:
+#    reverse:
+#    slice:
+
+#Number:
+#    binary:
+#    digits:
+#    factorial:		
