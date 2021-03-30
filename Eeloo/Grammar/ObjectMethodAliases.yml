@@ -19,57 +19,57 @@
 
 List:
     add:
-        aliases: 
+        - aliases: 
             - 'add'
             - 'append'
 
-        keywords:  
+        - keywords:  
             - 'to'
         
-        generalProperties:
+        - generalProperties:
             - 'DontRequireBrackets'
 
     remove:
-        aliases:
+        - aliases:
             - 'remove'
             - 'delete'
 
-        keywords:  
+        - keywords:  
             - 'from'
     
-        generalProperties:
+        - generalProperties:
             - 'DontRequireBrackets'
 
     removeAll:
-        aliases: 
+        - aliases: 
             - 'removeAll'
             - '__NoStandardSyntax__' # this flag specifies that all aliases that come after it will not be permitted to use standard syntax, only expanded syntax
             - 'remove all'
     
     sum: 
-        aliases: 
+        - aliases: 
             - 'sum'
             - 'summation'
             - 'sum total'
 
-        keywords:  
+        - keywords:  
             - 'of'
 
     average:
-        aliases:
+        - aliases:
             - 'average'
             - 'avg'
 
-        keywords: 
+        - keywords: 
             - 'of'
     
     slice: 
-        aliases:
+        - aliases:
             - 'slice'
             - 'partition'
 
     reverse:
-        aliases:
+        - aliases:
             - 'reverse'
 
 
