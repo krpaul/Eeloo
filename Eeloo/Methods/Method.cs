@@ -22,11 +22,29 @@ namespace Eeloo.Methods
 
     class Method
     {
+        // List of all methods
+        public static List<Method> methods;
+
+        // Method properties
         readonly string MethodID;
         List<string> Aliases;
         eeObjectType MethodObjectType;
         List<MethodFlags> MethodFlags = new List<MethodFlags>();
         MethodImplementation implementation;
 
+
+        #region Static Functions
+
+        public static void RegisterMethod(Method m) // adds a method to the list of all methods
+        {
+            methods.Add(m);
+        }
+
+        //public static eeObject CallMethod(string methodName, eeObject methodParams)
+        //{
+
+        //}
+
+        #endregion
     }
 }
