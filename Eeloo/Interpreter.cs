@@ -14,6 +14,7 @@ using Eeloo.Functions;
 using Eeloo.Evaluator;
 using Eeloo.Errors;
 using Eeloo.Grammar;
+using Eeloo.Methods;
 
 using System.Diagnostics;
 
@@ -32,7 +33,10 @@ namespace Eeloo
             string input = File.ReadAllText(args[0]);
             filename = args[0].Split('/').Last();
 
-            Interpret(input);
+            var tok = new List<string>();
+            MethodFinder.ParseMethodAliases(out tok);
+
+            //Interpret(input);
         }
 
         public static void Interpret(string input)

@@ -1,3 +1,3 @@
-﻿a = [1, 234, 5, 2, 1, 6, -223, 3, 324543, 42.42, 4/2]
-print <- a.sum()
-print <- a.average()
+﻿for each i from 0 to 100
+	print <- i
+end

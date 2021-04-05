@@ -21,6 +21,7 @@
   <ItemGroup>
 	<PackageReference Include="Antlr4.Runtime" Version="4.6.6" />
 	<PackageReference Include="Antlr4.CodeGenerator" Version="4.6.6" PrivateAssets="all" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	<PackageReference Include="xunit" Version="2.4.1" />
 	<PackageReference Include="xunit.runner.utility" Version="2.4.1" />
 	<PackageReference Include="YamlDotNet" Version="8.1.0" />
