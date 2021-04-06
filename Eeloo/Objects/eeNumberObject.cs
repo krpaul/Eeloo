@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Eeloo.Objects.ParserObjects;
+using Eeloo.Methods;
 using Eeloo.Functions;
 
 namespace Eeloo.Objects
@@ -19,7 +20,7 @@ namespace Eeloo.Objects
             {
                 type = eeObjectType.NUMBER,
                 modifier = modifier,
-                methods = DefaultMethods.numberBuiltInMethods
+                methods = BuiltInMethods.numberBuiltInMethods
             };
         }
     }

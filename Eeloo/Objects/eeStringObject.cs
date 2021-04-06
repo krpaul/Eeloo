@@ -5,6 +5,7 @@ using System.Linq;
 
 using Eeloo.Objects.ParserObjects;
 using System.Reflection;
+using Eeloo.Methods;
 using Eeloo.Functions;
 
 namespace Eeloo.Objects
@@ -15,7 +16,7 @@ namespace Eeloo.Objects
         {
             var newObj = new eeObject(str) {
                 type = eeObjectType.STRING,
-                methods = DefaultMethods.stringBuiltInMethods
+                methods = BuiltInMethods.stringBuiltInMethods
             };
 
             newObj.attributes.Add(

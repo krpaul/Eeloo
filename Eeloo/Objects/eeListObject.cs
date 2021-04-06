@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Eeloo.Functions;
+using Eeloo.Methods;
 
 namespace Eeloo.Objects
 {
@@ -30,7 +31,7 @@ namespace Eeloo.Objects
             var newObj = new eeObject(expressions.ToList())
             {
                 type = eeObjectType.LIST,
-                methods = DefaultMethods.listBuiltInMethods,
+                methods = BuiltInMethods.listBuiltInMethods,
                 modifier = modifier,
             };
 
