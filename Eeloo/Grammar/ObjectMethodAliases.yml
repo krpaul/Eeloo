@@ -16,62 +16,48 @@
     ## Flags: 
         # DontRequireBrackets: specifies that the expanded syntax format does not need brackets to be called
         # DontAllowStandardSyntax: specifies that all provided aliases cannot be used with standard syntax
-
 List:
-    add:
-        - aliases: 
-            - 'add'
-            - 'append'
-
-        - keywords:  
-            - 'to'
-        
-        - generalProperties:
-            - 'DontRequireBrackets'
-
-    remove:
-        - aliases:
-            - 'remove'
-            - 'delete'
-
-        - keywords:  
-            - 'from'
-    
-        - generalProperties:
-            - 'DontRequireBrackets'
-
     removeAll:
-        - aliases: 
-            - 'removeAll'
-            - '__NoStandardSyntax__' # this flag specifies that all aliases that come after it will not be permitted to use standard syntax, only expanded syntax
-            - 'remove all'
-    
-    sum: 
-        - aliases: 
-            - 'sum'
-            - 'summation'
-            - 'sum total'
-
-        - keywords:  
-            - 'of'
-
-    average:
-        - aliases:
-            - 'average'
-            - 'avg'
-
-        - keywords: 
-            - 'of'
-    
-    slice: 
-        - aliases:
-            - 'slice'
-            - 'partition'
-
+        aliases:
+            - removeAll
+            - __NoStandardSyntax__
+            - remove all
+    add:
+        aliases:
+            - add
+            - append
+        keywords:
+            - to
+        generalProperties:
+            - DontRequireBrackets
+    slice:
+        aliases:
+            - slice
+            - partition
     reverse:
-        - aliases:
-            - 'reverse'
-
+        aliases:
+            - reverse
+    average:
+        aliases:
+            - average
+            - avg
+        keywords:
+            - of
+    sum:
+        aliases:
+            - sum
+            - summation
+            - sum total
+        keywords:
+            - of
+    remove:
+        aliases:
+            - remove
+            - delete
+        keywords:
+            - from
+        generalProperties:
+            - DontRequireBrackets
 
 #String:
 #    concatenate:
