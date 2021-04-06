@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace Eeloo.Functions
+
+namespace Eeloo.Methods
 {
+    using MethodDict = Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>;
     class BuiltInMethods
     {
-        public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> listBuiltInMethods
-            = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
+        public static MethodDict listBuiltInMethods
+            = new MethodDict()
             {
                 {
                     "add", // appends new values to the end of the list
@@ -140,8 +142,8 @@ namespace Eeloo.Functions
                 },
             };
 
-        public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> stringBuiltInMethods
-            = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>() {
+        public static MethodDict stringBuiltInMethods
+            = new MethodDict() {
                 {
                     "concatenate",
                     (eeObject self, ICollection<eeObject> strings) =>
@@ -202,8 +204,8 @@ namespace Eeloo.Functions
                 },
             };
 
-        public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> numberBuiltInMethods
-            = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
+        public static MethodDict numberBuiltInMethods
+            = new MethodDict()
             {
                 {
                     "binary", // returns the binary representation of this num
