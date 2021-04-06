@@ -26,5 +26,24 @@ namespace Eeloo.Helpers
                     return "<internal type>";
             }
         }
+
+        public static eeObjectType StringToObjectType(string type)
+        {
+            switch (type.ToUpper())
+            {
+                case "BOOLEAN":
+                    return eeObjectType.BOOL;
+                case "FUNCTION":
+                    return eeObjectType.FUNCTION;
+                case "LIST":
+                    return eeObjectType.LIST;
+                case "NUMBER":
+                    return eeObjectType.NUMBER;
+                case "STRING":
+                    return eeObjectType.STRING;
+                default:
+                    return -0;
+            }
+        }
     }
 }
