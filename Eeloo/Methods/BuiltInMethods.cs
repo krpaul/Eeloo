@@ -7,7 +7,7 @@ using System.Net;
 
 namespace Eeloo.Functions
 {
-    class DefaultMethods
+    class BuiltInMethods
     {
         public static Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>> listBuiltInMethods
             = new Dictionary<string, Func<eeObject, ICollection<eeObject>, eeObject>>()
