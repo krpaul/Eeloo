@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using Eeloo.Objects;
@@ -26,7 +27,7 @@ namespace Eeloo.Methods
 
     class Alias
     {
-        string aliasStr;
+        public string aliasStr;
         bool allowStandardSyntax;
 
         public Alias(string aliasStr, bool allowStandardSyntax)
@@ -104,6 +105,11 @@ namespace Eeloo.Methods
             }
         }
 
+        public eeObject Call(eeObject self, List<eeObject> args)
+        {
+            return this.Implementation.Invoke(self, args);
+        }
+
         #region Static Functions
 
         public static MethodFlag StringToMethodFlag(string flag)
@@ -118,6 +124,19 @@ namespace Eeloo.Methods
                     return (MethodFlag) (-1); // for debugging
             }
         }
+
+        public static Method Find(string alias, eeObjectType objType)
+        {
+
+            foreach (var m in AllMethods)
+            {
+                if (m.MethodObjectType == objType && m.Aliases.Exists(a => a.aliasStr == alias))
+                    return m;
+            }
+
+            return null;
+        }
+
 
         //public static eeObject CallMethod(string methodName, eeObject methodParams)
         //{
