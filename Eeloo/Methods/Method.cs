@@ -27,20 +27,28 @@ namespace Eeloo.Methods
 
     class Alias
     {
-        public string aliasStr;
-        bool allowStandardSyntax;
+        public readonly string aliasStr;
+        public readonly bool noStandardSyntax,
+                             dontRequireBrackets;
 
-        public Alias(string aliasStr, bool allowStandardSyntax)
+        public readonly ICollection<MethodFlag> flags;
+
+        public Alias(string aliasStr, ICollection<MethodFlag> flags)
         {
             this.aliasStr = aliasStr;
-            this.allowStandardSyntax = allowStandardSyntax;
+            this.flags = flags;
+        }
+
+        public bool HasFlag(MethodFlag f)
+        {
+            return flags.Contains(f);
         }
     }
 
     class Method
     {
         // Static List of all methods
-        public static List<Method> AllMethods;
+        public static List<Method> AllMethods = new List<Method>();
 
         // Method properties
         private readonly string MethodID;
@@ -50,7 +58,7 @@ namespace Eeloo.Methods
         public List<string> Keywords;
         private MethodImplementation Implementation;
         
-        public List<Alias> Aliases;
+        public List<Alias> Aliases = new List<Alias>();
 
         public Method(string MethodID, eeObjectType objType, bool BuiltIn)
         {
@@ -92,20 +100,22 @@ namespace Eeloo.Methods
 
         public void AssignAliases(List<string> rawAliases)
         {
-            bool nss = false;
+            List <MethodFlag> flags = new List<MethodFlag>();
             foreach (string a in rawAliases)
             {
-                if (a == "__NoStandardSyntax__") // after this flag, all next aliases will be nss-only (non-standard syntax)
+                MethodFlag flag = StringToMethodFlag(a);
+
+                if (flag != (MethodFlag)(-1)) // this was a flag
                 {
-                    nss = true;
+                    flags.Add(flag);
                     continue;
                 }
 
-                this.Aliases.Add(new Alias(a, !nss));
+                this.Aliases.Add(new Alias(a, flags));
             }
         }
 
-        public eeObject Call(eeObject self, List<eeObject> args)
+        public eeObject Call(eeObject self, ICollection<eeObject> args, MethodFlag[] flags = null)
         {
             return this.Implementation.Invoke(self, args);
         }
@@ -121,19 +131,30 @@ namespace Eeloo.Methods
                 case "__DontRequireBrackets__":
                     return MethodFlag.DontRequireBrackets;
                 default:
-                    return (MethodFlag) (-1); // for debugging
+                    return (MethodFlag) (-1); // not a flag
             }
         }
 
-        public static Method Find(string alias, eeObjectType objType)
+        public static Method Find(
+            string alias,         // which alias we're looking for
+            eeObjectType objType, // which object type the method is for
+            out Alias foundAlias  // the alias that was matched
+        )
         {
 
             foreach (var m in AllMethods)
             {
-                if (m.MethodObjectType == objType && m.Aliases.Exists(a => a.aliasStr == alias))
-                    return m;
+                if (m.MethodObjectType == objType)
+                {
+                    // find the alias
+                    foundAlias = m.Aliases.Find(a => a.aliasStr == alias);
+
+                    if (foundAlias != null)
+                        return m;
+                }
             }
 
+            foundAlias = null;
             return null;
         }
 
