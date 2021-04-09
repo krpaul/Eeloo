@@ -7,11 +7,7 @@ using YamlDotNet.Serialization;
 
 namespace AliasGenerator
 {
-
-    // these are the various types that the `object` in the above type can represent:
-    using ModAlias = Dictionary<string, string>; // string 1 is alias name, string 2 is property name, string 3 is property value.
-    using KWList = List<string>;
-    using Property = Dictionary<string, string>;
+    using YObjType = Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>;
 
     class ConstructLexer
     {
@@ -42,6 +38,19 @@ namespace AliasGenerator
             foreach (Match match in matches)
             {
                 string aliasID = match.Value;
+
+                // Special treatment for keywords since it's define in the method alias file
+                if (aliasID == "<<__keywords__>>")
+                {
+                    var kwds = GetMethodAliasKeywords();
+                    grammar = grammar.Replace(
+                        match.Value, string.Join(" | ", 
+                            from k in kwds select $"WS \'{k}\' WS")
+                    );
+                    tokens.AddRange(kwds);
+                    continue;
+                }
+
                 aliasID = aliasID.Substring(2, aliasID.Length - 4);
 
                 var al = aliasDict[aliasID];
@@ -93,6 +102,30 @@ namespace AliasGenerator
 
             grammar = "lexer grammar GeneratedLexer;" + Environment.NewLine + grammar;
             File.WriteAllText(FOLDERPREFIX + "GeneratedLexer.g4", grammar);
+        }
+
+        private static IEnumerable<string> GetMethodAliasKeywords()
+        {
+            var methodAliases = File.ReadAllText(FOLDERPREFIX + "ObjectMethodAliases.yml");
+            YObjType aliasDict = deserializer.Deserialize<YObjType>(methodAliases);
+            var keywords = new List<string>();
+
+            foreach (var objType in aliasDict)
+            {
+                foreach (var MethodID in objType.Value)
+                {
+                    foreach (var property in MethodID.Value)
+                    {
+                        if (property.Key == "keywords")
+                        {
+                            keywords.AddRange(property.Value);
+                        }
+                    }
+                }
+            }
+
+            // remove duplicates and return keywords
+            return keywords.Distinct();
         }
     }
 }
