@@ -15,7 +15,8 @@
 # generalProperties -> specifies properaties that apply to all aliases 
     ## Flags: 
         # DontRequireBrackets: specifies that the expanded syntax format does not need brackets to be called
-        # DontAllowStandardSyntax: specifies that all provided aliases cannot be used with standard syntax
+        # NoStandardSyntax: specifies that all provided aliases cannot be used with standard syntax
+        # LooseArguments: allows arguments to be passed like: `add 3 and 5` instead of add(3, 5). only applied to expanded syntax calls
 List:
     removeAll:
         aliases:
@@ -30,6 +31,7 @@ List:
             - to
         generalProperties:
             - DontRequireBrackets
+            - LooseArguments
     slice:
         aliases:
             - slice
