@@ -78,7 +78,12 @@ exp:  MINUS? num     			         #numExp
 	| exp AND exp						 #andExp
 	| exp OR exp						 #orExp
 	| NOT exp							 #notExp
-	| exp DOT fn_call					 #methodCallExp
+
+	/* Methods */
+	| exp DOT fn_call                    #method_standardSyntax
+	| fn_call KEYWORD exp	             #method_expandedSyntax
+	| IDENTIFIER KEYWORD exp			 #method_expandedSyntaxNoBrackets
+
 	| exp L_SQ_BRACK exp RANGE_1 exp 
 		(RANGE_2 exp)? R_SQ_BRACK	     #arraySlice
 	| MINUS? fn_call					 #functionCallExp
