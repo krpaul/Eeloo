@@ -94,6 +94,9 @@ POWER      :   '^' | <<power>>	    ;
 MOD		   :   '%' | <<mod>>		;
 FACTORIAL  :   '!' ;
 
+// all the valid keywords for expanded method syntax format
+KEYWORD	   : <<__keywords__>> ;
+
 SQUARED	   : WS 'squared' WS?  ;
 CUBED	   : WS 'cubed' WS?    ;
 

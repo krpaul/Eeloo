@@ -90,6 +90,9 @@ POWER      :   '^' | WS 'to' WS 'the' WS 'power' WS 'of' WS | WS 'raised' WS 'to
 MOD		   :   '%' | WS 'mod' WS | WS 'modulo' WS		;
 FACTORIAL  :   '!' ;
 
+// all the valid keywords for expanded method syntax format
+KEYWORD	   : WS 'to' WS | WS 'of' WS | WS 'from' WS ;
+
 SQUARED	   : WS 'squared' WS?  ;
 CUBED	   : WS 'cubed' WS?    ;
 
