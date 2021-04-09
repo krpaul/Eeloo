@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using YamlDotNet.Serialization;
-using Eeloo.Errors;
+﻿using Eeloo.Errors;
 using Eeloo.Helpers;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using YamlDotNet.Serialization;
 
 namespace Eeloo.Methods
 {
@@ -14,11 +13,10 @@ namespace Eeloo.Methods
         public readonly static List<string> AllowedProperties = new List<string>() { "allowStandardSyntax", "requireBrackets", };
         public static readonly Deserializer deserializer = new Deserializer();
 
-        public static void ParseMethodAliases(out List<string> neededTokens)
+        public static void ParseMethodAliases()
         {
             var methodAliases = File.ReadAllText("../../../../Eeloo/Grammar/ObjectMethodAliases.yml");
             YObjType aliasDict = deserializer.Deserialize<YObjType>(methodAliases);
-            neededTokens = new List<string>();
 
             foreach (var objType in aliasDict)
             {
