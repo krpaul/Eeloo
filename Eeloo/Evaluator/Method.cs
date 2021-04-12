@@ -109,5 +109,29 @@ namespace Eeloo.Evaluator
 
             return m.Call(obj, null);
         }
+
+        public override eeObject VisitMethod_expandedSyntaxLooseArgs([NotNull] EelooParser.Method_expandedSyntaxLooseArgsContext ctx)
+        {
+            // add this to scope
+            Interpreter.currentScope.scopeCtx = ctx;
+
+            // add this to scope
+            Interpreter.currentScope.scopeCtx = ctx;
+
+            eeObject obj = Visit(ctx.exp());
+            string alias = ctx.IDENTIFIER().GetText();
+
+            Method m = Method.Find(alias, obj.type, out Alias foundAlias);
+
+            // check if method wasn't found
+            if (m == null)
+                throw new MethodNotFoundError(alias, obj.type);
+
+            // check for flags
+            if (!foundAlias.HasFlag(MethodFlag.LooseArguments))
+                throw new Exception();
+
+            return m.Call(obj, null);
+        }
     }
 }

@@ -33,10 +33,9 @@ namespace Eeloo
             string input = File.ReadAllText(args[0]);
             filename = args[0].Split('/').Last();
 
-            var tok = new List<string>();
-            MethodFinder.ParseMethodAliases(out tok);
+            MethodFinder.ParseMethodAliases();
 
-            //Interpret(input);
+            Interpret(input);
         }
 
         public static void Interpret(string input)
@@ -71,11 +70,11 @@ namespace Eeloo
                 // Visit tree
                 evalVisitor.Visit(tree);
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw e;
-            }
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //    throw e;
+            //}
             finally { }
         }
     }

@@ -23,13 +23,12 @@ namespace Eeloo.Methods
     {
         NoStandardSyntax,
         DontRequireBrackets,
+        LooseArguments
     }
 
     class Alias
     {
         public readonly string aliasStr;
-        public readonly bool noStandardSyntax,
-                             dontRequireBrackets;
 
         public readonly ICollection<MethodFlag> flags;
 

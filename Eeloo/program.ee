@@ -1,3 +1,4 @@
-﻿for each i from 0 to 100
-	print <- i
-end
+﻿l = new list
+append(3) to l
+
+print <- l

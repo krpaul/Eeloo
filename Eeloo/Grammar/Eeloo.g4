@@ -80,9 +80,10 @@ exp:  MINUS? num     			         #numExp
 	| NOT exp							 #notExp
 
 	/* Methods */
-	| exp DOT fn_call                    #method_standardSyntax
-	| fn_call KEYWORD exp	             #method_expandedSyntax
-	| IDENTIFIER KEYWORD exp			 #method_expandedSyntaxNoBrackets
+	| exp DOT fn_call                  #method_standardSyntax
+	| fn_call KEYWORD exp	           #method_expandedSyntax
+	| IDENTIFIER KEYWORD exp		   #method_expandedSyntaxNoBrackets
+	| IDENTIFIER exps KEYWORD exp      #method_expandedSyntaxLooseArgs
 
 	| exp L_SQ_BRACK exp RANGE_1 exp 
 		(RANGE_2 exp)? R_SQ_BRACK	     #arraySlice
