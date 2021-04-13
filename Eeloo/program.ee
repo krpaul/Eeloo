@@ -1,4 +1,4 @@
 ﻿l = new list
-append(3) to l
+append 3 to l
 
 print <- l

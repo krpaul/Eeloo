@@ -125,10 +125,12 @@ namespace Eeloo.Methods
         {
             switch (flag)
             {
-                case "__NoStandardSyntax__":
+                case "NoStandardSyntax":
                     return MethodFlag.NoStandardSyntax;
-                case "__DontRequireBrackets__":
+                case "DontRequireBrackets":
                     return MethodFlag.DontRequireBrackets;
+                case "LooseArguments":
+                    return MethodFlag.LooseArguments;
                 default:
                     return (MethodFlag) (-1); // not an inline flag
             }

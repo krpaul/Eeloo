@@ -71,7 +71,7 @@ namespace Eeloo.Evaluator
 
             eeObject obj = Visit(ctx.exp());
             string alias = ctx.fn_call().IDENTIFIER().GetText(),
-            keywordUsed = ctx.KEYWORD().GetText();
+            keywordUsed = ctx.KEYWORD().GetText().Trim();
 
             var passedParams = ctx.fn_call().exps();
             var methodParams = passedParams != null ? Visit(passedParams) : null;
@@ -94,7 +94,7 @@ namespace Eeloo.Evaluator
 
             eeObject obj = Visit(ctx.exp());
             string alias = ctx.IDENTIFIER().GetText(),
-            keywordUsed = ctx.KEYWORD().GetText();
+            keywordUsed = ctx.KEYWORD().GetText().Trim();
 
             Method m = Method.Find(alias, obj.type, out Alias foundAlias);
 
@@ -106,7 +106,7 @@ namespace Eeloo.Evaluator
                 throw new MethodKeywordError(foundAlias.aliasStr, keywordUsed, m.Keywords.ToArray());
 
             // check for flags
-            if (!foundAlias.HasFlag(MethodFlag.DontRequireBrackets))
+            if (!m.GeneralProperties.Contains(MethodFlag.DontRequireBrackets) && !foundAlias.HasFlag(MethodFlag.DontRequireBrackets))
                 throw new Exception();
 
             return m.Call(obj, null);
@@ -117,9 +117,10 @@ namespace Eeloo.Evaluator
             // add this to scope
             Interpreter.currentScope.scopeCtx = ctx;
 
-            eeObject obj = Visit(ctx.exp());
+            eeObject obj = Visit(ctx.exp()),
+                     args = Visit(ctx.exps());
             string alias = ctx.IDENTIFIER().GetText(),
-            keywordUsed = ctx.KEYWORD().GetText();
+            keywordUsed = ctx.KEYWORD().GetText().Trim();
 
             Method m = Method.Find(alias, obj.type, out Alias foundAlias);
 
@@ -131,10 +132,10 @@ namespace Eeloo.Evaluator
                 throw new MethodKeywordError(foundAlias.aliasStr, keywordUsed, m.Keywords.ToArray());
 
             // check for flags
-            if (!foundAlias.HasFlag(MethodFlag.LooseArguments))
+            if (!m.GeneralProperties.Contains(MethodFlag.LooseArguments) && !foundAlias.HasFlag(MethodFlag.LooseArguments))
                 throw new Exception();
 
-            return m.Call(obj, null);
+            return m.Call(obj, args.AsEXPRLIST());
         }
     }
 }
