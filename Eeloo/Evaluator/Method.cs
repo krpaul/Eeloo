@@ -70,15 +70,19 @@ namespace Eeloo.Evaluator
             Interpreter.currentScope.scopeCtx = ctx;
 
             eeObject obj = Visit(ctx.exp());
-            string alias = ctx.fn_call().IDENTIFIER().GetText();
+            string alias = ctx.fn_call().IDENTIFIER().GetText(),
+            keywordUsed = ctx.KEYWORD().GetText();
 
             var passedParams = ctx.fn_call().exps();
             var methodParams = passedParams != null ? Visit(passedParams) : null;
 
-            Method m = Method.Find(alias, obj.type, out _);
+            Method m = Method.Find(alias, obj.type, out Alias foundAlias);
 
             if (m == null)
                 throw new MethodNotFoundError(alias, obj.type);
+            // check if the right keyword was used
+            else if (!m.Keywords.Contains(keywordUsed))
+                throw new MethodKeywordError(foundAlias.aliasStr, keywordUsed, m.Keywords.ToArray());
 
             return m.Call(obj, methodParams.AsEXPRLIST());
         }
@@ -88,20 +92,18 @@ namespace Eeloo.Evaluator
             // add this to scope
             Interpreter.currentScope.scopeCtx = ctx;
 
-            // add this to scope
-            Interpreter.currentScope.scopeCtx = ctx;
-
             eeObject obj = Visit(ctx.exp());
-            string alias = ctx.IDENTIFIER().GetText();
+            string alias = ctx.IDENTIFIER().GetText(),
+            keywordUsed = ctx.KEYWORD().GetText();
 
             Method m = Method.Find(alias, obj.type, out Alias foundAlias);
-
-            if (m == null)
-                throw new MethodNotFoundError(alias, obj.type);
 
             // check if method wasn't found
             if (m == null)
                 throw new MethodNotFoundError(alias, obj.type);
+            // check if the right keyword was used
+            else if (!m.Keywords.Contains(keywordUsed))
+                throw new MethodKeywordError(foundAlias.aliasStr, keywordUsed, m.Keywords.ToArray());
 
             // check for flags
             if (!foundAlias.HasFlag(MethodFlag.DontRequireBrackets))
@@ -115,17 +117,18 @@ namespace Eeloo.Evaluator
             // add this to scope
             Interpreter.currentScope.scopeCtx = ctx;
 
-            // add this to scope
-            Interpreter.currentScope.scopeCtx = ctx;
-
             eeObject obj = Visit(ctx.exp());
-            string alias = ctx.IDENTIFIER().GetText();
+            string alias = ctx.IDENTIFIER().GetText(),
+            keywordUsed = ctx.KEYWORD().GetText();
 
             Method m = Method.Find(alias, obj.type, out Alias foundAlias);
 
             // check if method wasn't found
             if (m == null)
                 throw new MethodNotFoundError(alias, obj.type);
+            // check if the right keyword was used
+            else if (!m.Keywords.Contains(keywordUsed))
+                throw new MethodKeywordError(foundAlias.aliasStr, keywordUsed, m.Keywords.ToArray());
 
             // check for flags
             if (!foundAlias.HasFlag(MethodFlag.LooseArguments))

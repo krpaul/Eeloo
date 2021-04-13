@@ -130,7 +130,7 @@ namespace Eeloo.Methods
                 case "__DontRequireBrackets__":
                     return MethodFlag.DontRequireBrackets;
                 default:
-                    return (MethodFlag) (-1); // not a flag
+                    return (MethodFlag) (-1); // not an inline flag
             }
         }
 
