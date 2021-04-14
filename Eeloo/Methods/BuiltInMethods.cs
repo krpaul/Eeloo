@@ -34,14 +34,19 @@ namespace Eeloo.Methods
                     (eeObject self, ICollection<eeObject> valsToRem) =>
                     {
                         List<eeObject> rawPtr = (List<eeObject>) self.value;
+                        eeNumber removedValues = eeNumber.ZERO.Copy();
                         foreach (eeObject obj in valsToRem)
                         {
                             var itemtoremove = rawPtr.FirstOrDefault(item => item.IsEqualTo(obj));
-                            rawPtr.Remove(itemtoremove);
+                            if (itemtoremove != null)
+                            {
+                                rawPtr.Remove(itemtoremove);
+                                removedValues += eeNumber.ONE;
+                            }
                         }
 
                         var lenAttr = self.attributes["length"];
-                        lenAttr.value = lenAttr.AsNumber() - new eeNumber(valsToRem.Count());
+                        lenAttr.value = lenAttr.AsNumber() - removedValues;
 
                         return eeObject.None;
                     }

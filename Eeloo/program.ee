@@ -1,4 +1,4 @@
 ﻿rng = [2, 4, 6]
 remove 3, 5, 7 from rng
 
-print <- rng
+print <- length of rng
