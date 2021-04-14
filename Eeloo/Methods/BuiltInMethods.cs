@@ -33,9 +33,11 @@ namespace Eeloo.Methods
                     "remove", // removes first matching value
                     (eeObject self, ICollection<eeObject> valsToRem) =>
                     {
+                        List<eeObject> rawPtr = (List<eeObject>) self.value;
                         foreach (eeObject obj in valsToRem)
                         {
-                            ((List<eeObject>) self.value).Remove(obj);
+                            var itemtoremove = rawPtr.FirstOrDefault(item => item.IsEqualTo(obj));
+                            rawPtr.Remove(itemtoremove);
                         }
 
                         var lenAttr = self.attributes["length"];

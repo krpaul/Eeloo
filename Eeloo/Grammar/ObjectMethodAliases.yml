@@ -59,7 +59,7 @@ List:
         keywords:
             - from
         generalProperties:
-            - DontRequireBrackets
+            - LooseArguments
 
 #String:
 #    concatenate:

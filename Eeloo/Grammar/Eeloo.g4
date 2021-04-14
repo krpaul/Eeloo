@@ -58,6 +58,7 @@ exp:  MINUS? num     			         #numExp
     | string							 #strExp
     | bool_stmt							 #boolExp
     | list								 #listExp
+	| exp RANGE_1 exp (RANGE_2 exp)?	 #rangeExp
 	| exp DOT IDENTIFIER			     #attributeRefExp
 	| IDENTIFIER OF exp				     #verboseAttributeExp
 	| <assoc=right> exp POWER exp		 #pwrExp
@@ -72,7 +73,6 @@ exp:  MINUS? num     			         #numExp
 		opr=(SQUARED | CUBED)			 #singlePwrExp
 	| exp AS (STRING_TOK | LIST_TOK | 
 	          NUMBER_TOK | BOOL_TOK)     #typecastExpression
-	| exp RANGE_1 exp (RANGE_2 exp)?	 #rangeExp
 	| exp IN exp						 #inExp
 	| exp BETWEEN exp AND exp			 #betweenExp					
 	| exp AND exp						 #andExp
